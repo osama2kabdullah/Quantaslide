@@ -1,37 +1,111 @@
 @font-face {
-    font-family: 'Heebo';
-    src: url('Heebo-Regular.woff2') format('woff2'),
-        url('Heebo-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+  font-family: "Heebo";
+  src: url("Heebo-Regular.woff2") format("woff2"),
+    url("Heebo-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: 'Manrope';
-    src: url('Manrope-Regular.woff2') format('woff2'),
-        url('Manrope-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+  font-family: "Manrope";
+  src: url("Manrope-Regular.woff2") format("woff2"),
+    url("Manrope-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 * {
-    font-family: 'Manrope';
+  font-family: "Manrope";
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Heebo';
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Heebo";
 }
 
 p {
-    font-family: 'Manrope';
+  font-family: "Manrope";
 }
 
 .font-manrope {
-    font-family: 'Manrope';
+  font-family: "Manrope";
 }
 
 .font-Heebo {
-    font-family: 'Heebo';
+  font-family: "Heebo";
+}
+
+/* button  */
+.rounded-full {
+  height: 44px;
+  width: 44px;
+  border-radius: 50% !important;
+}
+
+/* product-card */
+.product-card {
+  position: relative;
+}
+
+.product-card img {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: 0.3s ease;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: 0.3s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 2;
+}
+
+.product-card:hover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.411); /* Dark overlay color */
+  z-index: 1;
+}
+
+.product-card:hover img {
+  opacity: 1;
+  transition: 0.3s ease;
+}
+
+.product-card:hover .middle {
+  opacity: 1;
+  transition: 0.3s ease;
+}
+
+/* slider */
+.splide__arrow {
+  top: 7%;
+}
+.your-class-prev {
+  right: 3em;
+  left: auto;
+}
+.your-class-next {
+  right: 0em;
+}
+.splide__pagination {
+  display: none;
 }
