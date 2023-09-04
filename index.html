@@ -40,24 +40,16 @@
                 <a class="nav-link" href="#">Link</a>
               </li>
               <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Dropdown
                 </a>
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="#">Action</a></li>
                   <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider" /></li>
-                  <li>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                  </li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
                 </ul>
-              </li>
+              </li>      
               <li class="nav-item">
                 <a class="nav-link disabled" aria-disabled="true">Disabled</a>
               </li>
@@ -247,7 +239,7 @@
                   <button class="btn rounded-full btn-outline-light">
                     <i class="fa-solid fa-heart"></i>
                   </button>
-                  <button class="btn rounded-full btn-outline-light">
+                  <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn rounded-full btn-outline-light">
                     <i class="fa-solid fa-eye"></i>
                   </button>
                 </div>
@@ -378,6 +370,20 @@
               </div>
             </li>
           </ul>
+        </div>
+      </div>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Modal 1</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Show a second modal and hide this one with the button below.
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -835,20 +841,17 @@
             <li class="ms-3">
               <a class="link-body-emphasis" href="#"
                 ><svg class="bi" width="24" height="24">
-                  <use xlink:href="#twitter" /></svg
-              ></a>
+                  <use xlink:href="#twitter" /></svg></a>
             </li>
             <li class="ms-3">
               <a class="link-body-emphasis" href="#"
                 ><svg class="bi" width="24" height="24">
-                  <use xlink:href="#instagram" /></svg
-              ></a>
+                  <use xlink:href="#instagram" /></svg></a>
             </li>
             <li class="ms-3">
               <a class="link-body-emphasis" href="#"
                 ><svg class="bi" width="24" height="24">
-                  <use xlink:href="#facebook" /></svg
-              ></a>
+                  <use xlink:href="#facebook" /></svg></a>
             </li>
           </ul>
         </div>
