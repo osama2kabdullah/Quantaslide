@@ -1,0 +1,11 @@
+{
+    "sections":{
+        "image-with-text": {
+            "type": "image-with-text",
+            "settings": {}
+        }
+    },
+    "order": [
+        "image-with-text"
+    ]
+}

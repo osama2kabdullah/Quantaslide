@@ -1,0 +1,65 @@
+<section class="py-5 container">
+  <h1 class="text-center pb-5">Our Product Items</h1>
+  <div class="row">
+    {% for product in collections.all.products %}
+      <div class="col-sm-4 col-6 border-0">
+        <div class="product-card">
+          <img src="{{ product.featured_image | img_url: '720x300'}}" alt="">
+          <div class="middle d-flex gap-3">
+            <button class="btn rounded-full btn-outline-light">
+              <i class="fa-solid fa-cart-plus"></i>
+            </button>
+            <button class="btn rounded-full btn-outline-light">
+              <i class="fa-solid fa-heart"></i>
+            </button>
+            <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn rounded-full btn-outline-light">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+
+          <!-- Modal -->
+          <div
+            class="modal fade"
+            id="exampleModal"
+            aria-hidden="true"
+            aria-labelledby="exampleModalToggleLabel"
+            tabindex="-1"
+          >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Modal 1</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">Show a second modal and hide this one with the button below.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <h5>{{ product.title }}</h5>
+          <p>{{ product.price | money }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "featured Collection",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "featured Collection"
+    }
+  ]
+}
+{% endschema %}

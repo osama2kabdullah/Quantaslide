@@ -94,18 +94,3 @@ p {
   opacity: 1;
   transition: 0.3s ease;
 }
-
-/* slider */
-.splide__arrow {
-  top: 5.6%;
-}
-.your-class-prev {
-  right: 3em;
-  left: auto;
-}
-.your-class-next {
-  right: 0em;
-}
-.splide__pagination {
-  display: none;
-}

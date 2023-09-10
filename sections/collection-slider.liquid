@@ -1,0 +1,114 @@
+{{ 'splide.min.css' | asset_url | stylesheet_tag }}
+{% style %}
+    .splide__arrow {
+    top: 5.6%;
+    }
+    .your-class-prev {
+    right: 3em;
+    left: auto;
+    }
+    .your-class-next {
+    right: 0em;
+    }
+    .splide__pagination {
+    display: none;
+    }
+{% endstyle %}
+
+<section class="py-5 container">
+  {% assign collection = section.settings.collection %}
+  <div class="splide product-slider-1" aria-label="Latest Arrival">
+    <h1 id="carousel-heading">{{ collection.title }}</h1>
+    <div class="splide__track">
+      <ul class="splide__list">
+        {% for product in collection.products %}
+          <li class="splide__slide">
+            <div class="product-card mt-5">
+              <img src="{{ product.featured_image | img_url: '720x' }}" alt="">
+              <div class="middle d-flex gap-3">
+                <button class="btn rounded-full btn-outline-light">
+                  <i class="fa-solid fa-cart-plus"></i>
+                </button>
+                <button class="btn rounded-full btn-outline-light">
+                  <i class="fa-solid fa-heart"></i>
+                </button>
+                <button
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal-{{ product.id }}"
+                  class="btn rounded-full btn-outline-light"
+                >
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <h5>{{ product.title }}</h5>
+              <p>{{ product.price | money }}</p>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <!-- Modal -->
+  {% for product in collection.products %}
+    <div class="modal fade" id="exampleModal-{{ product.id }}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalToggleLabel">{{ product.title }}</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">Show a second modal and hide this one with the button below.</div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</section>
+
+{{ 'splide.min.js' | asset_url | script_tag }}
+<script>
+  var ProductSplide = new Splide('.product-slider-1', {
+    perPage: 3,
+    perMove: 1,
+    drag: false,
+    gap: 20,
+    breakpoints: {
+      640: {
+        perPage: 2,
+      },
+    },
+    classes: {
+      arrows: 'splide__arrows your-class-arrows',
+      arrow: 'splide__arrow your-class-arrow',
+      prev: 'splide__arrow--prev your-class-prev',
+      next: 'splide__arrow--next your-class-next',
+    },
+  });
+
+  ProductSplide.mount();
+</script>
+
+{% schema %}
+{
+  "name": "Collection Slider",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Collection Slider"
+    }
+  ]
+}
+{% endschema %}
