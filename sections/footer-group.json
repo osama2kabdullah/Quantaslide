@@ -1,6 +1,6 @@
 {
   "name": "Footer",
-  "type": "Footer",
+  "type": "footer",
   "sections": {
     "footer": {
       "type": "footer",

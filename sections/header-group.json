@@ -1,6 +1,6 @@
 {
   "name": "Header",
-  "type": "Header",
+  "type": "header",
   "sections": {
     "header": {
       "type": "header",
