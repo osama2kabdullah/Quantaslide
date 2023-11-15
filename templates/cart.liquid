@@ -1,0 +1,8 @@
+{% for item in cart.items %}
+  <h1>{{ item.title }}</h1>
+  <div class="quantity">
+    <input type="button" value="-" class="qty-minus" field="updates[]" data-variant-id="{{ item.variant_id }}" />
+    <input type="number" name="updates[]" id="updates_{{ item.variant_id }}" value="{{ item.quantity }}" min="0" pattern="[0-9]*">
+    <input type="button" value="+" class="qty-plus" field="updates[]" data-variant-id="{{ item.variant_id }}" />
+  </div>
+{% endfor %}
