@@ -8,7 +8,7 @@
   </div>
   <button class="remove-item" data-variant-id="{{ item.variant_id }}">Remove</button>
 
-<div id="total-price">Total Price: {{ cart.total_price | money }}</div>
+<div id="total-price">Total Price: {{ cart.total_price | currency }}</div>
 {% endfor %}
 
 
@@ -54,6 +54,17 @@
           var cart = JSON.parse(xhr.responseText);
           console.log('Cart updated:', cart);
           // Update any other elements on the page as needed
+
+         // Update total price on the page
+    var totalPriceElement = document.getElementById('total-price');
+    
+    // Use Intl.NumberFormat for formatting
+    var formattedTotalPrice = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: cart.currency // Assuming cart object has currency information
+    }).format(cart.total_price / 100); // Dividing by 100 to convert cents to dollars
+
+    totalPriceElement.innerHTML = 'Total Price: ' + formattedTotalPrice;
         }
       };
       xhr.send(JSON.stringify({ updates: { [variantId]: quantity } }));
