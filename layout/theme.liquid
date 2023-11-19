@@ -1,0 +1,14 @@
+<html>
+  <head>
+    {{ content_for_header }}
+    {% render 'header-import' %}
+  </head>
+  <body>
+    {% sections 'header-group' %}
+    <main>
+      {{ content_for_layout }}
+    </main>
+    {% sections 'footer-group' %}
+    {% render 'footer-import' %}
+  </body>
+</html>
