@@ -1,11 +1,11 @@
 {
   "sections": {
-    "main": {
-      "type": "image-with-text",
+    "product": {
+      "type": "main-product",
       "settings": {}
     }
   },
   "order": [
-    "main"
+    "product"
   ]
 }

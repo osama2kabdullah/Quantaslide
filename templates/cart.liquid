@@ -1,17 +1,26 @@
-{% for item in cart.items %}
-  <h1>{{ item.title }}</h1>
-   <p>{{ item.price | money }}</p>
-  <div class="quantity">
-    <input type="button" value="-" class="qty-minus" field="updates[]" data-variant-id="{{ item.variant_id }}" />
-    <input type="number" name="updates[]" id="updates_{{ item.variant_id }}" value="{{ item.quantity }}" min="0" pattern="[0-9]*">
-    <input type="button" value="+" class="qty-plus" field="updates[]" data-variant-id="{{ item.variant_id }}" />
-  </div>
-  <button class="remove-item" data-variant-id="{{ item.variant_id }}">Remove</button>
+<form action="{{ routes.cart_url }}" method="post">
+  {% for item in cart.items %}
+    <h1>{{ item.title }}</h1>
+    <p>{{ item.price | money }}</p>
+    <div class="quantity">
+      <input type="button" value="-" class="qty-minus" field="updates[]" data-variant-id="{{ item.variant_id }}">
+      <input
+        type="number"
+        name="updates[]"
+        id="updates_{{ item.variant_id }}"
+        value="{{ item.quantity }}"
+        min="0"
+        pattern="[0-9]*"
+      >
+      <input type="button" value="+" class="qty-plus" field="updates[]" data-variant-id="{{ item.variant_id }}">
+    </div>
+    <button class="remove-item" data-variant-id="{{ item.variant_id }}">Remove</button>
 
-<div id="total-price">Total Price: {{ cart.total_price | currency }}</div>
-{% endfor %}
+    <div id="total-price">Total Price: {{ cart.total_price | currency }}</div>
+  {% endfor %}
 
-
+  <input type="submit" name="checkout" value="Checkout">
+</form>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
@@ -55,16 +64,16 @@
           console.log('Cart updated:', cart);
           // Update any other elements on the page as needed
 
-         // Update total price on the page
-    var totalPriceElement = document.getElementById('total-price');
-    
-    // Use Intl.NumberFormat for formatting
-    var formattedTotalPrice = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: cart.currency // Assuming cart object has currency information
-    }).format(cart.total_price / 100); // Dividing by 100 to convert cents to dollars
+          // Update total price on the page
+          var totalPriceElement = document.getElementById('total-price');
 
-    totalPriceElement.innerHTML = 'Total Price: ' + formattedTotalPrice;
+          // Use Intl.NumberFormat for formatting
+          var formattedTotalPrice = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: cart.currency, // Assuming cart object has currency information
+          }).format(cart.total_price / 100); // Dividing by 100 to convert cents to dollars
+
+          totalPriceElement.innerHTML = 'Total Price: ' + formattedTotalPrice;
         }
       };
       xhr.send(JSON.stringify({ updates: { [variantId]: quantity } }));

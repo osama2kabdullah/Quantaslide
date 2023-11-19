@@ -1,11 +1,11 @@
 {
-    "sections":{
-        "image-with-text": {
-            "type": "image-with-text",
-            "settings": {}
-        }
-    },
-    "order": [
-        "image-with-text"
-    ]
+  "sections": {
+    "24ef0ebd-e6f4-40de-b4dc-1312775681a5": {
+      "type": "featured-collection",
+      "settings": {}
+    }
+  },
+  "order": [
+    "24ef0ebd-e6f4-40de-b4dc-1312775681a5"
+  ]
 }
