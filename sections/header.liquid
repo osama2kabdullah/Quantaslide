@@ -1,130 +1,82 @@
-<div class="bg-body-tertiary sticky-top">
-  <div class="d-flex container align-items-start">
-    <nav class="navbar w-100 navbar-expand-lg justify-content-start gap-3">
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <a class="navbar-brand" href="#">Navbar</a>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-          {% for link in linklists.main-menu.links -%}
-            {% if link.links.size > 0 -%}
-              - {{ link.title }} ({{ link.links.size }} children)<br>
-
-              <li class="nav-item dropdown {% if link.active %} active {% endif %}">
-                <a class="nav-link dropdown-toggle" href="{{ link.url }}" role="button" data-bs-toggle="dropdown" aria-expanded="true">
-                  {{ link.title }}
-                </a>
-                <ul class="dropdown-menu">
-                  {% for child in link.links %}
-                    <li><a class="dropdown-item {% if child.active %} active {% endif %}" href="{{ child.url }}">{{ child.title }}</a></li>
-                  {% endfor %}
-                </ul>
-              </li>
-
-            {%- else -%}
-              <li class="nav-item">
-                <a class="nav-link {% if link.active %} active {% endif %}" aria-current="page" href="{{ link.url }}">{{ link.title }}</a>
-              </li>
-            {%- endif %}
-          {%- endfor %}
-        </ul>
-        <form class="d-flex" role="search">
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          >
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-        <button type="button" class="btn rounded-4">
-          <i class="fa-solid fa-user"></i>
-        </button>
-      </div>
-    </nav>
-
-    <div class="navbar">
-      <button
-        class="btn rounded-4"
-        type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasDarkNavbar"
-        aria-controls="offcanvasDarkNavbar"
-        aria-label="Toggle navigation"
-      >
-        <i class="fa-solid fa-cart-shopping"></i>
-      </button>
-      <div
-        class="offcanvas offcanvas-end"
-        tabindex="-1"
-        id="offcanvasDarkNavbar"
-        aria-labelledby="offcanvasDarkNavbarLabel"
-      >
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Dark offcanvas</h5>
-          <button
-            type="button"
-            class="btn-close btn-close-dark"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="offcanvas-body">
-          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="#">Navbar scroll</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarScroll"
+      aria-controls="navbarScroll"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarScroll">
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+        {% for link in linklists['main-menu'].links -%}
+          {% if link.links.size > 0 -%}
+            <li class="nav-item dropdown {% if link.active %} active {% endif %}">
               <a
                 class="nav-link dropdown-toggle"
-                href="#"
+                href="{{ link.url }}"
                 role="button"
                 data-bs-toggle="dropdown"
-                aria-expanded="false"
+                aria-expanded="true"
               >
-                Dropdown
+                {{ link.title }}
               </a>
-              <ul class="dropdown-menu dropdown-menu-dark">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li>
-                  <a class="dropdown-item" href="#">Another action</a>
-                </li>
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </li>
+              <ul class="dropdown-menu">
+                {% for child in link.links %}
+                  <li>
+                    <a class="dropdown-item {% if child.active %} active {% endif %}" href="{{ child.url }}">
+                      {{- child.title -}}
+                    </a>
+                  </li>
+                {% endfor %}
               </ul>
             </li>
-          </ul>
-          <form class="d-flex mt-3" role="search">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            >
-            <button class="btn btn-success" type="submit">Search</button>
-          </form>
-        </div>
-      </div>
+
+          {%- else -%}
+            <li class="nav-item">
+              <a class="nav-link {% if link.active %} active {% endif %}" aria-current="page" href="{{ link.url }}">
+                {{- link.title -}}
+              </a>
+            </li>
+          {%- endif %}
+        {%- endfor %}
+      </ul>
+
+      <form class="mb-0 d-flex" action="{{ routes.search_url }}">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          name="q"
+          required
+          value="{{ search.terms | escape }}"
+        >
+        <input class="btn btn-outline-success" type="submit" value="Search">
+      </form>
+
+      <a class="btn" href="/cart">Cart</a>
+
+      {% if customer %}
+        <a class="btn" href="{{ routes.account_url }}">Account</a>
+      {% else %}
+        <a class="btn" href="{{ routes.account_login_url }}">Login</a>
+
+        {% if shop.customer_accounts_optional %}
+          <span>or</span>
+          <a class="btn" href="{{ routes.account_register_url }}">Create an account</a>
+        {% endif %}
+      {% endif %}
+      
     </div>
   </div>
-</div>
+</nav>
+
 {% schema %}
 {
   "name": "Header",
