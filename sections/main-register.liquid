@@ -1,5 +1,5 @@
 <div class="container">
-  {% form 'create_customer' %}
+  {% form 'create_customer', return_to: routes.collections_url %}
     {{ form.errors | default_errors }}
 
     <div class="form-group">

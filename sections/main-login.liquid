@@ -1,5 +1,5 @@
 <div class="container">
-  {% form 'customer_login' %}
+  {% form 'customer_login', return_to: routes.collections_url %}
     {{ form.errors | default_errors }}
     <div class="form-group">
       <label for="email">Email:</label>
@@ -16,6 +16,7 @@
 
   <p>Do not have account? <a class="link" href="{{ routes.account_register_url }}">Create an account</a></p>
 
+  <p>Forgot your password? <a class="link" href="{{ routes.account_recover_url }}">Recover</a></p>
 </div>
 
 {% schema %}

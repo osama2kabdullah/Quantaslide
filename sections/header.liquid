@@ -64,6 +64,7 @@
 
       {% if customer %}
         <a class="btn" href="{{ routes.account_url }}">Account</a>
+        <a class="btn btn-danger" href="{{ routes.account_logout_url }}">Log out</a>
       {% else %}
         <a class="btn" href="{{ routes.account_login_url }}">Login</a>
 
