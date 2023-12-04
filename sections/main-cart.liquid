@@ -1,0 +1,45 @@
+<form class="container mt-5" action="{{ routes.cart_url }}" method="post">
+  <h1 class="mb-4">Your Shopping Cart</h1>
+  {% for item in cart.items %}
+    <div class="card mb-3">
+      <div class="row no-gutters">
+        <div class="col-md-4">
+          {{ item.image | image_url: width: 320, height: 320 | image_tag: class: 'card-img', alt: item.title }}
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <a href="{{ item.url }}">
+                <h5 class="card-title">{{ item.title }}</h5>
+            </a>
+            <p class="card-text"><strong>Price:</strong>{{ item.final_line_price | money }}</p>
+
+            <!-- Quantity Input -->
+            <div class="form-group">
+              <label for="quantity">Quantity:</label>
+              <input
+                type="number"
+                id="quantity"
+                min="1"
+                class="form-control"
+                name="updates[]"
+                value="{{ item.quantity }}"
+              >
+            </div>
+            <br>
+            <a class="btn btn-danger" href="{{ item.url_to_remove }}">Remove</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  <input class="btn btn-primary" type="submit" value="Update cart">
+  <input class="btn btn-success" type="submit" name="checkout" value="Checkout">  
+</form>
+
+{% schema %}
+{
+  "name": "Cart Items",
+  "class": "section",
+  "settings": []
+}
+{% endschema %}
