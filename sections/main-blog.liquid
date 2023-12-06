@@ -1,0 +1,46 @@
+<div class="container mt-5">
+  <h1 class="mb-4">{{ blog.title }}</h1>
+  {% paginate blog.articles by 5 %}
+    <!-- Blog Articles -->
+    <div class="row">
+      {% for article in blog.articles %}
+        <div class="col-md-12 mb-4">
+          <div class="card">
+            {{ article.image | image_url: width: 720, height: 350 | image_tag: class: 'card-img-top', alt: article.title }}
+            <div class="card-body">
+              <h5 class="card-title">{{ article.title }}</h5>
+              <p class="card-text">{{ article.content | truncate: 300 }}</p>
+              <a href="{{ article.url }}" class="btn btn-primary">Read More</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    {{- paginate | default_pagination }}
+  {% endpaginate %}
+
+  <!-- Pagination -->
+  {% comment %}
+    <nav>
+      <ul class="pagination justify-content-center">
+        <li class="page-item disabled">
+          <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#">Next</a>
+        </li>
+      </ul>
+    </nav>
+  {% endcomment %}
+</div>
+
+{% schema %}
+{
+  "name": "Blog",
+  "class": "section",
+  "settings": []
+}
+{% endschema %}

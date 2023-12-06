@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main-blog-page": {
+      "type": "main-blog",
+      "settings": {}
+    }
+  },
+  "order": ["main-blog-page"]
+}

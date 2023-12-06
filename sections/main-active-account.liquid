@@ -1,0 +1,27 @@
+<div class="container mt-5">
+  {% form 'activate_customer_password' %}
+    {{ form.errors | default_errors }}
+    <h1 class="mb-4">Account Activation</h1>
+
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" class="form-control" id="password" name="customer[password]">
+    </div>
+
+    <div class="form-group">
+      <label for="confirmPassword">Confirm Password:</label>
+      <input type="password" class="form-control" id="confirmPassword" name="customer[password_confirmation]">
+    </div>
+    <br>
+    <input type="submit" class="btn btn-success" value="Activate account">
+    <input type="submit" class="btn btn-danger ml-2" name="decline" value="Decline invitation">
+  {% endform %}
+</div>
+
+{% schema %}
+{
+  "name": "Account activation form",
+  "class": "section",
+  "settings": []
+}
+{% endschema %}

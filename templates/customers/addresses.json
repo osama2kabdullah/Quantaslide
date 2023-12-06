@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main-address-lists": {
+      "type": "main-address-lists",
+      "settings": {}
+    }
+  },
+  "order": ["main-address-lists"]
+}
