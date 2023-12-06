@@ -1,101 +1,107 @@
-<div class="container mt-5">
-  <h1 class="mb-4">My Addresses</h1>
+<div class="container">
+  <div class="row">
+    <!-- Left Sidebar with Buttons -->
+    {% render 'account-sidebar' %}
 
-  <!-- List of Addresses -->
-  <ul class="list-group">
-    <!-- Replace the following block with a loop to render each address -->
-    {% for address in customer.addresses %}
-      <!-- address details -->
-      <li class="list-group-item">
+    <!-- Right Content Area -->
+    <div class="col-md-9 col-sm-12">
+      <!-- Content for Addresses -->
+      <div id="addresses" class="content">
+        <h2>Addresses</h2>
 
-        <p><strong>Name:</strong> {{ address.name }}</p>
-        <p><strong>Company:</strong> {{ address.company }}</p>
-        <p>
-          <strong>Address:</strong>
-          {{ address.address1 | append: ',' }}
-          {{ address.city | append: ',' }}
-          {{ address.country.name }}
-        </p>
-        <p><strong>Phone:</strong> {{ address.phone }}</p>
-        <p><strong>Zip:</strong> {{ address.zip }}</p>
+        {% for address in customer.addresses %}
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Address {{ forloop.index }}</h5>
+              <p><strong>Name:</strong> {{ address.name }}</p>
+              <p><strong>Company:</strong> {{ address.company }}</p>
+              <p>
+                <strong>Address:</strong>
+                {{ address.address1 | append: ',' }}
+                {{ address.city | append: ',' }}
+                {{ address.country.name }}
+              </p>
+              <p><strong>Phone:</strong> {{ address.phone }}</p>
+              <p><strong>Zip:</strong> {{ address.zip }}</p>
+              <button
+                class="btn btn-primary btn-sm"
+                data-bs-toggle="modal"
+                data-bs-target="#editAddressModal-{{ forloop.index }}"
+              >
+                Edit
+              </button>
 
-        <button class="btn btn-primary btn-sm">Edit Address</button>
-        <!-- delete button -->
-        <form
-          class="address-delete-form d-inline"
-          method="post"
-          action="/account/addresses/{{ address.id }}"
+              <!-- Edit Address Modal -->
+              <div
+                class="modal fade"
+                id="editAddressModal-{{ forloop.index }}"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Edit Address {{ forloop.index }}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <!-- Form for adding a new address -->
+                      {% form 'customer_address', address %}
+                        {{ form.errors | default_errors }}
+                        {% include 'address-form' %}
+                        <button type="submit" class="btn btn-primary">Edit Address</button>
+                      {% endform %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- delete button -->
+              <form
+                class="address-delete-form d-inline"
+                method="post"
+                action="/account/addresses/{{ address.id }}"
+              >
+                <input type="hidden" name="_method" value="delete">
+                <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+
+        <!-- Add New Address Button -->
+        <button class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#addAddressModal">
+          Add New Address
+        </button>
+
+        <!-- Add Address Modal -->
+        <div
+          class="modal fade"
+          id="addAddressModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
         >
-          <input type="hidden" name="_method" value="delete">
-          <button class="btn btn-danger btn-sm" type="submit">Delete Address</button>
-        </form>
-      </li>
-    {% endfor %}
-    <!-- Repeat the above block for each address -->
-  </ul>
-
-  <!-- Add Address Button -->
-  {% comment %} {% form 'customer_address', customer.new_address %}
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="firstName">First Name</label>
-        <input type="text" class="form-control" id="firstName" name="address[first_name]">
-      </div>
-      <div class="form-group col-md-6">
-        <label for="lastName">Last Name</label>
-        <input type="text" class="form-control" id="lastName" name="address[last_name]">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="company">Company</label>
-      <input type="text" class="form-control" id="company" name="address[company]">
-    </div>
-    <div class="form-group">
-      <label for="address1">Address 1</label>
-      <input type="text" class="form-control" id="address1" name="address[address1]">
-    </div>
-    <div class="form-group">
-      <label for="address2">Address 2</label>
-      <input type="text" class="form-control" id="address2" name="address[address2]">
-    </div>
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="city">City</label>
-        <input type="text" class="form-control" id="city" name="address[city]">
-      </div>
-      <div class="form-group col-md-6">
-        <label for="country">Country</label>
-        <select class="form-control" id="country" name="address[country]">
-          <option value="">Select Country</option>
-          <option value="Bangladesh">Bangladesh</option>
-          <option value="India">India</option>
-          <!-- Add more options for other countries as needed -->
-        </select>
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Add New Address</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <!-- Form for adding a new address -->
+                {% form 'customer_address', customer.new_address %}
+                  {{ form.errors | default_errors }}
+                  {% include 'address-form' %}
+                  <button type="submit" class="btn btn-primary">Add Address</button>
+                {% endform %}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label for="province">Province</label>
-        <select class="form-control" id="province" name="address[province]">
-          <option value="">Select Province</option>
-          <option value="Khulna">Khulna</option>
-          <option value="Dhaka">Dhaka</option>
-          <!-- Add more options for other provinces as needed -->
-        </select>
-      </div>
-      <div class="form-group col-md-6">
-        <label for="zip">ZIP/Postal Code</label>
-        <input type="text" class="form-control" id="zip" name="address[zip]">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="phone">Phone Number</label>
-      <input type="tel" class="form-control" id="phone" name="address[phone]">
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  {% endform %} {% endcomment %}
-
-  <button class="btn btn-success mt-3" data-toggle="modal" data-target="#addAddressModal">Add Address</button>
+  </div>
 </div>
 
 {% schema %}

@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-md-6 col-12">
+    <label for="firstName">First Name</label>
+    <input type="text" class="form-control" id="firstName" value="{{ address.first_name }}" name="address[first_name]">
+  </div>
+
+  <div class="col-md-6 col-12">
+    <label for="lastName">Last Name</label>
+    <input type="text" value="{{ address.last_name }}" class="form-control" id="lastName" name="address[last_name]">
+  </div>
+</div>
+<div class="form-group">
+  <label for="company">Company</label>
+  <input type="text" value="{{ address.company }}" class="form-control" id="company" name="address[company]">
+</div>
+<div class="form-group">
+  <label for="address1">Address 1</label>
+  <input type="text" value="{{ address.address1 }}" class="form-control" id="address1" name="address[address1]">
+</div>
+<div class="form-group">
+  <label for="address2">Address 2</label>
+  <input type="text" value="{{ address.address2 }}" class="form-control" id="address2" name="address[address2]">
+</div>
+<div class="row">
+  <div class="col-md-6 col-12">
+    <label for="city">City</label>
+    <input type="text" value="{{ address.city }}" class="form-control" id="city" name="address[city]">
+  </div>
+
+  <div class="col-md-6 col-12">
+    <label for="addZip">ZIP/Postal Code</label>
+    <input type="text" value="{{ address.zip }}" class="form-control" id="addZip" name="address[zip]" required>
+  </div>
+</div>
+<div class="form-group">
+  <label for="country">Country</label>
+  <select class="form-control" id="country" name="address[country]">
+    {% assign selectedCountry = address.country %}
+    
+    <option value="" {% unless selectedCountry %}selected{% endunless %} disabled>Select Country</option>
+    <option value="Bangladesh" {% if selectedCountry == "Bangladesh" %}selected{% endif %}>Bangladesh</option>
+    <option value="India" {% if selectedCountry == "India" %}selected{% endif %}>India</option>
+    <!-- Add more options for other countries as needed -->
+  </select>
+   
+</div>
+<div class="form-group">
+  <label for="phone">Phone Number</label>
+  <input value="{{ address.phone }}" type="tel" class="form-control" id="phone" name="address[phone]">
+</div>
+<br>

@@ -1,60 +1,81 @@
-{% assign Address = customer.default_address %}
-
-<div class="container mt-5">
-  <h1 class="mb-4">Hello, {{ customer.first_name }}!</h1>
-
+<div class="container">
   <div class="row">
-    <div class="col-md-6">
-      <h4>Account Information</h4>
-      <p><strong>Name:</strong> {{ customer.name }}</p>
-      <p><strong>Email:</strong> {{ customer.email }}</p>
-      <p>
-        <strong>Address:</strong>
-        {{ Address.address1 | append: "," }}
-        {{ Address.city  | append: "," }}
-        {{ Address.country.name }}
-      </p>
-      <button class="btn btn-primary">Edit Account</button>
-    </div>
-    <div class="col-md-6">
-      <h4>Order History</h4>
-      {% if customer.orders_count == 0 %}
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Order Number</th>
-              <th>Order Date</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for order in customer.orders limit: 3 %}
-              <tr>
-                <td>{{ order.order_number }}</td>
-                <td>{{ order.created_at | date: format: 'abbreviated_date' }}</td>
-                <td>{{ order.line_items_subtotal_price | money }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-        <a href="/account/orders" class="btn btn-primary">See all Order History</a>
-        {% else %}
-        <p>You don't have any order.</p>
-      {% endif %}
-    </div>
-  </div>
+    <!-- Left Sidebar with Buttons -->
+    {% render 'account-sidebar' %}
 
-  <div class="mt-4">
-    <h4>Default Address</h4>
-    <p>
-      <strong>Address:</strong>
-      {{ Address.address1 | append: "," }}
-      {{ Address.city | append: "," }}
-      {{ Address.country.name }}
-    </p>
-    <a class="btn btn-primary" href="{{ routes.account_addresses_url }}">See Addresses</a>
+    <!-- Right Content Area -->
+    <div class="col-md-9 col-sm-12">
+      <!-- Content for Account -->
+      <div id="account" class="content">
+        <div>
+          <h4>Name: John Doe</h4>
+          <p>Email: john.doe@example.com</p>
+          <p>Default Address: 123 Main St, Cityville</p>
+          <p>Last Order: Order #123456</p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+{% comment %}
+  {% assign Address = customer.default_address %}
+  <div class="container mt-5">
+    <h1 class="mb-4">Hello, {{ customer.first_name }}!</h1>
+
+    <div class="row">
+      <div class="col-md-6">
+        <h4>Account Information</h4>
+        <p><strong>Name:</strong> {{ customer.name }}</p>
+        <p><strong>Email:</strong> {{ customer.email }}</p>
+        <p>
+          <strong>Address:</strong>
+          {{ Address.address1 | append: ',' }}
+          {{ Address.city | append: ',' }}
+          {{ Address.country.name }}
+        </p>
+        <button class="btn btn-primary">Edit Account</button>
+      </div>
+      <div class="col-md-6">
+        <h4>Order History</h4>
+        {% if customer.orders_count == 0 %}
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Order Number</th>
+                <th>Order Date</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in customer.orders limit: 3 %}
+                <tr>
+                  <td>{{ order.order_number }}</td>
+                  <td>{{ order.created_at | date: format: 'abbreviated_date' }}</td>
+                  <td>{{ order.line_items_subtotal_price | money }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <a href="/account/orders" class="btn btn-primary">See all Order History</a>
+        {% else %}
+          <p>You don't have any order.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <h4>Default Address</h4>
+      <p>
+        <strong>Address:</strong>
+        {{ Address.address1 | append: ',' }}
+        {{ Address.city | append: ',' }}
+        {{ Address.country.name }}
+      </p>
+      <a class="btn btn-primary" href="{{ routes.account_addresses_url }}">See Addresses</a>
+    </div>
+  </div>
+{% endcomment %}
 
 {% schema %}
 {
