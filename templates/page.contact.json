@@ -1,9 +1,11 @@
 {
   "sections": {
-    "main-contact-page": {
+    "60be2860-40d7-4041-ab49-314eeb8d8c4e": {
       "type": "main-contact-page",
       "settings": {}
     }
   },
-  "order": ["main-contact-page"]
+  "order": [
+    "60be2860-40d7-4041-ab49-314eeb8d8c4e"
+  ]
 }
