@@ -18,7 +18,7 @@
     </div>
     <div class="col-md-6">
       <h4>Order History</h4>
-      {% if customer.orders_count > 0 %}
+      {% if customer.orders_count == 0 %}
         <table class="table">
           <thead>
             <tr>
@@ -28,7 +28,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for order in customer.orders %}
+            {% for order in customer.orders limit: 3 %}
               <tr>
                 <td>{{ order.order_number }}</td>
                 <td>{{ order.created_at | date: format: 'abbreviated_date' }}</td>
@@ -37,6 +37,7 @@
             {% endfor %}
           </tbody>
         </table>
+        <a href="/account/orders" class="btn btn-primary">See all Order History</a>
         {% else %}
         <p>You don't have any order.</p>
       {% endif %}
