@@ -1,26 +1,22 @@
-{%- form 'reset_customer_password' -%}
-  {{ form.errors | default_errors }}
+<div class="container mt-5">
+  <h1 class="mb-4">Reset Password</h1>
 
-  <div class="password">
-    <input
-      type="password"
-      name="customer[password]"
-      id="password"
-    >
-    <label for="password">Password</label>
-  </div>
+  {%- form 'reset_customer_password' -%}
+    {{ form.errors | default_errors }}
 
-  <div class="password_confirm">
-    <input
-      type="password"
-      name="customer[password_confirmation]"
-      id="password_confirmation"
-    >
-    <label for="password_confirmation">Confirm password</label>
-  </div>
+    <div class="form-group">
+      <label for="newPassword">New Password:</label>
+      <input type="password" class="form-control" id="newPassword" name="customer[password]" required>
+    </div>
 
-  <button>Reset password</button>
-{%- endform -%}
+    <div class="form-group">
+      <label for="confirmNewPassword">Confirm New Password:</label>
+      <input type="password" class="form-control" id="confirmNewPassword" name="customer[password_confirmation]" required>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Reset Password</button>
+  {%- endform -%}
+</div>
 
 {% schema %}
 {
