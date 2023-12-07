@@ -1,25 +1,30 @@
-<section class="container">
-  {% form 'contact' %}
-    {{ form.errors | default_errors }}
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2 class="mb-4 text-center">Contact Us</h2>
 
-    <div class="form-group">
-      <label for="name">Name:</label>
-      <input type="text" class="form-control" id="name" name="contact[first_name]" required>
+      {% form 'contact' %}
+        {{ form.errors | default_errors }}
+        <div class="form-group mb-3">
+          <label for="name">Name:</label>
+          <input type="text" class="form-control" id="name" name="contact[first_name]" required>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="email">Email:</label>
+          <input type="email" class="form-control" id="email" name="contact[email]" required>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="message">Message:</label>
+          <textarea class="form-control" id="message" name="contact[body]" rows="5" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+      {% endform %}
     </div>
-
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="email" class="form-control" id="email" name="contact[email]" required>
-    </div>
-
-    <div class="form-group">
-      <label for="message">Message:</label>
-      <textarea class="form-control" id="message" name="contact[body]" rows="5" required></textarea>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Submit</button>
-  {% endform %}
-</section>
+  </div>
+</div>
 
 {% schema %}
 {

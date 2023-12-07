@@ -7,17 +7,65 @@
     <div class="col-md-9 col-sm-12 pt-4 pb-4">
       <!-- Content for Account -->
       <div id="account" class="content">
-        <div>
-          <h4><strong>Name:</strong> {{ customer.default_address.name }}</h4>
-          <p><strong>Email:</strong> {{ customer.email }}</p>
-          <p><strong>Address:</strong> {{ customer.default_address.address1 | append: "," | append: customer.default_address.city | append: "," | append: customer.default_address.country }}</p>
-          
-          {% assign last_order = customer.orders | last %}
-          {% if last_order %}
-            <p><strong>Last Order:</strong> Order #{{ last_order.order_number }}</p>
-          {% else %}
-            <p><strong>Last Order:</strong> No orders found</p>
-          {% endif %}                    
+        <div class="row">
+          <!-- Order List Section -->
+          <div class="col-md-8">
+            <h4 class="mb-3"><strong>Order List</strong></h4>
+
+            {% if customer.orders.size > 0 %}
+              <div class="card">
+                <ul class="list-group list-group-flush">
+                  {% for order in customer.orders %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <a
+                        class="order-link"
+                        data-bs-toggle="collapse"
+                        href="#orderDetails{{ order.order_number }}"
+                        role="button"
+                        aria-expanded="false"
+                        aria-controls="orderDetails{{ order.order_number }}"
+                        >Order #{{ order.order_number -}}
+                      </a>
+                      <span>{{ order.created_at | date: '%B %d, %Y' }}</span>
+                    </li>
+                    <div class="collapse" id="orderDetails{{ order.order_number }}">
+                      <div class="card card-body">
+                        {% assign product_names = order.line_items | map: 'title' | join: ', ' %}
+                        <p>Products: {{ product_names }}</p>
+                        <p>Quantity Of Products: {{ order.item_count }}</p>
+                        <p>Total: {{ order.line_items_subtotal_price | money }}</p>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% else %}
+              <p>No orders found.</p>
+            {% endif %}
+          </div>
+
+          <!-- Customer Information Section -->
+          <div class="col-md-4">
+            <h4 class="mb-3"><strong>Account Information</strong></h4>
+            <p><strong>Name:</strong> {{ customer.default_address.name }}</p>
+            <p><strong>Email:</strong> {{ customer.email }}</p>
+            <p>
+              <strong>Address:</strong>
+              {{
+                customer.default_address.address1
+                | append: ','
+                | append: customer.default_address.city
+                | append: ','
+                | append: customer.default_address.country
+              }}
+            </p>
+
+            {% assign last_order = customer.orders | last %}
+            <p>
+              <strong>Last Order:</strong>
+              {% if last_order %}Order #{{ last_order.order_number }}{% else %}No orders found{% endif %}
+            </p>
+          </div>
         </div>
       </div>
     </div>

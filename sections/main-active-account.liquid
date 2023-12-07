@@ -1,21 +1,29 @@
-<div class="container mt-5">
-  {% form 'activate_customer_password' %}
-    {{ form.errors | default_errors }}
-    <h1 class="mb-4">Account Activation</h1>
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2 class="mb-4 text-center">Account Activation</h2>
 
-    <div class="form-group">
-      <label for="password">Password:</label>
-      <input type="password" class="form-control" id="password" name="customer[password]">
-    </div>
+      {% form 'activate_customer_password' %}
+        {{ form.errors | default_errors }}
 
-    <div class="form-group">
-      <label for="confirmPassword">Confirm Password:</label>
-      <input type="password" class="form-control" id="confirmPassword" name="customer[password_confirmation]">
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" class="form-control" id="password" name="customer[password]">
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password:</label>
+          <input type="password" class="form-control" id="confirmPassword" name="customer[password_confirmation]">
+        </div>
+        <br>
+
+        <div class="d-flex justify-content-center">
+          <button type="submit" class="btn btn-success me-2">Activate Account</button>
+          <button type="submit" class="btn btn-danger" name="decline">Decline Invitation</button>
+        </div>
+      {% endform %}
     </div>
-    <br>
-    <input type="submit" class="btn btn-success" value="Activate account">
-    <input type="submit" class="btn btn-danger ml-2" name="decline" value="Decline invitation">
-  {% endform %}
+  </div>
 </div>
 
 {% schema %}
