@@ -1,23 +1,82 @@
-<div class="container">
-  {% form 'customer_login', return_to: routes.collections_url %}
-    {{ form.errors | default_errors }}
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="email" class="form-control" id="email" name="customer[email]" required>
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div id="recoverForm">
+        <h2 class="mb-4 text-center">Customer Login</h2>
+
+        {% form 'customer_login', return_to: routes.collections_url %}
+          {{ form.errors | default_errors }}
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" name="customer[email]" required>
+          </div>
+          <br>
+
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="customer[password]" required>
+          </div>
+          <br>
+
+          <button type="submit" class="btn btn-primary btn-block">Login</button>
+        {% endform %}
+
+        <div class="mt-3 text-center">
+          <p>Forgot your password? <a class="link" href="#recover" onclick="toggleForms()">Recover</a></p>
+          <p>Don't have an account? <a class="link" href="{{ routes.account_register_url }}">Create an account</a></p>
+          {% if shop.checkout.guest_login %}
+            {% form 'guest_login' %}
+              {{ form.errors | default_errors }}
+              <div class="form-group bg-light p-3 rounded">
+                <span>Or login as a guest</span> <input type="submit" class="btn btn-warning" value="Guest Login">
+              </div>
+            {% endform %}
+          {% endif %}
+        </div>
+      </div>
+
+      {% comment %} Recover Account Form {% endcomment %}
+      <div id="recoverAccount" style="display: none;">
+        <h2 class="mb-4 text-center">Recover Account</h2>
+        {% form 'recover_customer_password' %}
+          {{ form.errors | default_errors }}
+          <div class="form-group">
+            <label for="recovery-email">Email:</label>
+            <input type="email" class="form-control" id="recovery-email" name="email" required>
+          </div>
+          <br>
+
+          <button type="submit" class="btn btn-warning btn-block">Recover Account</button>
+        {% endform %}
+        <br>
+        <div class="text-center">
+          <p>Remembered your password? <a class="link" href="#login" onclick="toggleForms()">Login</a></p>
+        </div>
+      </div>
     </div>
-
-    <div class="form-group">
-      <label for="password">Password:</label>
-      <input type="password" class="form-control" id="password" name="customer[password]" required>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Login</button>
-  {% endform %}
-
-  <p>Do not have account? <a class="link" href="{{ routes.account_register_url }}">Create an account</a></p>
-
-  <p>Forgot your password? <a class="link" href="{{ routes.account_recover_url }}">Recover</a></p>
+  </div>
 </div>
+
+<script>
+  // Function to toggle between login and recover forms
+  function toggleForms() {
+    var recoverForm = document.getElementById('recoverAccount');
+    var loginForm = document.getElementById('recoverForm');
+
+    if (recoverForm.style.display === 'none') {
+      recoverForm.style.display = 'block';
+      loginForm.style.display = 'none';
+    } else {
+      recoverForm.style.display = 'none';
+      loginForm.style.display = 'block';
+    }
+  }
+
+  // Check URL hash and show recover form if needed
+  if (window.location.hash === '#recover') {
+    toggleForms();
+  }
+</script>
 
 {% schema %}
 {
