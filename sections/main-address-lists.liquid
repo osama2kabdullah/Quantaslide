@@ -4,70 +4,87 @@
     {% render 'account-sidebar' %}
 
     <!-- Right Content Area -->
-    <div class="col-md-9 col-sm-12">
+    <div class="col-md-9 col-sm-12 pt-4 pb-4">
       <!-- Content for Addresses -->
       <div id="addresses" class="content">
         <h2>Addresses</h2>
 
-        {% for address in customer.addresses %}
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Address {{ forloop.index }}</h5>
-              <p><strong>Name:</strong> {{ address.name }}</p>
-              <p><strong>Company:</strong> {{ address.company }}</p>
-              <p>
-                <strong>Address:</strong>
-                {{ address.address1 | append: ',' }}
-                {{ address.city | append: ',' }}
-                {{ address.country.name }}
-              </p>
-              <p><strong>Phone:</strong> {{ address.phone }}</p>
-              <p><strong>Zip:</strong> {{ address.zip }}</p>
-              <button
-                class="btn btn-primary btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#editAddressModal-{{ forloop.index }}"
-              >
-                Edit
-              </button>
+        <div class="row">
+          {% if customer.addresses.size > 0 %}
+            {% for address in customer.addresses %}
+              <div class="col-md-6">
+                <div
+                  class="
+                    card mb-4 {% if address.id == customer.default_address.id %}
+                    border-success{% endif %}
+                  "
+                >
+                  <div class="card-body">
+                    {% if address.id == customer.default_address.id %}
+                      <span class="badge bg-success float-end">Default</span>
+                    {% endif %}
+                    <h5 class="card-title">Address {{ forloop.index }}</h5>
+                    <p><strong>Name:</strong> {{ address.name }}</p>
+                    <p><strong>Company:</strong> {{ address.company }}</p>
+                    <p>
+                      <strong>Address:</strong>
+                      {{ address.address1 | append: ',' }}
+                      {{ address.city | append: ',' }}
+                      {{ address.country.name }}
+                    </p>
+                    <p><strong>Phone:</strong> {{ address.phone }}</p>
+                    <p><strong>Zip:</strong> {{ address.zip }}</p>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editAddressModal-{{ forloop.index }}"
+                    >
+                      Edit
+                    </button>
 
-              <!-- Edit Address Modal -->
-              <div
-                class="modal fade"
-                id="editAddressModal-{{ forloop.index }}"
-                tabindex="-1"
-                aria-labelledby="exampleModalLabel"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title">Edit Address {{ forloop.index }}</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <!-- Edit Address Modal -->
+                    <div
+                      class="modal fade"
+                      id="editAddressModal-{{ forloop.index }}"
+                      tabindex="-1"
+                      aria-labelledby="exampleModalLabel"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Edit Address {{ forloop.index }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <!-- Form for adding a new address -->
+                            {% form 'customer_address', address %}
+                              {{ form.errors | default_errors }}
+                              {% include 'address-form' %}
+                              <button type="submit" class="btn btn-primary">Edit Address</button>
+                            {% endform %}
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div class="modal-body">
-                      <!-- Form for adding a new address -->
-                      {% form 'customer_address', address %}
-                        {{ form.errors | default_errors }}
-                        {% include 'address-form' %}
-                        <button type="submit" class="btn btn-primary">Edit Address</button>
-                      {% endform %}
-                    </div>
+
+                    <!-- Delete button -->
+                    <form
+                      class="address-delete-form d-inline"
+                      method="post"
+                      action="/account/addresses/{{ address.id }}"
+                    >
+                      <input type="hidden" name="_method" value="delete">
+                      <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                    </form>
                   </div>
                 </div>
               </div>
-              <!-- delete button -->
-              <form
-                class="address-delete-form d-inline"
-                method="post"
-                action="/account/addresses/{{ address.id }}"
-              >
-                <input type="hidden" name="_method" value="delete">
-                <button class="btn btn-danger btn-sm" type="submit">Delete</button>
-              </form>
-            </div>
-          </div>
-        {% endfor %}
+            {% endfor %}
+          {% else %}
+            <p>No addresses found</p>
+          {% endif %}
+        </div>
 
         <!-- Add New Address Button -->
         <button class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#addAddressModal">
