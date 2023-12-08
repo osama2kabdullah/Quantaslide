@@ -1,21 +1,28 @@
-<h1>{{ page.title }}</h1>
+<div class="container mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="mb-4">
+        <h1 class="mt-4 text-center font-weight-bolder">{{ page.title }}</h1>
+        <p class="text-muted text-center">{{ page.published_at | date: '%B %d, %Y' }}</p>
+      </div>
 
-<section>{{ page.content }}</section>
+      <!-- Article Text -->
+      <div class="mb-4">
+        {{ page.content }}
+      </div>
+    </div>
+  </div>
+</div>
 
 {% schema %}
 {
-  "name": "Main Page",
+  "name": "Page Content",
   "tag": "section",
   "class": "section",
   "disabled_on": {
     "groups": ["header", "footer"]
   },
   "settings": [],
-  "blocks": [],
-  "presets": [
-    {
-      "name": "Main Page"
-    }
-  ]
+  "blocks": []
 }
 {% endschema %}

@@ -1,0 +1,29 @@
+<div class="card">
+  <a href="{{ collection.url }}" class="d-block">
+    {% if collection.image %}
+      <img
+        src="{{ collection.image.src | img_url: '720x' }}"
+        class="card-img-top img-fluid"
+        alt="{{ collection.title }}"
+        style="object-fit: cover; height: 200px;"
+      >
+    {% else %}
+      <img
+        src="{{ collection.products.first.featured_image.src | img_url: '720x' }}"
+        class="card-img-top img-fluid"
+        alt="{{ collection.title }}"
+        style="object-fit: cover; height: 200px;"
+      >
+    {% endif %}
+  </a>
+  <div class="card-body">
+    <a href="{{ collection.url }}" class="text-decoration-none">
+      <h5 class="card-title">{{ collection.title }}</h5>
+    </a>
+    <p class="card-text">{{ collection.description }}</p>
+    <p class="card-text">
+      <small class="text-muted">{{ collection.products_count }} Products</small>
+    </p>
+    <a href="{{ collection.url }}" class="btn btn-primary">View Collection</a>
+  </div>
+</div>

@@ -16,7 +16,8 @@
               <div class="card">
                 <ul class="list-group list-group-flush">
                   {% for order in customer.orders %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {% assign is_cancelled = order.cancelled %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center {% if is_cancelled %}cancelled{% endif %}">
                       <a
                         class="order-link"
                         data-bs-toggle="collapse"
@@ -24,16 +25,24 @@
                         role="button"
                         aria-expanded="false"
                         aria-controls="orderDetails{{ order.order_number }}"
-                        >Order #{{ order.order_number -}}
+                      >
+                        Order #{{ order.order_number }}
                       </a>
-                      <span>{{ order.created_at | date: '%B %d, %Y' }}</span>
+                      {% if is_cancelled %}
+                        <span class="badge bg-danger text-white">Cancelled</span>
+                      {% else %}
+                        <span>{{ order.created_at | date: '%B %d, %Y' }}</span>
+                      {% endif %}
                     </li>
                     <div class="collapse" id="orderDetails{{ order.order_number }}">
-                      <div class="card card-body">
+                      <div class="card card-body {% if is_cancelled %}border-danger{% endif %}">
                         {% assign product_names = order.line_items | map: 'title' | join: ', ' %}
                         <p>Products: {{ product_names }}</p>
                         <p>Quantity Of Products: {{ order.item_count }}</p>
                         <p>Total: {{ order.line_items_subtotal_price | money }}</p>
+                        {% if is_cancelled %}
+                          <p class="badge bg-danger text-white">Reason for Cancellation: {{ order.cancel_reason_label }}</p>
+                        {% endif %}
                       </div>
                     </div>
                   {% endfor %}
