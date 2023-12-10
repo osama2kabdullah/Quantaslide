@@ -1,7 +1,23 @@
 {% layout none %}
+{{ content_for_header }}
 {{ 'vendor/qrcode.js' | shopify_asset_url | script_tag }}
+<!-- bootstrap -->
+{{ 'bootstrap.min.css' | asset_url | stylesheet_tag }}
 
-<div id="qr-code"></div>
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body text-center">
+          <h5 class="card-title">Gift Card QR Code</h5>
+          <p class="card-text">Scan the QR code below:</p>
+          <!-- Add your QR code image source here -->
+          <div id="qr-code" class="mx-auto d-inline-block"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
   new QRCode(document.getElementById('qr-code'), {

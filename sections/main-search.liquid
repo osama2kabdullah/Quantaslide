@@ -1,50 +1,49 @@
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
   <h1 class="mb-4">Search Results</h1>
 
   <!-- Search Results -->
-  <div class="card">
-    <div class="card-body">
-      {% for item in search.results %}
-        {% if item.object_type == 'article' -%}
-          <!-- Example: Blog Result -->
-          <h5 class="card-title">{{ item.title }}</h5>
-          <p class="card-text">{{ item.content | strip_html | truncatewords: 40 | highlight: search.terms }}</p>
-          <a href="{{ item.url }}" class="btn btn-primary">Read Blog</a>
-          {% unless forloop.last %}
-            <hr>
-          {% endunless %}
-        {% endif %}
-      {% endfor %}
-      {% for item in search.results %}
-        {% if item.object_type == 'page' -%}
-          <!-- Example: Page Result -->
-          <h5 class="card-title">{{ item.title }}</h5>
-          <p class="card-text">{{ item.content | strip_html | truncatewords: 40 | highlight: search.terms }}</p>
-          <a href="{{ item.url }}" class="btn btn-primary">View Page</a>
-          {% unless forloop.last %}
-            <hr>
-          {% endunless %}
-        {% endif %}
-      {% endfor %}
-      {% for item in search.results %}
-        {% if item.object_type == 'product' -%}
-          <!-- Example: Product Result -->
-          <h5 class="card-title">{{ item.title }}</h5>
-          <div class="row">
-            <div class="col-md-4">
-              {{ item.featured_image | image_url: width: 320 | image_tag: class: 'img-fluid', alt: item.title }}
-            </div>
-            <div class="col-md-8">
-              <p class="card-text">{{ item.content | strip_html | truncatewords: 40 | highlight: search.terms }}</p>
-              <a href="{{ item.url }}" class="btn btn-primary">View Product</a>
+  <div class="row">
+    {% for item in search.results %}
+      {% if item.object_type == 'article' %}
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            {% if item.image != blank %}
+              <a href="{{ item.url }}">
+                <img src="{{ item.image | img_url: '350x' }}" class="card-img-top" alt="Blog Image">
+              </a>
+            {% endif %}
+            <div class="card-body">
+              <span class="badge bg-secondary mb-2">Blog</span>
+              <h5 class="card-title">
+                <a href="{{ item.url }}" class="text-decoration-none">{{ item.title }}</a>
+              </h5>
+              <p class="card-text">{{ item.content | strip_html | truncatewords: 20 | highlight: search.terms }}</p>
             </div>
           </div>
-          {% unless forloop.last %}
-            <hr>
-          {% endunless %}
-        {% endif %}
-      {% endfor %}
-    </div>
+        </div>
+      {% elsif item.object_type == 'page' %}
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            {% if item.image != blank %}
+              <a href="{{ item.url }}">
+                <img src="{{ item.image | img_url: '350x' }}" class="card-img-top" alt="Blog Image">
+              </a>
+            {% endif %}
+            <div class="card-body">
+              <span class="badge bg-primary mb-2">Page</span>
+              <h5 class="card-title">
+                <a href="{{ item.url }}" class="text-decoration-none">{{ item.title }}</a>
+              </h5>
+              <p class="card-text">{{ item.content | strip_html | truncatewords: 20 | highlight: search.terms }}</p>
+            </div>
+          </div>
+        </div>
+      {% elsif item.object_type == 'product' %}
+        <div class="col-md-4 mb-4">
+          {% include 'product-card', product: item %}
+        </div>
+      {% endif %}
+    {% endfor %}
   </div>
 </div>
 
