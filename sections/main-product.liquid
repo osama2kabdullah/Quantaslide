@@ -1,33 +1,66 @@
+{% comment %}
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-lg-6">
+        {{ product.featured_image | image_url: width: 720 | image_tag: class: 'img-fluid', alt: product.title, loading: 'lazy' }}
+      </div>
+      <div class="col-lg-6">
+        <h1 class="mb-4">{{ product.title }}</h1>
+        <p class="lead">{{ product.description }}</p>
+        <p><strong>Price:</strong> {{ product.price | money }}</p>
+        <p><strong>Availability:</strong> {% if product.available %}In Stock{% else %}Out of Stock{% endif %}</p>
+        <hr>
+
+        {% form 'product', product %}
+          <select class="form-select" name="id">
+            {% for variant in product.variants %}
+              <option value="{{ variant.id }}"
+                {% if variant == product.selected_or_first_available_variant %}selected="selected"{% endif %}
+              >
+                {{ variant.title }} - {{ variant.price | money }}
+              </option>
+            {% endfor %}
+          </select>
+
+          <br>
+
+          <input class="btn btn-primary" type="submit" value="Add to cart">
+        {% endform %}
+
+      </div>
+    </div>
+  </div>
+{% endcomment %}
+
 <div class="container mt-5">
   <div class="row">
     <div class="col-lg-6">
-      {{ product.featured_image | image_url: width: 720 | image_tag: class: 'img-fluid', alt: product.title, loading: 'lazy' }}
+      <!-- Product Image -->
+      {% include 'product-image-slider' %}
     </div>
     <div class="col-lg-6">
-      <h1 class="mb-4">{{ product.title }}</h1>
-      <p class="lead">{{ product.description }}</p>
-      <p><strong>Price:</strong> {{ product.price | money }}</p>
-      <p><strong>Availability:</strong> {% if product.available %}In Stock{% else %}Out of Stock{% endif %}</p>
-      <hr>
+      <!-- Product Details -->
+      <h2 class="mb-4">{{ product.title }}</h2>
+      <p class="text-muted">Category: <span class="font-weight-bold">Footwear</span></p>
+      <p>
+        {{ product.description | truncatewords: 20 }}
+        <a href="#description" class="link nav-link">Read more</a>
+      </p>
+      <p class="font-weight-bold h4">$99.99</p>
 
-      {% form 'product', product %}
-        <select class="form-select" name="id">
-          {% for variant in product.variants %}
-            <option value="{{ variant.id }}"
-              {% if variant == product.selected_or_first_available_variant %}selected="selected"{% endif %}
-            >
-              {{ variant.title }} - {{ variant.price | money }}
-            </option>
-          {% endfor %}
-        </select>
-
-        <br>
+      <!-- variant picker -->
+      {% include "variant-picker" %}
       
-        <input class="btn btn-primary" type="submit" value="Add to cart">
-      {% endform %}
-
+      <div class="mb-4">
+        <!-- Add to Cart Button -->
+        <button class="btn btn-primary"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+      </div>
+      <p class="text-muted">Availability: <span class="text-success">In Stock</span></p>
     </div>
   </div>
+
+  <!-- Product Tabs -->
+  {% include 'product-tabs' %}
 </div>
 
 {% schema %}
@@ -35,6 +68,6 @@
   "name": "Product Information",
   "tag": "section",
   "class": "section",
-  "settings":[]
+  "settings": []
 }
 {% endschema %}
