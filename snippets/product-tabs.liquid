@@ -1,0 +1,59 @@
+<div class="row mt-5">
+  <div class="col-lg-12">
+    <ul class="nav nav-tabs" id="productTabs" role="tablist">
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          id="description-tab"
+          href="#description"
+          onclick="showTab('description')"
+          role="tab"
+          aria-controls="description"
+          aria-selected="true"
+          >Description</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          id="reviews-tab"
+          href="#reviews"
+          onclick="showTab('reviews')"
+          role="tab"
+          aria-controls="reviews"
+          aria-selected="false"
+          >Reviews</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          id="more-tab"
+          href="#more"
+          onclick="showTab('more')"
+          role="tab"
+          aria-controls="more"
+          aria-selected="false"
+          >More</a
+        >
+      </li>
+    </ul>
+    <div class="tab-content mt-3" id="productTabsContent">
+      <!-- Description Tab -->
+      <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab">
+        <h3>Product Description</h3>
+        <p>{{ product.description }}</p>
+      </div>
+      <!-- Reviews Tab -->
+      <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+        <h3>Product Reviews</h3>
+        <!-- Add your reviews content here -->
+      </div>
+      <!-- More Tab -->
+      <div class="tab-pane fade" id="more" role="tabpanel" aria-labelledby="more-tab">
+        <h3>More Information</h3>
+        <!-- Add more information content here -->
+      </div>
+    </div>
+  </div>
+</div>

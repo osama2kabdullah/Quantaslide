@@ -1,0 +1,17 @@
+<div class="col-md-3 col-sm-12 bg-light pt-4 pb-4">
+  <button
+    class="btn btn-light d-md-none"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#sidebar"
+    aria-expanded="false"
+    aria-controls="sidebar"
+  >
+    <i class="fas fa-bars"></i>
+  </button>
+  <div class="list-group collapse show" id="sidebar">
+    <a href="{{ routes.account_url }}" class="{% if template.name == "account" %}active{% endif %} list-group-item list-group-item-action"> <i class="fas fa-user"></i> Account </a>
+    <a href="{{ routes.account_addresses_url }}" class="list-group-item list-group-item-action {% if template.name == "addresses" %}active{% endif %}"> <i class="fas fa-map-marker-alt"></i> Addresses </a>
+    {% comment %} <a href="/account/orders" class="list-group-item list-group-item-action active"> <i class="fas fa-shopping-bag"></i> Orders </a> {% endcomment %}
+  </div>
+</div>

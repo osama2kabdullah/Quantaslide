@@ -1,0 +1,14 @@
+{% for product_option in product.options_with_values %}
+  <div class="mb-2 mt-2" aria-label="Variant Picker">
+    <strong class="pe-3">{{ product_option.name }}: </strong>
+    {% for value in product_option.values %}
+      <button
+        type="button"
+        class="btn {% if value == product_option.selected_value or forloop.first %}active{% endif %} border variant-item"
+        data-set="{{ product_option.name }}"
+      >
+        {{ value }}
+      </button>
+    {% endfor %}
+  </div>
+{% endfor %}

@@ -1,33 +1,97 @@
 <div class="container mt-5">
   <div class="row">
     <div class="col-lg-6">
-      {{ product.featured_image | image_url: width: 720 | image_tag: class: 'img-fluid', alt: product.title, loading: 'lazy' }}
+      <!-- Product Image -->
+      {% include 'product-image-slider' %}
     </div>
     <div class="col-lg-6">
-      <h1 class="mb-4">{{ product.title }}</h1>
-      <p class="lead">{{ product.description }}</p>
-      <p><strong>Price:</strong> {{ product.price | money }}</p>
-      <p><strong>Availability:</strong> {% if product.available %}In Stock{% else %}Out of Stock{% endif %}</p>
-      <hr>
+      <!-- Product Details -->
+      <h2 class="mb-4">{{ product.title }}</h2>
 
-      {% form 'product', product %}
-        <select class="form-select" name="id">
-          {% for variant in product.variants %}
-            <option value="{{ variant.id }}"
-              {% if variant == product.selected_or_first_available_variant %}selected="selected"{% endif %}
+      {% assign variant = product.selected_or_first_available_variant %}
+      <p class="font-weight-bold h4">
+        {% if variant.compare_at_price > variant.price %}
+          <span class="text-decoration-line-through compare-at-product-price">
+            {{ variant.compare_at_price | money }}
+          </span>
+        {% endif %}
+        <span class="text-success prduct-main-price">
+          {{ variant.price | money }}
+        </span>
+      </p>
+
+      <p>
+        {{ product.description | truncatewords: 20 }}
+        {% assign words = product.description | split: '' %}
+        {% if words.size > 20 %}
+          <a
+            href="#description"
+            style="
+              display: inline;
+              color: rgba(var(--bs-link-color-rgb),var(--bs-link-opacity,1));
+              text-decoration: underline;
+            "
+            class="link nav-link"
+            >Read more</a
+          >
+        {% endif %}
+      </p>
+
+      {% comment %} {% include "variant-picker" %} {% endcomment %}
+
+      <div class="mb-2">
+        <!-- Add to Cart Button -->
+        {% form 'product', product %}
+          <div class="d-flex gap-2 align-items-center mb-3">
+            <label for="id">Choose a Variant:</label>
+            <select class="form-select variant-selector-input" style="width: fit-content;" name="id" id="id">
+              {% for variant in product.variants %}
+                <option
+                  value="{{ variant.id }}"
+                  {% if variant == product.selected_or_first_available_variant %}
+                    selected="selected"
+                  {% endif %}
+                >
+                  {{ variant.title }}
+                </option>
+              {% endfor %}
+            </select>
+            <script>
+              const product = {{ product | json }};
+            </script>
+          </div>
+
+          <div class="d-flex gap-2 align-items-center w-25">
+            <label for="quantity">Quantity:</label>
+            <input
+              type="number"
+              class="form-control product-quantity-input"
+              name="quantity"
+              id="quantity"
+              value="{{ variant.quantity_rule.min }}"
+              min="{{ variant.quantity_rule.min }}"
+              {% if variant.quantity_rule.max %}
+                max="{{ variant.quantity_rule.max }}"
+              {% endif %}
+              {% if variant.quantity_rule.increment %}
+                step="{{ variant.quantity_rule.increment }}"
+              {% endif %}
             >
-              {{ variant.title }} - {{ variant.price | money }}
-            </option>
-          {% endfor %}
-        </select>
+          </div>
 
-        <br>
-      
-        <input class="btn btn-primary" type="submit" value="Add to cart">
-      {% endform %}
-
+          <br>
+          {% if variant.available %}
+            <button type="submit" class="btn btn-primary product-add-to-cart-button">Add To Cart</button>
+          {% else %}
+            <button disabled type="submit" class="btn btn-primary product-add-to-cart-button">Unavailable</button>
+          {% endif %}
+        {% endform %}
+      </div>
     </div>
   </div>
+
+  <!-- Product Tabs -->
+  {% include 'product-tabs' %}
 </div>
 
 {% schema %}
@@ -35,6 +99,6 @@
   "name": "Product Information",
   "tag": "section",
   "class": "section",
-  "settings":[]
+  "settings": []
 }
 {% endschema %}

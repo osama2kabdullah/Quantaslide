@@ -1,8 +1,19 @@
 <!-- fontawesome -->
 {{ 'fontawesome.min.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'fontawsome.min.js' | asset_url }}" defer="defer"></script>
 
 <!-- bootstrap -->
 {{ 'bootstrap.min.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'bootstrap.min.js' | asset_url }}" defer="defer"></script>
 
-<!-- custom style -->
+<!-- Splide.js -->
+{{ 'splide.min.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'splide.min.js' | asset_url }}"></script>
+
+<!-- custom style & js -->
 {{ 'style.css' | asset_url | stylesheet_tag }}
+<!-- money fomat js code -->
+<script>
+  const moneyFormat = {{ shop.money_format | json }};
+</script>
+<script src="{{ 'script.js' | asset_url }}" defer="defer"></script>

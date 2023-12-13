@@ -1,34 +1,64 @@
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
   <div class="row">
     <div class="col-md-8 offset-md-2">
-      {% if article.image != blank %}
-        {{ article.image | image_url: width: 1024, height: 720 | image_tag: class: 'img-fluid', alt: article.title }}
-      {% endif %}
-      <h1 class="mt-4">{{ article.title }}</h1>
-      <p class="text-muted">Published on {{ article.published_at | date: '%B %d, %Y' }}</p>
+      <div class="mb-4">
+        <h1 class="mt-4 text-center font-weight-bolder">{{ article.title }}</h1>
+        <p class="text-muted text-center">{{ article.published_at | date: '%B %d, %Y' }}</p>
+        {% if article.image != blank %}
+          <div class="rounded overflow-hidden border-curve">
+            {{
+              article.image
+              | image_url: width: 1024, height: 720
+              | image_tag: class: 'img-fluid border-curve', alt: article.title
+            }}
+          </div>
+        {% endif %}
+        </div>
 
       <!-- Article Text -->
-      {{ article.content }}
+      <div class="mb-4">
+        {{ article.content | raw }}
+      </div>
 
       <!-- Share Button -->
-      <div class="mt-4 mb-4">
-        <button class="btn btn-primary">Share</button>
+      <div class="mb-4">
+        <p class="mb-2">Share this article:</p>
+        <a
+          href="https://www.facebook.com/sharer/sharer.php?u={{ article.url }}"
+          class="btn btn-primary me-2"
+          target="_blank"
+        >
+          <i class="fab fa-facebook"></i> Facebook
+        </a>
+        <a href="https://twitter.com/intent/tweet?url={{ article.url }}" class="btn btn-primary me-2" target="_blank">
+          <i class="fab fa-twitter"></i> Twitter
+        </a>
+        <a href="https://www.instagram.com" class="btn btn-primary" target="_blank">
+          <i class="fab fa-instagram"></i> Instagram
+        </a>
       </div>
 
       <!-- Comment Box -->
-      <h3>Comments</h3>
+      <h3 class="mb-3">Comments</h3>
 
       {% if article.comments_enabled? %}
         {% form 'new_comment', article %}
           {{ form.errors | default_errors }}
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="comment[author]" value="{{ form.author }}">
-          </div>
 
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="comment[email]" value="{{ form.email }}">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="comment[author]" value="{{ form.author }}">
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="comment[email]" value="{{ form.email }}">
+              </div>
+            </div>
           </div>
 
           <div class="form-group">
@@ -36,26 +66,37 @@
             <textarea class="form-control" id="comment" name="comment[body]">{{ form.body }}</textarea>
           </div>
 
-          <button type="submit" class="btn btn-primary">Post</button>
+          <br>
+
+          <button type="submit" class="btn btn-primary">Post Comment</button>
         {% endform %}
       {% endif %}
 
       <!-- Comments Section -->
       <div class="mt-4">
-        {% paginate article.comments by 5 %}
+        {% paginate article.comments by 10 %}
           {% for comment in article.comments %}
-            <!-- comment info -->
             <div class="card mb-3">
               <div class="card-body">
                 <p class="card-text">{{ comment.content }}</p>
-                <p class="card-text text-muted">
-                  Posted by {{ comment.author }} on {{ comment.created_at | date: '%B %d, %Y' }}
-                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <small class="text-muted">
+                      Posted by <strong>{{ comment.author }}</strong>
+                    </small>
+                  </div>
+                  <div>
+                    <small class="text-muted">
+                      {{ comment.created_at | date: '%B %d, %Y' }}
+                    </small>
+                  </div>
+                </div>
               </div>
             </div>
           {% endfor %}
 
-          {{ paginate | default_pagination }}
+          <!-- Pagination -->
+          {% include 'custom-pagination' %}
         {% endpaginate %}
       </div>
     </div>
