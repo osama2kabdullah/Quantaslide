@@ -22,7 +22,19 @@
 
       <p>
         {{ product.description | truncatewords: 20 }}
-        <a href="#description" class="link nav-link">Read more</a>
+        {% assign words = product.description | split: '' %}
+        {% if words.size > 20 %}
+          <a
+            href="#description"
+            style="
+              display: inline;
+              color: rgba(var(--bs-link-color-rgb),var(--bs-link-opacity,1));
+              text-decoration: underline;
+            "
+            class="link nav-link"
+            >Read more</a
+          >
+        {% endif %}
       </p>
 
       {% comment %} {% include "variant-picker" %} {% endcomment %}

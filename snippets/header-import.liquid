@@ -12,4 +12,8 @@
 
 <!-- custom style & js -->
 {{ 'style.css' | asset_url | stylesheet_tag }}
+<!-- money fomat js code -->
+<script>
+  const moneyFormat = {{ shop.money_format | json }};
+</script>
 <script src="{{ 'script.js' | asset_url }}" defer="defer"></script>

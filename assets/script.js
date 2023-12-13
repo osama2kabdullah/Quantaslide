@@ -1,29 +1,55 @@
-class ProductCard {
-  constructor(card) {
-    this.card = card;
-    this.quickAddToCartButton = card.querySelector("button:nth-child(1)");
-    this.loveButton = card.querySelector("button:nth-child(2)");
-    this.quickViewButton = card.querySelector("button:nth-child(3)");
+var Shopify = Shopify || {};
+// ---------------------------------------------------------------------------
+// Money format handler
+// ---------------------------------------------------------------------------
+Shopify.money_format = moneyFormat; // "moneyFormat" assined in `theme.liquid` file
+Shopify.formatMoney = function (cents, format) {
+  if (typeof cents == "string") {
+    cents = cents.replace(".", "");
+  }
+  var value = "";
+  var placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
+  var formatString = format || this.money_format;
 
-    this.initLoveButton();
+  function defaultOption(opt, def) {
+    return typeof opt == "undefined" ? def : opt;
   }
 
-  initLoveButton() {
-    this.loveButton.addEventListener("click", () => {
-      this.toggleLoveButton();
-    });
-  }
+  function formatWithDelimiters(number, precision, thousands, decimal) {
+    precision = defaultOption(precision, 2);
+    thousands = defaultOption(thousands, ",");
+    decimal = defaultOption(decimal, ".");
 
-  toggleLoveButton() {
-    if (this.loveButton.classList.contains("btn-outline-light")) {
-      this.loveButton.classList.remove("btn-outline-light");
-      this.loveButton.classList.add("btn-light");
-    } else if (this.loveButton.classList.contains("btn-light")) {
-      this.loveButton.classList.remove("btn-light");
-      this.loveButton.classList.add("btn-outline-light");
+    if (isNaN(number) || number == null) {
+      return 0;
     }
+
+    number = (number / 100.0).toFixed(precision);
+
+    var parts = number.split("."),
+      dollars = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + thousands),
+      cents = parts[1] ? decimal + parts[1] : "";
+
+    return dollars + cents;
   }
-}
+
+  switch (formatString.match(placeholderRegex)[1]) {
+    case "amount":
+      value = formatWithDelimiters(cents, 2);
+      break;
+    case "amount_no_decimals":
+      value = formatWithDelimiters(cents, 0);
+      break;
+    case "amount_with_comma_separator":
+      value = formatWithDelimiters(cents, 2, ".", ",");
+      break;
+    case "amount_no_decimals_with_comma_separator":
+      value = formatWithDelimiters(cents, 0, ".", ",");
+      break;
+  }
+
+  return formatString.replace(placeholderRegex, value);
+};
 
 class ProductImageSlider {
   constructor() {
@@ -131,7 +157,6 @@ class VariantSwitch {
     // Call the method to initialize the event listener
     this.initEventListener();
   }
-
   initEventListener() {
     const yourSelectorElement = document.querySelector(
       ".variant-selector-input"
@@ -145,45 +170,53 @@ class VariantSwitch {
       });
     }
   }
-
   handleVariantSelection(matchedVariant) {
     if (matchedVariant) {
       this.updatePrice(matchedVariant);
       this.updateButtonState(matchedVariant);
       this.updateQuantitySettings(matchedVariant);
       this.updateImage(matchedVariant);
+      this.updateURL(matchedVariant);
     }
   }
-
-  updateImage(matchedVariant) {
-    const imagePosition = matchedVariant.featured_image.position;
-    this.ProductImageSlider.splide.go(imagePosition - 1);
+  updateURL(matchedVariant) {
+    // Get the current URL
+    const url = window.location.href;
+    // Parse the URL
+    const urlObject = new URL(url);
+    // Your new variant ID
+    const variantId = matchedVariant.id;
+    // Update or add the 'variant' parameter
+    urlObject.searchParams.set("variant", variantId);
+    // Construct the new URL with the updated query parameters and existing hash
+    const newUrl = `${urlObject.origin}${urlObject.pathname}${urlObject.search}${urlObject.hash}`;
+    // Replace the current URL in the browser history
+    window.history.replaceState({}, "", newUrl);
   }
-
+  updateImage(matchedVariant) {
+    const imagePosition = matchedVariant.featured_image?.position;
+    if (imagePosition) {
+      this.ProductImageSlider.splide.go(imagePosition - 1);
+    }
+  }
   updateQuantitySettings(matchedVariant) {
     const quantityInput = document.querySelector(".product-quantity-input");
-
     if (!quantityInput || !matchedVariant.quantity_rule) {
       return;
     }
-
     const { min, max, increment } = matchedVariant.quantity_rule;
-
     if (min) {
       quantityInput.setAttribute("min", min);
       quantityInput.value = Math.max(quantityInput.value, min);
     }
-
     if (max) {
       quantityInput.setAttribute("max", max);
       quantityInput.value = Math.min(quantityInput.value, max);
     }
-
     if (increment) {
       quantityInput.setAttribute("step", increment);
     }
   }
-
   updateButtonState(matchedVariant) {
     const addToCartButton = document.querySelector(
       ".product-add-to-cart-button"
@@ -198,25 +231,21 @@ class VariantSwitch {
       addToCartButton.textContent = "Unavailable";
     }
   }
-
   getVariantById(variantId) {
     const variants = product.variants;
     return variants.find((variant) => variant.id === parseInt(variantId));
   }
-
   updatePrice(matchedVariant) {
-    const price = matchedVariant.price;
-    const comparePrice = matchedVariant.compare_at_price;
+    const price = Shopify.formatMoney(matchedVariant.price);
+    const comparePrice = Shopify.formatMoney(matchedVariant.compare_at_price);
 
     // Get the existing price elements
     const priceElement = document.querySelector(".prduct-main-price");
     const comparePriceElement = document.querySelector(
       ".compare-at-product-price"
     );
-
     // Update the regular price
     priceElement.textContent = price;
-
     // Update or add the compare price
     if (comparePrice > price) {
       if (comparePriceElement) {
