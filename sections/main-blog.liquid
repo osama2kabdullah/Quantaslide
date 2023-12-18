@@ -6,24 +6,52 @@
       {% for article in blog.articles %}
         <div class="col-md-4 mb-4">
           <div class="card h-100">
-            <a href="{{ article.url }}" class="text-decoration-none">
-              {% if article.image != blank %}
-                <img
-                  src="{{ article.image | image_url: width: 720, height: 350 }}"
-                  class="card-img-top"
-                  alt="{{ article.title }}"
-                >
-              {% endif %}
-            </a>
+            {% if section.settings.show_featured_image %}
+              <a href="{{ article.url }}" class="text-decoration-none">
+                {% if article.image != blank %}
+                  <img
+                    src="{{ article.image | image_url: width: 720, height: 350 }}"
+                    class="card-img-top"
+                    alt="{{ article.title }}"
+                  >
+                {% endif %}
+              </a>
+            {% endif %}
             <div class="card-body">
               <a href="{{ article.url }}" class="text-decoration-none">
                 <h5 class="card-title">{{ article.title }}</h5>
               </a>
-              <p class="card-text">{{ article.content | truncate: 100 }}</p>
+              {% if section.settings.show_author %}
+                <b>{{ article.author }}</b>
+              {% endif %}
+              {% liquid
+                if section.settings.show_featured_image and article.image == blank
+                  assign truncate = 300
+                else
+                  assign truncate = 100
+                endif
+              %}
+              <p class="card-text">{{ article.content | truncate: truncate }}</p>
             </div>
-            <div class="card-footer">
-              <small class="text-muted">{{ article.published_at | date: '%B %d, %Y' }}</small>
-            </div>
+
+            {% if section.settings.show_date %}
+              <div class="card-footer">
+                <div class="d-flex justify-content-between">
+                  <small class="text-muted">{{ article.published_at | date: '%B %d, %Y' }}</small>
+                  {% if article.comments_count > 0 %}
+                    <small>{{ article.comments_count }} Comments</small>
+                  {% endif %}
+                </div>
+              </div>
+            {% else %}
+              {% if article.comments_count > 0 %}
+                <div class="card-footer">
+                  <div class="d-flex justify-content-between">
+                    <small>{{ article.comments_count }} Comments</small>
+                  </div>
+                </div>
+              {% endif %}
+            {% endif %}
           </div>
         </div>
       {% endfor %}
@@ -34,27 +62,29 @@
   {% endpaginate %}
 </div>
 
-<!-- Pagination -->
-{% comment %}
-  <nav>
-    <ul class="pagination justify-content-center">
-      <li class="page-item disabled">
-        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
-      </li>
-    </ul>
-  </nav>
-{% endcomment %}
-
 {% schema %}
 {
   "name": "Blog",
   "class": "section",
-  "settings": []
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_featured_image",
+      "label": "Show featured image",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show Date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show Author",
+      "default": false
+    }
+  ]
 }
 {% endschema %}

@@ -2,7 +2,10 @@
   "sections": {
     "60be2860-40d7-4041-ab49-314eeb8d8c4e": {
       "type": "main-contact-page",
-      "settings": {}
+      "settings": {
+        "heading": "Contact Us",
+        "description": "<p>Get in touch with us to learn more about our tasty and healthy snack offerings.<\/p>"
+      }
     }
   },
   "order": [

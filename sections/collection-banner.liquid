@@ -1,0 +1,47 @@
+<div class="card border-0 container mb-3">
+  <div class="row g-0 align-items-center">
+    {% if section.settings.show_collection_image %}
+      <div class="col-md-6">
+        <img
+          src="{{ collection.featured_image | img_url: '720x' }}"
+          class="img-fluid rounded-start"
+          alt="{{ collection.title }}"
+        >
+      </div>
+    {% endif %}
+    <div class="{% if section.settings.show_collection_image %}col-md-6{% else %}col-md-12{% endif %}">
+      <div class="card-body {% unless section.settings.show_collection_image %}ps-0{% endunless %}">
+        <h1 class="card-title">{{ collection.title }}</h1>
+        {% if section.settings.show_collection_description %}
+          <p class="card-text">{{ collection.description }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection Banner",
+  "class": "section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Add a description or image by editing your collection. [Learn more](https:\/\/help.shopify.com\/manual\/products\/collections\/collection-layout)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_description",
+      "default": true,
+      "label": "Show collection description"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "default": false,
+      "label": "Show collection image",
+      "info": "For best results, use an image with a 16:9 aspect ratio. [Learn more](https:\/\/help.shopify.com\/manual\/shopify-admin\/productivity-tools\/image-editor#understanding-image-aspect-ratio)"
+    }
+  ]
+}
+{% endschema %}
