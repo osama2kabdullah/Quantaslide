@@ -1,42 +1,57 @@
 <div class="container mt-5 mb-5">
   <div class="row">
     <div class="col-md-8 offset-md-2">
-      <div class="mb-4">
-        <h1 class="mt-4 text-center font-weight-bolder">{{ article.title }}</h1>
-        <p class="text-muted text-center">{{ article.published_at | date: '%B %d, %Y' }}</p>
-        {% if article.image != blank %}
-          <div class="rounded overflow-hidden border-curve">
-            {{
-              article.image
-              | image_url: width: 1024, height: 720
-              | image_tag: class: 'img-fluid border-curve', alt: article.title
-            }}
-          </div>
-        {% endif %}
-        </div>
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'title' %}
+            <h1 class="mt-4 text-center font-weight-bolder">{{ article.title }}</h1>
+            <div style="width: fit-content;" class="d-flex m-auto gap-2">
+              {% if block.settings.show_date %}
+                <p class="text-muted text-center">{{ article.published_at | date: '%B %d, %Y' }}</p>
+              {% endif %}
+              {% if block.settings.show_author %}
+                <p class="text-center">{{ article.author }}</p>
+              {% endif %}
+            </div>
 
-      <!-- Article Text -->
-      <div class="mb-4">
-        {{ article.content | raw }}
-      </div>
+          {% when 'featured-image' %}
+            {% if article.image != blank %}
+              <div class="rounded overflow-hidden border-curve">
+                {{
+                  article.image
+                  | image_url: width: 1024
+                  | image_tag: class: 'img-fluid border-curve', alt: article.title
+                }}
+              </div>
+            {% endif %}
 
-      <!-- Share Button -->
-      <div class="mb-4">
-        <p class="mb-2">Share this article:</p>
-        <a
-          href="https://www.facebook.com/sharer/sharer.php?u={{ article.url }}"
-          class="btn btn-primary me-2"
-          target="_blank"
-        >
-          <i class="fab fa-facebook"></i> Facebook
-        </a>
-        <a href="https://twitter.com/intent/tweet?url={{ article.url }}" class="btn btn-primary me-2" target="_blank">
-          <i class="fab fa-twitter"></i> Twitter
-        </a>
-        <a href="https://www.instagram.com" class="btn btn-primary" target="_blank">
-          <i class="fab fa-instagram"></i> Instagram
-        </a>
-      </div>
+          {% when 'content' %}
+            <!-- Article Text -->
+            <div class="mb-4 mt-4">
+              {{ article.content | raw }}
+            </div>
+
+          {% when 'share' %}
+            <!-- Share Button -->
+            <div class="mb-4">
+              <p class="mb-2">Share this article:</p>
+              <a
+                href="https://www.facebook.com/sharer/sharer.php?u={{ article.url }}"
+                class="btn btn-primary me-2"
+                target="_blank"
+              >
+                <i class="fab fa-facebook"></i> Facebook
+              </a>
+              <a
+                href="https://twitter.com/intent/tweet?url={{ article.url }}"
+                class="btn btn-primary me-2"
+                target="_blank"
+              >
+                <i class="fab fa-twitter"></i> Twitter
+              </a>
+            </div>
+        {% endcase %}
+      {% endfor %}
 
       <!-- Comment Box -->
       <h3 class="mb-3">Comments</h3>
@@ -107,6 +122,41 @@
 {
   "name": "Article",
   "class": "section",
+  "blocks": [
+    {
+      "type": "featured-image",
+      "name": "Featured Image",
+      "limit": 1
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_date",
+          "label": "Show Date",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_author",
+          "label": "Show Author",
+          "default": false
+        }
+      ],
+      "limit": 1
+    },
+    {
+      "type": "share",
+      "name": "Share"
+    },
+    {
+      "type": "content",
+      "name": "Content",
+      "limit": 1
+    }
+  ],
   "settings": []
 }
 {% endschema %}

@@ -1,5 +1,5 @@
 <div class="container mt-5 mb-5">
-  <h1 class="mb-4">All Collections</h1>
+  <h1 class="mb-4">{{ section.settings.heading }}</h1>
 
   <div class="row">
     {% for collection in collections %}
@@ -14,6 +14,23 @@
 {
   "name": "List Collections",
   "class": "section",
-  "settings": []
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Collections",
+      "label": "Heading"
+    },
+    {
+      "type": "header",
+      "content": "Collection Card"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_image",
+      "label": "Show Collection Image",
+      "default": false
+    }   
+  ]
 }
 {% endschema %}

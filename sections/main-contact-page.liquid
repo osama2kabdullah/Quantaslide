@@ -1,18 +1,57 @@
 <div class="container mt-5 mb-5">
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <h2 class="mb-4 text-center">Contact Us</h2>
+      <h2 class="mb-4 text-center">{{ section.settings.heading }}</h2>
+
+      <p>{{ section.settings.description }}</p>
 
       {% form 'contact' %}
         {{ form.errors | default_errors }}
-        <div class="form-group mb-3">
-          <label for="name">Name:</label>
-          <input type="text" class="form-control" id="name" name="contact[first_name]" required>
+        <div class="row mb-3">
+          <div class="col-md-6 col-12">
+            <label for="name">Name:</label>
+            <input
+              type="text"
+              autocomplete="name"
+              value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+              class="form-control"
+              id="name"
+              name="contact[first_name]"
+              required
+            >
+          </div>
+
+          <div class="col-md-6 col-12">
+            <label for="phone">Phone</label>
+            <input
+              type="tel"
+              id="phone"
+              class="form-control"
+              autocomplete="tel"
+              name="contact[phone]"
+              pattern="[0-9\-]*"
+              value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+            >
+          </div>
         </div>
 
         <div class="form-group mb-3">
-          <label for="email">Email:</label>
-          <input type="email" class="form-control" id="email" name="contact[email]" required>
+          <label for="email">Email*:</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            autocomplete="email"
+            name="contact[email]"
+            spellcheck="false"
+            autocapitalize="off"
+            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+            aria-required="true"
+            {% if form.errors contains 'email' %}
+              aria-invalid="true"
+              aria-describedby="ContactForm-email-error"
+            {% endif %}
+          >
         </div>
 
         <div class="form-group mb-3">
@@ -30,8 +69,23 @@
 {
   "name": "Contact Form",
   "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
   "class": "section",
-  "settings": [],
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Contact Us",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description"
+    }
+  ],
   "presets": [
     {
       "name": "Contact Form"
