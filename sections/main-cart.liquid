@@ -47,7 +47,9 @@
                   {{ item.final_line_price | money }}
                 </div>
                 <div class="col-md-2 col-6 text-md-right">
-                  <a href="{{ item.url_to_remove }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                  <a href="{{ item.url_to_remove }}" class="btn btn-danger">
+                    {% render 'icon-trash' %}
+                </a>
                 </div>
               </div>
             </div>

@@ -1,15 +1,44 @@
-<html>
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}">
   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+
+    <title>{{ shop.name }}</title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {% render 'meta-tags' %}
+
     {{ content_for_header }}
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {% render 'header-import' %}
+    <!-- bootstrap -->
+    {{ 'bootstrap.min.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'bootstrap.min.js' | asset_url }}" defer="defer"></script>
+
+    <!-- custom -->
+    <script src="{{ 'script.js' | asset_url }}" defer="defer"></script>
+    {{ 'style.css' | asset_url | stylesheet_tag }}
   </head>
   <body>
     {% sections 'header-group' %}
-    <main>
+    <main role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>
     {% sections 'footer-group' %}
-    {% render 'footer-import' %}
+    <script>
+      window.routes = {
+        cart_add_url: '{{ routes.cart_add_url }}',
+        cart_change_url: '{{ routes.cart_change_url }}',
+        cart_update_url: '{{ routes.cart_update_url }}'
+      };
+      window.Shopify.money_format = '{{ shop.money_format | json }}';
+    </script>
+    <script src="{{ 'variant.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>

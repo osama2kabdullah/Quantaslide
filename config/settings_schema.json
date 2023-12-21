@@ -1,1 +1,25 @@
-[]
+[
+  {
+    "name": "theme_info",
+    "theme_name": "QuantaSlide",
+    "theme_version": "1.0.0",
+    "theme_author": "Osama Abdullah",
+    "theme_documentation_url": "https:\/\/github.com\/osama2kabdullah\/new-custom-theme\/blob\/master\/README.md",
+    "theme_support_url": "https:\/\/osama2kabdullah.github.io\/personal_web_page\/authors\/osama-abdullah\/"
+  },
+  {
+    "name": "Logo",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  }
+]
