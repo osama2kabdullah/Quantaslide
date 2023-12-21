@@ -220,12 +220,6 @@
       },
       {
         "type": "text",
-        "id": "social_tumblr_link",
-        "label": "Tumblr",
-        "placeholder": "https://shopify.tumblr.com/"
-      },
-      {
-        "type": "text",
         "id": "social_vimeo_link",
         "label": "Vimeo",
         "placeholder": "https://vimeo.com/shopify"
@@ -235,12 +229,6 @@
   {
     "name": "Cart",
     "settings": [
-      {
-        "type": "checkbox",
-        "id": "show_vendor",
-        "label": "Show Vendor",
-        "default": false
-      },
       {
         "type": "checkbox",
         "id": "show_cart_note",

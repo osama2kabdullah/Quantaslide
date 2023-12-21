@@ -19,10 +19,10 @@
                   <p class="card-text d-none d-md-block">{{ item.original_price | money }}</p>
                   <p class="card-text d-block d-md-none">{{ item.final_line_price | money }}</p>
                   <div class="form-group d-block d-md-none mb-3">
-                    <label for="quantity{{ item.id }}">Quantity:</label>
+                    <label for="quantity{{ item.id | plus: 1 }}">Quantity:</label>
                     <input
                       type="number"
-                      id="quantity{{ item.id }}"
+                      id="quantity{{ item.id | plus: 1 }}"
                       min="1"
                       class="form-control"
                       name="updates[]"
@@ -49,13 +49,28 @@
                 <div class="col-md-2 col-6 text-md-right">
                   <a href="{{ item.url_to_remove }}" class="btn btn-danger">
                     {% render 'icon-trash' %}
-                </a>
+                  </a>
                 </div>
               </div>
             </div>
           </div>
         {% endfor %}
         <!-- Repeat the above card structure for each item in the cart -->
+        {% if settings.show_cart_note %}
+          <div class="form-group mt-4">
+            <label for="exampleFormControlTextarea1">Order special instructions</label>
+            <div class="col-md-6">
+              <!-- Center the content on desktop -->
+              <textarea
+                name="note"
+                class="form-control"
+                id="exampleFormControlTextarea1"
+                rows="3"
+              >{{ cart.note }}</textarea>
+            </div>
+          </div>
+        {% endif %}
+
         <br>
         <input class="btn btn-primary" type="submit" value="Update Cart">
       </div>
