@@ -4,7 +4,11 @@
       <div class="row">
         <div class="col-md-3 my-auto d-none d-sm-none d-md-block d-lg-block">
           <a class="text-decoration-none text-black" href="{{ routes.root_url }}">
-            <h5 style="margin-top: 0.5em;" class="brand-name">{{ shop.name }}</h5>
+            {% if settings.logo != blank %}
+              {{ settings.logo | image_url: width: 250 | image_tag }}
+              {% else %}
+              <h5 style="margin-top: 0.5em;" class="brand-name">{{ shop.name }}</h5>
+            {% endif %}
           </a>
         </div>
         <div class="col-md-5 my-auto">
