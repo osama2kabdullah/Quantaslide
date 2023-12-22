@@ -8,7 +8,12 @@
     <link rel="canonical" href="{{ canonical_url }}">
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
 
-    <title>{{ shop.name }}</title>
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
 
     {% if page_description %}
       <meta name="description" content="{{ page_description | escape }}">
@@ -18,8 +23,8 @@
 
     {{ content_for_header }}
     <!-- bootstrap -->
-    {{ 'bootstrap.min.css' | asset_url | stylesheet_tag }}
-    <script src="{{ 'bootstrap.min.js' | asset_url }}" defer="defer"></script>
+    {{ 'bootstrap5.3.1.min.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'bootstrap5.3.1.min.js' | asset_url }}" defer="defer"></script>
 
     <!-- custom -->
     {%- liquid
@@ -41,7 +46,18 @@
         --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
         --font-heading-style: {{ settings.type_header_font.style }};
         --font-heading-weight: {{ settings.type_header_font.weight }};
+
+        /*color scheme*/
+        --color-scheme-primary: {{ settings.primary }};
+        --color-scheme-secondary: {{ settings.secondary }};
+        --color-scheme-success: {{ settings.success }};
+        --color-scheme-danger: {{ settings.danger }};
+        --color-scheme-warning: {{ settings.warning }};
+        --color-scheme-info: {{ settings.info }};
+        --color-scheme-light: {{ settings.light }};
+        --color-scheme-dark: {{ settings.dark }};
       }
+
     {% endstyle %}
     <script src="{{ 'script.js' | asset_url }}" defer="defer"></script>
     {{ 'style.css' | asset_url | stylesheet_tag }}

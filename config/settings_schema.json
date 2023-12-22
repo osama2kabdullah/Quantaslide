@@ -23,109 +23,6 @@
     ]
   },
   {
-    "name": "Color",
-    "settings": [
-      {
-        "type": "color_scheme_group",
-        "id": "color_schemes",
-        "definition": [
-          {
-            "type": "header",
-            "content": "Typography"
-          },
-          {
-            "type": "color",
-            "id": "text",
-            "label": "Text",
-            "default": "#121212"
-          },
-          {
-            "type": "header",
-            "content": "Background"
-          },
-          {
-            "type": "color",
-            "id": "background",
-            "label": "Background",
-            "default": "#FFFFFF"
-          },
-          {
-            "type": "color_background",
-            "id": "background_gradient",
-            "label": "Gradient",
-            "info": "Background gradient replaces background where possible."
-          },
-          {
-            "type": "header",
-            "content": "Additional"
-          },
-          {
-            "type": "color",
-            "id": "primary_button",
-            "label": "Primary",
-            "default": "#121212"
-          },
-          {
-            "type": "color",
-            "id": "on_primary_button",
-            "label": "On Primary Button",
-            "default": "#FFFFFF"
-          },
-          {
-            "type": "color",
-            "id": "primary_button_border",
-            "label": "Primary Button Border",
-            "default": "#121212"
-          },
-          {
-            "type": "color",
-            "id": "secondary_button",
-            "label": "Secondary Button"
-          },
-          {
-            "type": "color",
-            "id": "on_secondary_button",
-            "label": "On Secondary Button",
-            "default": "#121212"
-          },
-          {
-            "type": "color",
-            "id": "secondary_button_border",
-            "label": "Secondary Button Border",
-            "default": "#FFFFFF"
-          },
-          {
-            "type": "color",
-            "id": "icons",
-            "label": "Icons",
-            "default": "#FFFFFF"
-          },
-          {
-            "type": "color",
-            "id": "links",
-            "label": "Links",
-            "default": "#121212"
-          }
-        ],
-        "role": {
-          "background": {
-            "solid": "background",
-            "gradient": "background_gradient"
-          },
-          "text": "text",
-          "primary_button": "primary_button",
-          "on_primary_button": "on_primary_button",
-          "primary_button_border": "primary_button_border",
-          "secondary_button": "secondary_button",
-          "on_secondary_button": "on_secondary_button",
-          "secondary_button_border": "secondary_button_border",
-          "icons": "icons",
-          "links": "links"
-        }
-      }
-    ]
-  },
-  {
     "name": "Typography",
     "settings": [
       {
@@ -149,23 +46,6 @@
         "default": "assistant_n4",
         "label": "Font",
         "info": "Selecting a different font can affect the speed of your store. [Learn more about system fonts.](https://help.shopify.com/manual/online-store/os/store-speed/improving-speed#fonts)"
-      }
-    ]
-  },
-  {
-    "name": "Badges",
-    "settings": [
-      {
-        "type": "color_scheme",
-        "id": "sale_badge_color_scheme",
-        "label": "Sale badge color scheme",
-        "default": "accent-2"
-      },
-      {
-        "type": "color_scheme",
-        "id": "sold_out_badge_color_scheme",
-        "label": "Sold out badge color scheme",
-        "default": "inverse"
       }
     ]
   },
