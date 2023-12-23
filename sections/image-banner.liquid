@@ -1,0 +1,90 @@
+<div id="carouselExampleCaptions" class="carousel my-4 container slide">
+  <div class="carousel-indicators">
+    {% for block in section.blocks %}
+      <button
+        type="button"
+        data-bs-target="#carouselExampleCaptions"
+        data-bs-slide-to="{{ forloop.index | minus: 1 }}"
+        class="{% if forloop.first %}active{% endif %}"
+        aria-current="{% if forloop.first %}true{% endif %}"
+        aria-label="{{ block.settings.block.settings.slide_image.alt }}"
+      ></button>
+    {% endfor %}
+  </div>
+  <div class="carousel-inner rounded">
+    {% for block in section.blocks %}
+      <div class="carousel-item {% if forloop.index == 1 %}active{% endif %}">
+        {{
+          block.settings.slide_image
+          | image_url: width: 1024
+          | image_tag: class: 'd-block w-100 h-75 object-fit-cover', alt: block.settings.slide_image.alt
+        }}
+        <div class="carousel-caption">
+          <h5>{{ block.settings.heading }}</h5>
+          <p>{{ block.settings.paragraph }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+{% schema %}
+{
+  "name": "Image banner",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "slide_image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "sub_heading",
+          "label": "Sub Heading",
+          "default": "Sub Heading"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "paragraph",
+          "label": "Paragraph",
+          "default": "<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image banner",
+      "blocks": [
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
