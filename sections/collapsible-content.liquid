@@ -1,0 +1,140 @@
+<div class="container my-4">
+  {% liquid
+    if section.settings.alignment == 'left'
+      assign alignment = 'start'
+    elsif section.settings.alignment == 'right'
+      assign alignment = 'end'
+    else
+      assign alignment = section.settings.alignment
+    endif
+  %}
+  <div class="mb-4 text-{{ alignment }}">
+    <small>{{ section.settings.caption }}</small>
+    <h5>{{ section.settings.heading }}</h5>
+  </div>
+
+  <div class="row {% if section.settings.collapsible_content_image == blank %}justify-content-center{% endif %} {% if section.settings.image_alignment == "right" %}flex-row-reverse{% endif %} align-items-center">
+    {% if section.settings.collapsible_content_image != blank %}
+      <div class="col-md-6 text-center">
+        {{
+          section.settings.collapsible_content_image
+          | image_url: width: 720
+          | image_tag: class: 'img-fluid rounded mx-auto d-block', alt: block.settings.collapsible_content_image.alt
+        }}
+      </div>
+    {% endif %}
+    <div class="accordion col-md-6 accordion-flush" id="accordionFlushExample">
+      {% for block in section.blocks %}
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#flush-collapse-{{ section.id }}-{{ forloop.index }}"
+              aria-expanded="false"
+              aria-controls="flush-collapse-{{ section.id }}-{{ forloop.index }}"
+            >
+              {{ block.settings.heading }}
+            </button>
+          </h2>
+          <div
+            id="flush-collapse-{{ section.id }}-{{ forloop.index }}"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordionFlushExample"
+          >
+            <div class="accordion-body">{{ block.settings.paragraph }}</div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collapsible content",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "collapsible_content_image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_alignment",
+      "label": "Image alignment",
+      "options": [
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Heading",
+      "default": "Caption"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Heading",
+      "label": "Heading"
+    },
+    {
+      "type": "text_alignment",
+      "id": "alignment",
+      "label": "Heading alignment",
+      "default": "center"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collapsible_row",
+      "name": "Collapsible row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Collapsible row"
+        },
+        {
+          "type": "richtext",
+          "id": "paragraph",
+          "label": "Content",
+          "default": "<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas numquam esse fuga sed dignissimos, eos delectus.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collapsible content",
+      "blocks": [
+        {
+          "type": "collapsible_row"
+        },
+        {
+          "type": "collapsible_row"
+        },
+        {
+          "type": "collapsible_row"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
