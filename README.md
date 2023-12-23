@@ -22,10 +22,9 @@ Hello developers, welcome to this project. By contributing to this project enhan
 
 ### Technology:
 
-1. `Splide.js` For slider.
-2. `Bootsrup` for UI styleing and functionality
-3. `Fonts` self hosted. Can be found in `snippets` folder as svg
-4. total zip file size should be less than 1 mb.
+1. `Bootsrup` for UI styleing and functionality
+2. `Fonts` self hosted. Can be found in `snippets` folder as svg
+3. total zip file size should be less than 1 mb.
 
 ### Code Style:
 

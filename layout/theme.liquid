@@ -46,16 +46,6 @@
         --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
         --font-heading-style: {{ settings.type_header_font.style }};
         --font-heading-weight: {{ settings.type_header_font.weight }};
-
-        /*color scheme*/
-        --color-scheme-primary: {{ settings.primary }};
-        --color-scheme-secondary: {{ settings.secondary }};
-        --color-scheme-success: {{ settings.success }};
-        --color-scheme-danger: {{ settings.danger }};
-        --color-scheme-warning: {{ settings.warning }};
-        --color-scheme-info: {{ settings.info }};
-        --color-scheme-light: {{ settings.light }};
-        --color-scheme-dark: {{ settings.dark }};
       }
 
     {% endstyle %}
@@ -73,6 +63,11 @@
         cart_add_url: '{{ routes.cart_add_url }}',
         cart_change_url: '{{ routes.cart_change_url }}',
         cart_update_url: '{{ routes.cart_update_url }}',
+      };
+      window.variantStrings = {
+        addToCart: "Add To Cart",
+        soldOut: "Sold Out",
+        unavailable: "Unavailable",
       };
       window.Shopify.money_format = '{{ shop.money_format | json }}';
     </script>

@@ -4,8 +4,8 @@
     "theme_name": "QuantaSlide",
     "theme_version": "1.0.0",
     "theme_author": "Osama Abdullah",
-    "theme_documentation_url": "https://github.com/osama2kabdullah/new-custom-theme/blob/master/README.md",
-    "theme_support_url": "https://osama2kabdullah.github.io/personal_web_page/authors/osama-abdullah/"
+    "theme_documentation_url": "https:\/\/github.com\/osama2kabdullah\/new-custom-theme\/blob\/master\/README.md",
+    "theme_support_url": "https:\/\/osama2kabdullah.github.io\/personal_web_page\/authors\/osama-abdullah\/"
   },
   {
     "name": "Logo",
@@ -34,7 +34,7 @@
         "id": "type_header_font",
         "default": "assistant_n4",
         "label": "Font",
-        "info": "Selecting a different font can affect the speed of your store. [Learn more about system fonts.](https://help.shopify.com/manual/online-store/os/store-speed/improving-speed#fonts)"
+        "info": "Selecting a different font can affect the speed of your store. [Learn more about system fonts.](https:\/\/help.shopify.com\/manual\/online-store\/os\/store-speed\/improving-speed#fonts)"
       },
       {
         "type": "header",
@@ -45,7 +45,7 @@
         "id": "type_body_font",
         "default": "assistant_n4",
         "label": "Font",
-        "info": "Selecting a different font can affect the speed of your store. [Learn more about system fonts.](https://help.shopify.com/manual/online-store/os/store-speed/improving-speed#fonts)"
+        "info": "Selecting a different font can affect the speed of your store. [Learn more about system fonts.](https:\/\/help.shopify.com\/manual\/online-store\/os\/store-speed\/improving-speed#fonts)"
       }
     ]
   },
@@ -60,49 +60,49 @@
         "type": "text",
         "id": "social_facebook_link",
         "label": "Facebook",
-        "placeholder": "https://facebook.com/shopify"
+        "placeholder": "https:\/\/facebook.com\/shopify"
       },
       {
         "type": "text",
         "id": "social_instagram_link",
         "label": "Instagram",
-        "placeholder": "https://instagram.com/shopify"
+        "placeholder": "https:\/\/instagram.com\/shopify"
       },
       {
         "type": "text",
         "id": "social_youtube_link",
         "label": "YouTube",
-        "placeholder": "https://youtube.com/user/shopify"
+        "placeholder": "https:\/\/youtube.com\/user\/shopify"
       },
       {
         "type": "text",
         "id": "social_tiktok_link",
         "label": "TikTok",
-        "placeholder": "https://tiktok.com/@shopify"
+        "placeholder": "https:\/\/tiktok.com\/@shopify"
       },
       {
         "type": "text",
         "id": "social_twitter_link",
         "label": "Twitter",
-        "placeholder": "https://twitter.com/shopify"
+        "placeholder": "https:\/\/twitter.com\/shopify"
       },
       {
         "type": "text",
         "id": "social_snapchat_link",
         "label": "Snapchat",
-        "placeholder": "https://snapchat.com/add/shopify"
+        "placeholder": "https:\/\/snapchat.com\/add\/shopify"
       },
       {
         "type": "text",
         "id": "social_pinterest_link",
         "label": "Pinterest",
-        "placeholder": "https://pinterest.com/shopify"
+        "placeholder": "https:\/\/pinterest.com\/shopify"
       },
       {
         "type": "text",
         "id": "social_vimeo_link",
         "label": "Vimeo",
-        "placeholder": "https://vimeo.com/shopify"
+        "placeholder": "https:\/\/vimeo.com\/shopify"
       }
     ]
   },
