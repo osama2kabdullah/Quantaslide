@@ -1,0 +1,106 @@
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-4 text-{{ section.settings.heading_alignment }}">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'heading' %}
+            <h5 class="card-title">{{ block.settings.heading }}</h5>
+          {% when 'caption' %}
+            <p class="card-text">
+              <small class="text-body-secondary">{{ block.settings.caption }}</small>
+            </p>
+          {% when 'email_form' %}
+            {% form 'customer', class: 'mt-3 text-start' %}
+              <label for="FormControl-{{ section.id }}" class="form-label">Email address</label>
+              <input
+                name="contact[email]"
+                type="email"
+                class="form-control mb-2"
+                id="FormControl-{{ section.id }}"
+                placeholder="name@example.com"
+              >
+              <input class="btn btn-primary" type="submit" value="Subscribe">
+            {% endform %}
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Email signup",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "start",
+          "label": "Left"
+        }
+      ],
+      "default": "center"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "caption",
+      "name": "Caption",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption",
+          "default": "Caption"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Heading",
+          "label": "Heading"
+        }
+      ]
+    },
+    {
+      "type": "email_form",
+      "name": "Email Form",
+      "limit": 1
+    }
+  ],
+  "presets": [
+    {
+      "name": "Email signup",
+      "blocks": [
+        {
+          "type": "caption"
+        },
+        {
+          "type": "heading"
+        },
+        {
+          "type": "email_form"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
