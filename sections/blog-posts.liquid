@@ -1,4 +1,8 @@
 <div class="container my-5">
+  <div class="mb-3 text-{{ section.settings.heading_alignment }}">
+    <h5>{{ section.settings.section_title }}</h5>
+  </div>
+
   <div class="row row-cols-{{ section.settings.card_per_row_mobile }} row-cols-md-{{ section.settings.card_per_row_desktop }} g-4">
     {% for article in section.settings.blog.articles %}
       <div class="col">
@@ -21,8 +25,21 @@
           </div>
           {% if section.settings.show_date %}
             <div class="card-footer">
-              <small class="text-body-secondary">{{ article.published_at | date: '%B %d, %Y' }}</small>
+              <div class="d-flex justify-content-between">
+                <small class="text-muted">{{ article.published_at | date: '%B %d, %Y' }}</small>
+                {% if article.comments_count > 0 %}
+                  <small>{{ article.comments_count }} Comments</small>
+                {% endif %}
+              </div>
             </div>
+          {% else %}
+            {% if article.comments_count > 0 %}
+              <div class="card-footer">
+                <div class="d-flex justify-content-between">
+                  <small>{{ article.comments_count }} Comments</small>
+                </div>
+              </div>
+            {% endif %}
           {% endif %}
         </div>
       </div>
@@ -44,6 +61,22 @@
       "id": "section_title",
       "label": "Heading",
       "default": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "start",
+          "label": "Left"
+        }
+      ],
+      "default": "center"
     },
     {
       "type": "blog",
