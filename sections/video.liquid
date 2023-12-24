@@ -13,15 +13,17 @@
     </div>
   {% else %}
     {% if section.settings.hosted_video != blank %}
+      {% assign poster = section.settings.cover_image | image_url: width: 1080 %}
       {{
         section.settings.hosted_video
         | video_tag:
           autoplay: false,
-          loop: false,
+          loop: section.settings.loop_video,
           muted: false,
           controls: true,
           class: 'object-fit-contain w-100',
-          image_size: '1080x'
+          image_size: '1080x',
+          poster: poster
       }}
     {% else %}
       <!-- video frane -->
@@ -48,7 +50,8 @@
       "type": "checkbox",
       "id": "loop_video",
       "label": "Play video on loop",
-      "default": false
+      "default": false,
+      "info": "Autoplay work for hoted video. For youtube or vimeo video, Contact with Us"
     },
     {
       "type": "header",
