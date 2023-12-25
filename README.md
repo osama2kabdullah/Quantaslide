@@ -1,6 +1,7 @@
 # Custom Shopify Theme Project
 
 ## About the Project
+
 We are developing the theme from scratch for gathering experiences. This is not for distribution or for any commercial use. By building this theme we can learn more deep knowledge about shopify theme development. Also, we will learn about big project management and planning for big projects. Developer who will contribute by making plans, fixing bugs, and adding new features, they can use the theme as their portfolio as their contribution, the overall goal of the project is learning and work footprint.
 
 Join in this journey of exploration, growth, and community collaboration in Shopify theme development!
@@ -16,16 +17,17 @@ Hello developers, welcome to this project. By contributing to this project enhan
 3. Get the theme code in your local machine and connect it to your development store.
 4. To connect upload the code in your development store.
 5. Use `Shopify Theme Kit` for development.
-5. Make your changes and ensure they adhere to the coding standards.
-6. Submit a pull request with a clear description of your changes.
+6. Make your changes and ensure they adhere to the coding standards.
+7. Submit a pull request with a clear description of your changes.
 
 ### Technology:
-1. `Splide.js` For slider.
-2. `Bootsrup` for UI styleing and functionality
-3. `fontawsome` for icons
-4. `Fonts` self hosted. Can be found in `assets` folder 
+
+1. `Bootsrup` for UI styleing and functionality
+2. `Fonts` self hosted. Can be found in `snippets` folder as svg
+3. total zip file size should be less than 1 mb.
 
 ### Code Style:
+
 - We adhere to the Dawn theme code style in our development process.
 - Each section file is named starting with `main-`.
 - Initially, we did not utilize localized translation for simplicity.
@@ -41,6 +43,7 @@ Hello developers, welcome to this project. By contributing to this project enhan
 If you encounter any issues or bugs, please [open an issue](https://github.com/yourusername/your-repo/issues) on GitHub. Provide detailed information about the problem, including steps to reproduce it.
 
 ## 3. Installation Guide
+
 1. Download all code by CLI or github download system.
 2. Upload this in your development store and make sure it is a `zip` file.
 3. Installtion complete.
