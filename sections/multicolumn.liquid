@@ -1,0 +1,153 @@
+<div class="container my-5">
+  <div class="mb-3">
+    <h5>{{ section.settings.heading }}</h5>
+  </div>
+
+  <div class="row row-cols-{{ section.settings.column_mobile }} row-cols-md-{{ section.settings.card_per_row_desktop }} g-4">
+    {% for block in section.blocks %}
+      <div class="col">
+        <div class="card text-{{ section.settings.content_alignment }}">
+          {% if block.settings.column_image != blank %}
+            {{
+              block.settings.column_image
+              | image_url: width: 400, height: 200, crop: 'center'
+              | image_tag: class: 'card-img-top img-fluid', loading: 'lazy'
+            }}
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ block.settings.heading }}</h5>
+            <p class="card-text">{{ block.settings.paragraph }}</p>
+            <a class="card-link" href="{{ block.settings.link }}">{{ block.settings.link_label }}</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="mt-3 text-center">
+    <a href="{{ section.settings.button_link }}" class="btn btn-primary">{{ section.settings.button_label }}</a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Multicolumn",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Heading",
+      "label": "Heading"
+    },
+    {
+      "type": "range",
+      "id": "card_per_row_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Column desktop",
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "column_mobile",
+      "label": "Column mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1 Column"
+        },
+        {
+          "value": "2",
+          "label": "2 Column"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "start",
+          "label": "Left"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Button"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "column_image",
+          "label": "Image"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "paragraph",
+          "label": "Content",
+          "default": "<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas numquam esse fuga sed dignissimos, eos delectus.</p>"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link Label",
+          "default": "Link"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Multicolumn",
+      "blocks": [
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

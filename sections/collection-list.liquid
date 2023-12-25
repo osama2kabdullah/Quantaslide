@@ -1,0 +1,103 @@
+<div class="container my-5">
+  <div class="mb-3 text-{{ section.settings.heading_alignment }}">
+    <h5>{{ section.settings.section_title }}</h5>
+  </div>
+  <div class="row row-cols-1 row-cols-md-{{ section.settings.number_of_column }} g-3">
+    {% for block in section.blocks %}
+      {% assign collection = block.settings.collection %}
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ collection.title }}</h5>
+            <p class="card-text">{{ collection.all_products_count }} Products</p>
+            <a href="{{ collection.url }}" class="btn btn-primary">View Products</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% if section.settings.enable_view_all %}
+    <div class="mt-3 text-center">
+      <a href="{{ routes.all_products_collection_url }}" class="btn btn-primary">View All</a>
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Collection List",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Heading",
+      "default": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "start",
+          "label": "Left"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "number_of_column",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Number of column",
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_view_all",
+      "label": "Enable \"View all\" button if list includes more collections than shown",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection List",
+      "blocks": [
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

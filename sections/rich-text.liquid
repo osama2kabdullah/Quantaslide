@@ -1,11 +1,19 @@
-<div class="card rounded-0 border-0 mt-5 text-center text-light">
-  <img src="{{ section.settings.image | img_url: '1224x' }}" class="card-img rounded-0" alt="...">
-  <div
-    class="card-img-overlay d-flex flex-column align-items-center justify-content-center"
-    style="background-color: rgba(0, 0, 0, 0.37)"
-  >
-    <h1 class="card-title">Get 10% off in your first order</h1>
-    <button type="button" class="btn btn-warning rounded-5">Shop Now</button>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="card border-0 text-center col-md-6">
+      <div class="card-body">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'heading' %}
+              <h5 class="card-title">{{ block.settings.rich_text_title }}</h5>
+            {% when 'content' %}
+              <p class="card-text">{{ block.settings.paragraph }}</p>
+            {% when 'button' %}
+              <a href="{{ block.settings.button_link }}" class="btn btn-primary">{{ block.settings.button_title }}</a>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    </div>
   </div>
 </div>
 
@@ -17,17 +25,67 @@
   "disabled_on": {
     "groups": ["header", "footer"]
   },
-  "settings": [
+  "settings": [],
+  "blocks": [
     {
-        "type": "image_picker",
-        "id": "image",
-        "label": "Image"
-    }      
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "rich_text_title",
+          "label": "Heading",
+          "default": "Heading"
+        }
+      ]
+    },
+    {
+      "type": "content",
+      "name": "Content",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "paragraph",
+          "label": "Paragraph",
+          "default": "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est inventore alias laudantium hic. Neque deserunt est aperiam repudiandae.</p>"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_title",
+          "label": "Button Label",
+          "default": "Button"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
   ],
-  "blocks": [],
   "presets": [
     {
-      "name": "Rich Text"
+      "name": "Rich Text",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "content"
+        },
+        {
+          "type": "button"
+        }
+      ]
     }
   ]
 }

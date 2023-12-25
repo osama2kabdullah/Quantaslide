@@ -1,0 +1,94 @@
+<div class="container my-5">
+  <div class="text-center mb-3">
+    <h5>{{ section.settings.heading }}</h5>
+  </div>
+
+  {% if section.settings.url_video != blank %}
+    <div class="ratio ratio-16x9">
+      <iframe
+        src="https://www.youtube.com/embed/{{ section.settings.url_video | split: '/' | last }}"
+        allowfullscreen
+        title="{{ section.settings.video_alt_text }}"
+      ></iframe>
+    </div>
+  {% else %}
+    {% if section.settings.hosted_video != blank %}
+      {% assign poster = section.settings.cover_image | image_url: width: 1080 %}
+      {{
+        section.settings.hosted_video
+        | video_tag:
+          autoplay: false,
+          loop: section.settings.loop_video,
+          muted: false,
+          controls: true,
+          class: 'object-fit-contain w-100',
+          image_size: '1080x',
+          poster: poster
+      }}
+    {% else %}
+      <!-- video frane -->
+    {% endif %}
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Video",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Video",
+      "label": "Heading"
+    },
+    {
+      "type": "checkbox",
+      "id": "loop_video",
+      "label": "Play video on loop",
+      "default": false,
+      "info": "Autoplay work for hoted video. For youtube or vimeo video, Contact with Us"
+    },
+    {
+      "type": "header",
+      "content": "Shopify-hosted video"
+    },
+    {
+      "type": "video",
+      "id": "hosted_video",
+      "label": "Video"
+    },
+    {
+      "type": "header",
+      "content": "Or embed video from URL",
+      "info": "Shows when no Shopify-hosted video is selected."
+    },
+    {
+      "type": "video_url",
+      "id": "url_video",
+      "label": "URL",
+      "accept": ["youtube", "vimeo"]
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image",
+      "label": "Cover Image"
+    },
+    {
+      "type": "text",
+      "id": "video_alt_text",
+      "label": "Video alt text",
+      "default": "Video on store"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video"
+    }
+  ]
+}
+{% endschema %}
