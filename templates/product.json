@@ -42,7 +42,7 @@
         "media_fit": "original",
         "media_layout": "bottom",
         "media_position": "left",
-        "image_zoom": true
+        "image_zoom": false
       }
     }
   },

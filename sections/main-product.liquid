@@ -18,85 +18,55 @@
       {% include 'product-image-slider' %}
     </div>
     <div class="{{col_second}}">
+      {%- assign product_form_id = 'product-form-' | append: section.id -%}
       {% for block in section.blocks %}
         {% case block.type %}
           {% when 'title' %}
-            <h2 class="mb-4">{{ product.title }}</h2>
+            <h2 class="mb-2">{{ product.title }}</h2>
           {% when 'text' %}
-            <div>{{ block.settings.inline_text }}</div>
+            <div class="my-2">{{ block.settings.inline_text }}</div>
           {% when 'price' %}
-            <!-- price -->
             {% assign variant = product.selected_or_first_available_variant %}
-            <p class="font-weight-bold h4">
+            <div id="price-{{ section.id }}" class="font-weight-bold my-2 h4">
               {% if variant.compare_at_price > variant.price %}
-                <span class="text-decoration-line-through compare-at-product-price">
+                <span class="text-decoration-line-through me-2 compare-at-product-price">
                   {{ variant.compare_at_price | money }}
                 </span>
               {% endif %}
               <span class="text-success prduct-main-price">
                 {{ variant.price | money }}
               </span>
-            </p>
-            <!-- form -->
-          {% when 'form' %}
-            {% comment %} {% include "variant-picker" %} {% endcomment %}
-            <div class="mb-2">
-              {% form 'product', product %}
-                <!-- variant picker -->
-                {% if block.settings.show_var_picker %}
-                  <div class="d-flex gap-2 align-items-center mb-3">
-                    <label for="id">Choose a Variant:</label>
-                    <select class="form-select variant-selector-input" style="width: fit-content;" name="id" id="id">
-                      {% for variant in product.variants %}
-                        <option
-                          value="{{ variant.id }}"
-                          {% if variant == product.selected_or_first_available_variant %}
-                            selected="selected"
-                          {% endif %}
-                        >
-                          {{ variant.title }}
-                        </option>
-                      {% endfor %}
-                    </select>
-                    <script>
-                      const product = {{ product | json }};
-                    </script>
-                  </div>
-                {% endif %}
-                <!-- quantty -->
-                {% if block.settings.show_qty_selector %}
-                  <div class="d-flex gap-2 align-items-center w-25">
-                    <label for="quantity">Quantity:</label>
-                    <input
-                      type="number"
-                      class="form-control product-quantity-input"
-                      name="quantity"
-                      id="quantity"
-                      value="{{ variant.quantity_rule.min }}"
-                      min="{{ variant.quantity_rule.min }}"
-                      {% if variant.quantity_rule.max %}
-                        max="{{ variant.quantity_rule.max }}"
-                      {% endif %}
-                      {% if variant.quantity_rule.increment %}
-                        step="{{ variant.quantity_rule.increment }}"
-                      {% endif %}
-                    >
-                  </div>
-                {% endif %}
-                <!-- buy button -->
-                {% if block.settings.enable_payment_button %}
-                  <br>
-                  {% if variant.available %}
-                    <button type="submit" class="btn btn-primary product-add-to-cart-button">Add To Cart</button>
-                  {% else %}
-                    <button disabled type="submit" class="btn btn-primary product-add-to-cart-button">
-                      Unavailable
-                    </button>
-                  {% endif %}
-                {% endif %}
-                <!-- end -->
-              {% endform %}
             </div>
+          {% when 'variant_picker' %}
+            {% include 'variant-picker' %}
+          {% when 'quantity_input' %}
+            <div class="d-flex my-2 gap-2 align-items-center w-25">
+              <label for="quantity-input-{{ product_form_id }}">Quantity:</label>
+              <input
+                type="number"
+                class="form-control"
+                name="quantity"
+                id="quantity-input-{{ section.id }}"
+                value="{{ variant.quantity_rule.min }}"
+                min="{{ variant.quantity_rule.min }}"
+                {% if variant.quantity_rule.max %}
+                  max="{{ variant.quantity_rule.max }}"
+                {% endif %}
+                {% if variant.quantity_rule.increment %}
+                  step="{{ variant.quantity_rule.increment }}"
+                {% endif %}
+              >
+            </div>
+          {% when 'buy_button' %}
+            {% form 'product', product, id: product_form_id %}
+              {% if variant.available %}
+                <button name="add" type="submit" class="btn my-2 btn-primary product-add-to-cart-button">Add To Cart</button>
+              {% else %}
+                <button name="add" disabled type="submit" class="btn my-2 btn-primary product-add-to-cart-button">
+                  Sold Out
+                </button>
+              {% endif %}
+            {% endform %}
           {% when 'description' %}
             <p>
               {{ product.description | truncatewords: 20 }}
@@ -235,8 +205,23 @@
       "limit": 1
     },
     {
-      "type": "form",
-      "name": "Form",
+      "type": "description",
+      "name": "Description",
+      "limit": 1
+    },
+    {
+      "type": "variant_picker",
+      "name": "Variant Picker",
+      "limit": 1
+    },
+    {
+      "type": "quantity_input",
+      "name": "Quantity Input",
+      "limit": 1
+    },
+    {
+      "type": "buy_button",
+      "name": "Buy Button",
       "limit": 1,
       "settings": [
         {
@@ -245,25 +230,8 @@
           "label": "Show dynamic checkout button",
           "info": "Each customer will see their preferred payment method from those available on your store, such as PayPal or Apple Pay. [Learn more](https://help.shopify.com/manual/online-store/dynamic-checkout)",
           "default": true
-        },
-        {
-          "type": "checkbox",
-          "id": "show_qty_selector",
-          "label": "Show quantity selector",
-          "default": true
-        },
-        {
-          "type": "checkbox",
-          "id": "show_var_picker",
-          "label": "Show variant picker",
-          "default": true
         }
       ]
-    },
-    {
-      "type": "description",
-      "name": "Description",
-      "limit": 1
     }
   ]
 }

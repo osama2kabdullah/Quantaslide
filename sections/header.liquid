@@ -4,7 +4,11 @@
       <div class="row">
         <div class="col-md-3 my-auto d-none d-sm-none d-md-block d-lg-block">
           <a class="text-decoration-none text-black" href="{{ routes.root_url }}">
-            <h5 style="margin-top: 0.5em;" class="brand-name">{{ shop.name }}</h5>
+            {% if settings.logo != blank %}
+              {{ settings.logo | image_url: width: 250 | image_tag }}
+              {% else %}
+              <h5 style="margin-top: 0.5em;" class="brand-name">{{ shop.name }}</h5>
+            {% endif %}
           </a>
         </div>
         <div class="col-md-5 my-auto">
@@ -19,7 +23,7 @@
               value="{{ search.terms | escape }}"
             >
             <button class="btn btn-outline-secondary" type="submit" id="button-addon2">
-              <i class="fa fa-search"></i>
+              {% render 'icon-search' %}
             </button>
           </form>
         </div>
@@ -27,7 +31,7 @@
           <ul class="nav justify-content-end">
             <li class="nav-item">
               <a class="nav-link" href="{{ routes.cart_url }}">
-                <i class="fa {% if cart.empty? %}p-1{% endif %} fa-shopping-cart"></i>
+                {% render 'icon-cart' %}
                 {% unless cart.empty? %}
                   ({{ cart.item_count }})
                 {% endunless %}
@@ -36,20 +40,25 @@
 
             {% if customer %}
               <li class="nav-item">
-                <a class="nav-link" href="{{ routes.account_url }}"> <i class="fa fa-user"></i> Account</a>
+                <a class="nav-link" href="{{ routes.account_url }}">
+                {% render 'icon-user' %}
+                </i> Account</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{{ routes.account_logout_url }}"> Log out </a>
               </li>
             {% else %}
               <li class="nav-item">
-                <a class="nav-link" href="{{ routes.account_login_url }}"> <i class="fa fa-user"></i> Login</a>
+                <a class="nav-link" href="{{ routes.account_login_url }}"> 
+                {% render 'icon-user' %}
+                Login</a>
               </li>
 
               {% if shop.customer_accounts_optional %}
                 <li class="nav-item">
                   <a class="nav-link" href="{{ routes.account_register_url }}">
-                    <i class="fa fa-user"></i> Registration</a
+                    {% render 'icon-user' %}
+                    </i> Registration</a
                   >
                 </li>
               {% endif %}
