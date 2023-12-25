@@ -12,49 +12,72 @@
     endif
     assign rows = totalProducts | divided_by: column | ceil
   %}
-  {% for i in (1..rows) %}
-    {% liquid
-      assign limit = section.settings.number_of_column
-      assign index = forloop.index | minus: 1
-      assign offset = limit | times: index
-      if forloop.last
-        assign limit = totalProducts | minus: offset
-        assign total = section.settings.number_of_column
-        assign Part = limit | times: 100.0
-        assign percentage = Part | divided_by: total
-      endif
-    %}
-    <div style="width: {{ percentage }}%" class="card-group mb-4">
-      {% for product in collection.products offset: offset limit: limit %}
+
+  {% if collection.id %}
+    {% for i in (1..rows) %}
+      {% liquid
+        assign limit = section.settings.number_of_column
+        assign index = forloop.index | minus: 1
+        assign offset = limit | times: index
+        if forloop.last
+          assign limit = totalProducts | minus: offset
+          assign total = section.settings.number_of_column
+          assign Part = limit | times: 100.0
+          assign percentage = Part | divided_by: total
+        endif
+      %}
+      <div style="width: {{ percentage }}%" class="card-group mb-4">
+        {% for product in collection.products offset: offset limit: limit %}
+          <div class="card">
+            <a href="{{ product.url }}">
+              {{
+                product.featured_image
+                | image_url: width: 400, height: 200, crop: 'center'
+                | image_tag: class: 'card-img-top img-fluid', loading: 'lazy'
+              }}
+            </a>
+            <div class="card-body d-flex justify-content-between">
+              <h5 class="card-title">
+                <a class="text-decoration-none text-black" href="{{ product.url }}">{{ product.title }}</a>
+              </h5>
+              <p class="card-text">{{ product.price | money }}</p>
+            </div>
+            <div class="card-body">
+              {% form 'product', product %}
+                <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                <input type="hidden" id="quantity" name="quantity" value="1">
+                <input class="btn btn-primary" type="submit" value="Add to cart" class="btn">
+              {% endform %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="card-group">
+      {% for i in (1..4) %}
+        {% assign name = 'product-apparel-' | append: forloop.index %}
         <div class="card">
-          <a href="{{ product.url }}">
-            {{
-              product.featured_image
-              | image_url: width: 400, height: 200, crop: 'center'
-              | image_tag: class: 'card-img-top img-fluid', loading: 'lazy'
-            }}
-          </a>
+          {{ name | placeholder_svg_tag: 'card-img-top img-fluid' }}
           <div class="card-body d-flex justify-content-between">
-            <h5 class="card-title">
-              <a class="text-decoration-none text-black" href="{{ product.url }}">{{ product.title }}</a>
-            </h5>
-            <p class="card-text">{{ product.price | money }}</p>
+            <h5 class="card-title">Product Title</h5>
+            <p class="card-text">Price</p>
           </div>
           <div class="card-body">
-            {% form 'product', product %}
-              <input type="hidden" name="id" value="{{ product.variants.first.id }}">
-              <input type="hidden" id="quantity" name="quantity" value="1">
-              <input class="btn btn-primary" type="submit" value="Add to cart" class="btn">
-            {% endform %}
+            <div class="btn btn-primary disabled">Add To Cart</div>
           </div>
         </div>
       {% endfor %}
     </div>
-  {% endfor %}
+  {% endif %}
 
   {% if section.settings.enable_view_all %}
     <div class="mt-3 text-center">
-      <a href="{{ collection.url }}" class="btn btn-primary">View All</a>
+      {% if collection.url %}
+        <a href="{{ collection.url }}" class="btn btn-primary">View All</a>
+      {% else %}
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn-primary">View All</a>
+      {% endif %}
     </div>
   {% endif %}
 </div>
@@ -129,7 +152,7 @@
       "type": "checkbox",
       "id": "enable_view_all",
       "label": "Enable \"View all\" if collection has more products than shown",
-      "default": true
+      "default": false
     }
   ],
   "presets": [

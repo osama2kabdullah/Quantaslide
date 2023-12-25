@@ -14,11 +14,16 @@
   <div class="carousel-inner rounded">
     {% for block in section.blocks %}
       <div class="carousel-item {% if forloop.index == 1 %}active{% endif %}">
-        {{
-          block.settings.slide_image
-          | image_url: width: 1024
-          | image_tag: class: 'd-block w-100 h-75 object-fit-cover', alt: block.settings.slide_image.alt
-        }}
+        {% if block.settings.slide_image != blank %}
+          {{
+            block.settings.slide_image
+            | image_url: width: 1024
+            | image_tag: class: 'd-block w-100 h-75 object-fit-cover', alt: block.settings.slide_image.alt
+          }}
+        {% else %}
+          {% assign name = 'hero-apparel-' | append: forloop.index %}
+          {{ name | placeholder_svg_tag: 'd-block w-100 h-75 object-fit-cover' }}
+        {% endif %}
         <div class="carousel-caption">
           <h5>{{ block.settings.heading }}</h5>
           <p>{{ block.settings.paragraph }}</p>
@@ -80,6 +85,12 @@
     {
       "name": "Image banner",
       "blocks": [
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        },
         {
           "type": "slide"
         }

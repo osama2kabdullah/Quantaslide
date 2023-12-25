@@ -3,48 +3,81 @@
     <h5>{{ section.settings.section_title }}</h5>
   </div>
 
-  <div class="row row-cols-{{ section.settings.card_per_row_mobile }} row-cols-md-{{ section.settings.card_per_row_desktop }} g-4">
-    {% for article in section.settings.blog.articles %}
-      <div class="col">
-        <div class="card h-100">
-          {% if article.image != blank %}
-            <a href="{{ article.url }}">
-              {{ article.image | image_url: width: 360 | image_tag: class: 'card-img-top', alt: article.image.alt }}
-            </a>
-          {% endif %}
-          <div class="card-body">
-            <a class="text-decoration-none text-black" href="{{ article.url }}">
-              <h5 class="card-title">{{ article.title }}</h5>
-            </a>
-            {% if section.settings.show_author %}
-              <p class="card-text">
-                <small class="text-body-secondary">{{ article.author }}</small>
-              </p>
+  {% if section.settings.blog.id %}
+    <div class="row row-cols-{{ section.settings.card_per_row_mobile }} row-cols-md-{{ section.settings.card_per_row_desktop }} g-4">
+      {% for article in section.settings.blog.articles %}
+        <div class="col">
+          <div class="card h-100">
+            {% if article.image != blank %}
+              <a href="{{ article.url }}">
+                {{ article.image | image_url: width: 360 | image_tag: class: 'card-img-top', alt: article.image.alt }}
+              </a>
             {% endif %}
-            <p class="card-text text-truncate">{{ article.content | truncate: 150 }}</p>
-          </div>
-          {% if section.settings.show_date %}
-            <div class="card-footer">
-              <div class="d-flex justify-content-between">
-                <small class="text-muted">{{ article.published_at | date: '%B %d, %Y' }}</small>
-                {% if article.comments_count > 0 %}
-                  <small>{{ article.comments_count }} Comments</small>
-                {% endif %}
-              </div>
+            <div class="card-body">
+              <a class="text-decoration-none text-black" href="{{ article.url }}">
+                <h5 class="card-title">{{ article.title }}</h5>
+              </a>
+              {% if section.settings.show_author %}
+                <p class="card-text">
+                  <small class="text-body-secondary">{{ article.author }}</small>
+                </p>
+              {% endif %}
+              <p class="card-text text-truncate">{{ article.content | truncate: 150 }}</p>
             </div>
-          {% else %}
-            {% if article.comments_count > 0 %}
+            {% if section.settings.show_date %}
               <div class="card-footer">
                 <div class="d-flex justify-content-between">
-                  <small>{{ article.comments_count }} Comments</small>
+                  <small class="text-muted">{{ article.published_at | date: '%B %d, %Y' }}</small>
+                  {% if article.comments_count > 0 %}
+                    <small>{{ article.comments_count }} Comments</small>
+                  {% endif %}
+                </div>
+              </div>
+            {% else %}
+              {% if article.comments_count > 0 %}
+                <div class="card-footer">
+                  <div class="d-flex justify-content-between">
+                    <small>{{ article.comments_count }} Comments</small>
+                  </div>
+                </div>
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      {% for i in (1..3) %}
+        {% assign name = 'blog-apparel-' | append: forloop.index %}
+        <div class="col">
+          <div class="card ">
+            {{ name | placeholder_svg_tag: 'img-fluid' }}
+            <div class="card-body">
+              <h5 class="card-title">Article {{ forloop.index }}</h5>
+              {% if section.settings.show_author %}
+                <p class="card-text">
+                  <small class="text-body-secondary">Author Name</small>
+                </p>
+              {% endif %}
+              <p class="card-text text-truncate">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem maiores consequuntur commodi aspernatur
+                itaque suscipit recusandae
+              </p>
+            </div>
+            {% if section.settings.show_date %}
+              <div class="card-footer">
+                <div class="d-flex justify-content-between">
+                  <small class="text-muted">Date</small>
+                  <small>{{ forloop.index }} Comments</small>
                 </div>
               </div>
             {% endif %}
-          {% endif %}
+          </div>
         </div>
-      </div>
-    {% endfor %}
-  </div>
+      {% endfor %}
+    </div>
+  {% endif %}
 </div>
 
 {% schema %}

@@ -1,11 +1,15 @@
 <div class="card container my-5 border-0">
   <div class="row align-items-center g-0">
     <div class="col-md-6">
-      {{
-        section.settings.image_with_text_image
-        | image_url: width: 720
-        | image_tag: class: 'img-fluid rounded', alt: section.settings.image_with_text_image.alt
-      }}
+      {% if section.settings.image_with_text_image != blank %}
+        {{
+          section.settings.image_with_text_image
+          | image_url: width: 720
+          | image_tag: class: 'img-fluid rounded', alt: section.settings.image_with_text_image.alt
+        }}
+      {% else %}
+        {{ 'detailed-apparel-1' | placeholder_svg_tag: 'img-fluid rounded' }}
+      {% endif %}
     </div>
     <div class="col-md-6">
       <div class="card-body">
