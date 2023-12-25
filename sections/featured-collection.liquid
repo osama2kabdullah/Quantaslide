@@ -1,66 +1,163 @@
-<section class="py-5 container">
-  <h1 class="text-center pb-5">Our Product Items</h1>
-  <div class="row">
-    {% for product in collections.all.products %}
-      <div class="col-sm-4 col-6 border-0">
-        <div class="product-card">
-          <img src="{{ product.featured_image | img_url: '720x300'}}" alt="">
-          <div class="middle d-flex gap-3">
-            <button class="btn rounded-full btn-outline-light">
-              <i class="fa-solid fa-cart-plus"></i>
-            </button>
-            <button class="btn rounded-full btn-outline-light">
-              <i class="fa-solid fa-heart"></i>
-            </button>
-            <button data-bs-toggle="modal" data-bs-target="#exampleModal-{{ product.id }}" class="btn rounded-full btn-outline-light">
-              <i class="fa-solid fa-eye"></i>
-            </button>
-          </div>
+<div class="container my-5">
+  <div class="mb-3 text-{{ section.settings.heading_alignment }}">
+    <h5>{{ section.settings.section_title }}</h5>
+  </div>
 
-          <!-- Modal -->
-          <div
-            class="modal fade"
-            id="exampleModal-{{ product.id }}"
-            aria-hidden="true"
-            aria-labelledby="exampleModalToggleLabel"
-            tabindex="-1"
-          >
-            <div class="modal-dialog modal-dialog-centered">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalToggleLabel">{{ product.title }}</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">{{ product.description }}</div>
-              </div>
+  {% liquid
+    assign collection = section.settings.collection
+    assign column = section.settings.number_of_column | times: 1.0
+    assign totalProducts = section.settings.number_of_product
+    if collection.all_products_count < totalProducts
+      assign totalProducts = collection.all_products_count
+    endif
+    assign rows = totalProducts | divided_by: column | ceil
+  %}
+
+  {% if collection.id %}
+    {% for i in (1..rows) %}
+      {% liquid
+        assign limit = section.settings.number_of_column
+        assign index = forloop.index | minus: 1
+        assign offset = limit | times: index
+        if forloop.last
+          assign limit = totalProducts | minus: offset
+          assign total = section.settings.number_of_column
+          assign Part = limit | times: 100.0
+          assign percentage = Part | divided_by: total
+        endif
+      %}
+      <div style="width: {{ percentage }}%" class="card-group mb-4">
+        {% for product in collection.products offset: offset limit: limit %}
+          <div class="card">
+            <a href="{{ product.url }}">
+              {{
+                product.featured_image
+                | image_url: width: 400, height: 200, crop: 'center'
+                | image_tag: class: 'card-img-top img-fluid', loading: 'lazy'
+              }}
+            </a>
+            <div class="card-body d-flex justify-content-between">
+              <h5 class="card-title">
+                <a class="text-decoration-none text-black" href="{{ product.url }}">{{ product.title }}</a>
+              </h5>
+              <p class="card-text">{{ product.price | money }}</p>
+            </div>
+            <div class="card-body">
+              {% form 'product', product %}
+                <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                <input type="hidden" id="quantity" name="quantity" value="1">
+                <input class="btn btn-primary" type="submit" value="Add to cart" class="btn">
+              {% endform %}
             </div>
           </div>
-        </div>
-
-        <a href="{{ product.url }}">
-          <div class="d-flex justify-content-between">
-            <h5>{{ product.title }}</h5>
-            <p>{{ product.price | money }}</p>
-          </div>
-        </a>
+        {% endfor %}
       </div>
     {% endfor %}
-  </div>
-</section>
+  {% else %}
+    <div class="card-group">
+      {% for i in (1..4) %}
+        {% assign name = 'product-apparel-' | append: forloop.index %}
+        <div class="card">
+          {{ name | placeholder_svg_tag: 'card-img-top img-fluid' }}
+          <div class="card-body d-flex justify-content-between">
+            <h5 class="card-title">Product Title</h5>
+            <p class="card-text">Price</p>
+          </div>
+          <div class="card-body">
+            <div class="btn btn-primary disabled">Add To Cart</div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if section.settings.enable_view_all %}
+    <div class="mt-3 text-center">
+      {% if collection.url %}
+        <a href="{{ collection.url }}" class="btn btn-primary">View All</a>
+      {% else %}
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn-primary">View All</a>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
 
 {% schema %}
 {
-  "name": "featured Collection",
+  "name": "Featured Collection",
   "tag": "section",
   "class": "section",
   "disabled_on": {
     "groups": ["header", "footer"]
   },
-  "settings": [],
-  "blocks": [],
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Heading",
+      "default": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "start",
+          "label": "Left"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph",
+      "label": "Paragraph",
+      "default": "<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show admin description",
+      "default": false
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "number_of_product",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "label": "Number of product",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "number_of_column",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Number of column",
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_view_all",
+      "label": "Enable \"View all\" if collection has more products than shown",
+      "default": false
+    }
+  ],
   "presets": [
     {
-      "name": "featured Collection"
+      "name": "Featured Collection"
     }
   ]
 }

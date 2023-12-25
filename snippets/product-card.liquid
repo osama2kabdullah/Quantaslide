@@ -32,7 +32,9 @@
         <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
         <input type="hidden" name="quantity" value="1">
 
-        <button type="submit" class="btn btn-primary"><i class="fa fa-cart-plus"></i> Add</button>
+        <button type="submit" class="btn btn-primary">
+        {% render 'icon-cart-plus' %}
+          Add</button>
       {% endform %}
     </div>
   </div>

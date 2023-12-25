@@ -1,0 +1,74 @@
+{% for block in section.blocks %}
+  {% if forloop.index == index %}
+    {% case block.type %}
+      {% when 'image' %}
+        {% if block.settings.image != blank %}
+          <div class="card {% if index == 1 %}h-100{% endif %}">
+            {{
+              block.settings.image
+              | image_url: width: width, height: height, crop: 'center'
+              | image_tag: loading: 'lazy', class: 'h-100 w-100 object-fit-cover card-img-top rounded-bottom'
+            }}
+          </div>
+        {% else %}
+          <div class="card {% if index == 1 %}h-100{% endif %}">
+            {{ 'detailed-apparel-1' | placeholder_svg_tag: 'h-100 w-100 object-fit-cover card-img-top rounded-bottom' }}
+          </div>
+        {% endif %}
+      {% when 'product' %}
+        {% if block.settings.product.id %}
+          <div class="card {% if index == 1 %}h-100{% endif %}">
+            <a class="d-block h-100" href="{{ block.settings.product.url }}">
+              {{
+                block.settings.product.featured_image
+                | image_url: width: width, height: height, crop: 'center'
+                | image_tag: loading: 'lazy', class: 'h-100 w-100 object-fit-cover card-img-top'
+              }}
+            </a>
+            <div class="card-body">
+              <p class="card-text d-flex justify-content-between">
+                <a href="{{ block.settings.product.url }}" class="card-link">{{ block.settings.product.title }}</a>
+                <span>{{ block.settings.product.price | money }}</span>
+              </p>
+            </div>
+          </div>
+        {% else %}
+          <div class="card {% if index == 1 %}h-100{% endif %}">
+            {{ 'product-apparel-4' | placeholder_svg_tag: 'h-100 w-100 object-fit-cover card-img-top' }}
+            <div class="card-body">
+              <p class="card-text d-flex justify-content-between">
+                <span>Product Title</span>
+                <span>Price</span>
+              </p>
+            </div>
+          </div>
+        {% endif %}
+      {% when 'collection' %}
+        {% if block.settings.collection.id %}
+          <div class="card {% if index == 1 %}h-100{% endif %}">
+            <a class="d-block h-100" href="{{ block.settings.collection.url }}">
+              {{
+                block.settings.collection.featured_image
+                | image_url: width: width, height: height, crop: 'center'
+                | image_tag: loading: 'lazy', class: 'h-100 w-100 object-fit-cover card-img-top'
+              }}
+            </a>
+            <div class="card-body">
+              <p class="card-text">
+                <a href="{{ block.settings.collection.url }}" class="card-link">
+                  {{- block.settings.collection.title -}}
+                </a>
+              </p>
+            </div>
+          </div>
+        {% else %}
+          <div class="card {% if index == 1 %}h-100{% endif %}">
+            {{ 'collection-apparel-3' | placeholder_svg_tag: 'h-100 w-100 object-fit-cover card-img-top' }}
+            <div class="card-body">
+              <p class="card-text">Collection Nae</p>
+            </div>
+          </div>
+        {% endif %}
+    {% endcase %}
+  {% endif %}
+{% endfor %}

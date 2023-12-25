@@ -1,0 +1,130 @@
+<div class="container my-5">
+  <div class="mb-3 text-{{ section.settings.heading_alignment }}">
+    <h5>{{ section.settings.heading }}</h5>
+  </div>
+
+  <div class="row {% if section.settings.desktop_layout == "right" %}flex-row-reverse{% endif %}">
+    <!-- Left Column -->
+    <div class="col-md-7 p-2">
+      {% render 'collage-rendering', index: 1, width: 720, height: 720 %}
+    </div>
+
+    <!-- Right Columns -->
+    <div class="col-md-5">
+      <div class="row h-100">
+        <div class="col-12 p-2">
+          {% render 'collage-rendering', index: 2, width: 720, height: 720 %}
+        </div>
+
+        <div class="col-12 p-2">
+          {% render 'collage-rendering', index: 3, width: 720, height: 720 %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collage",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Heading",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "desktop_layout",
+      "label": "Desktop layout",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left lerge block"
+        },
+        {
+          "value": "right",
+          "label": "Right lerge block"
+        }
+      ],
+      "default": "left"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "product",
+      "limit": 1,
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    },
+    {
+      "type": "collection",
+      "name": "Co620llection",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collage",
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "product"
+        },
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

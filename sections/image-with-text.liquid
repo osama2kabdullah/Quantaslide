@@ -1,27 +1,34 @@
-<section class="container py-5">
-  <div class="row g-0 align-items-center">
+<div class="card container my-5 border-0">
+  <div class="row align-items-center g-0">
+    <div class="col-md-6">
+      {% if section.settings.image_with_text_image != blank %}
+        {{
+          section.settings.image_with_text_image
+          | image_url: width: 720
+          | image_tag: class: 'img-fluid rounded', alt: section.settings.image_with_text_image.alt
+        }}
+      {% else %}
+        {{ 'detailed-apparel-1' | placeholder_svg_tag: 'img-fluid rounded' }}
+      {% endif %}
+    </div>
     <div class="col-md-6">
       <div class="card-body">
-        <h1 class="card-title">Explore Minimal Design</h1>
-        <p class="card-text">
-          This is a wider card with supporting text below as a natural lead-in to additional content. This content is a
-          little bit longer.
-        </p>
-        <button type="button" class="btn rounded-5 btn-primary">
-          Shop now
-          <i class="fa-solid fa-arrow-right"></i>
-        </button>
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'caption' %}
+              <p class="card-text">
+                <small class="text-body-secondary">{{ block.settings.caption }}</small>
+              </p>
+            {% when 'heading' %}
+              <h5 class="card-title">{{ block.settings.heading }}</h5>
+            {% when 'content' %}
+              <p class="card-text">{{ block.settings.paragraph }}</p>
+          {% endcase %}
+        {% endfor %}
       </div>
     </div>
-    <div class="col-md-6">
-      <img
-        src="{{ section.settings.image_with_text_image | img_url: '720x' }}"
-        class="img-fluid rounded-end"
-        alt="..."
-      >
-    </div>
   </div>
-</section>
+</div>
 
 {% schema %}
 {
@@ -36,12 +43,63 @@
       "type": "image_picker",
       "id": "image_with_text_image",
       "label": "Image"
-    }    
+    }
   ],
-  "blocks": [],
+  "blocks": [
+    {
+      "type": "caption",
+      "name": "Caption",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption",
+          "default": "Caption"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Heading",
+          "label": "Heading"
+        }
+      ]
+    },
+    {
+      "type": "content",
+      "name": "paragraph",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "paragraph",
+          "label": "Content",
+          "default": "<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptas numquam esse fuga sed dignissimos, eos delectus.</p>"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "Image with Text"
+      "name": "Image with Text",
+      "blocks": [
+        {
+          "type": "caption"
+        },
+        {
+          "type": "heading"
+        },
+        {
+          "type": "content"
+        }
+      ]
     }
   ]
 }
