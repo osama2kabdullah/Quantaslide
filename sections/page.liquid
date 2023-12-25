@@ -1,15 +1,25 @@
 {% assign page = section.settings.page %}
 <div class="container mt-5 mb-5">
-  <div class="row">
-    <div class="col-md-8 offset-md-2">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
       <div class="mb-4">
-        <h1 class="mt-4 text-center font-weight-bolder">{{ page.title }}</h1>
+        {% if section.settings.page.id %}
+          <h1 class="mt-4 text-center font-weight-bolder">{{ page.title }}</h1>
+        {% else %}
+          <h1 class="mt-4 text-center font-weight-bolder">Page Title</h1>
+        {% endif %}
       </div>
-
-      <!-- Article Text -->
-      <div class="mb-4">
-        {{ page.content }}
-      </div>
+      
+      {% if section.settings.page.id %}
+        <!-- Article Text -->
+        <div class="mb-4">
+          {{ page.content }}
+        </div>
+        {% else %}
+        <div class="mb-4 w-100">
+          {{ 'page' | placeholder_svg_tag: "bg-light w-100" }}
+        </div>
+      {% endif %}
     </div>
   </div>
 </div>
