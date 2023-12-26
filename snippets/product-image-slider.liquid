@@ -1,19 +1,60 @@
 <div>
-  {% render 'media', media: product.featured_media %}
+  {% render 'media', media: product.selected_or_first_available_variant.featured_media %}
 </div>
-<div
-  style="
-    {% if product.media.size > 2 %}
-      column-count: 2;
-    {% endif %}
-  "
-  class="gap-2 mt-2"
->
-  {% for media in product.media %}
-    {% unless media.id == product.featured_media.id %}
-      <div class="item mb-2">
-        {% render 'media', media: media %}
-      </div>
-    {% endunless %}
-  {% endfor %}
-</div>
+
+<style>
+  .media-column {
+    column-count: 2;
+  }
+  /* Landscape phones and portrait tablets */
+  @media (max-width: 767px) {
+    .media-column {
+      column-count: 1;
+    }
+  }
+</style>
+
+{% if product.media.size > 1 %}
+  <div
+    class="gap-2 mt-2 media-column show collapse"
+    id="collapseMedia"
+  >
+    {% for media in product.media %}
+      {% unless media.id == product.selected_or_first_available_variant.featured_media.id %}
+        <div class="item mb-2">
+          {% render 'media', media: media %}
+        </div>
+      {% endunless %}
+    {% endfor %}
+  </div>
+  <button
+    class="mx-auto d-block d-md-none nav-link my-4"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#collapseMedia"
+    aria-expanded="false"
+    aria-controls="collapseMedia"
+  >
+    <a class="link-underline-primary toggleButton"> Show Other Media </a>
+  </button>
+{% endif %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var myDiv = document.getElementById('collapseMedia');
+    function updateClassBasedOnScreenSize() {
+      // Check if the screen size is less than or equal to small (sm)
+      if (window.innerWidth <= 767) {
+        // Remove the class on mobile
+        myDiv.classList.remove('show');
+      } else {
+        // Add the class on desktop
+        myDiv.classList.add('show');
+      }
+    }
+    // Initial check on page load
+    updateClassBasedOnScreenSize();
+    // Listen for window resize events
+    window.addEventListener('resize', updateClassBasedOnScreenSize);
+  });
+</script>

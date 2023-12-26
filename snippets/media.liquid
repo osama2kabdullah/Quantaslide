@@ -20,8 +20,8 @@
     </div>
   {% when 'model' %}
     {% liquid
-      if media.preview_image.height > 520
-        assign height_num = 520
+      if media.preview_image.height > 220
+        assign height_num = 220
       else
         assign height_num = media.preview_image.height
       endif
