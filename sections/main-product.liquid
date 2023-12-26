@@ -27,16 +27,21 @@
             <div class="my-2">{{ block.settings.inline_text }}</div>
           {% when 'price' %}
             {% assign variant = product.selected_or_first_available_variant %}
-            <div id="price-{{ section.id }}" class="font-weight-bold my-2 h4">
+
+            <h4 class="d-flex gap-2 fex-wrap" id="price-{{ section.id }}">
               {% if variant.compare_at_price > variant.price %}
                 <span class="text-decoration-line-through me-2 compare-at-product-price">
                   {{ variant.compare_at_price | money }}
                 </span>
               {% endif %}
-              <span class="text-success prduct-main-price">
+              <span class="prduct-main-price text-success">
                 {{ variant.price | money }}
               </span>
-            </div>
+              {% if variant.compare_at_price > variant.price %}
+                <small class="badge bg-primary">Sale</small>
+              {% endif %}
+            </h4>
+
           {% when 'variant_picker' %}
             {% include 'variant-picker' %}
           {% when 'quantity_input' %}
@@ -60,7 +65,9 @@
           {% when 'buy_button' %}
             {% form 'product', product, id: product_form_id %}
               {% if variant.available %}
-                <button name="add" type="submit" class="btn my-2 btn-primary product-add-to-cart-button">Add To Cart</button>
+                <button name="add" type="submit" class="btn my-2 btn-primary product-add-to-cart-button">
+                  Add To Cart
+                </button>
               {% else %}
                 <button name="add" disabled type="submit" class="btn my-2 btn-primary product-add-to-cart-button">
                   Sold Out
@@ -68,29 +75,11 @@
               {% endif %}
             {% endform %}
           {% when 'description' %}
-            <p>
-              {{ product.description | truncatewords: 20 }}
-              {% assign words = product.description | split: '' %}
-              {% if words.size > 20 %}
-                <a
-                  href="#description"
-                  style="
-                    display: inline;
-                    color: rgba(var(--bs-link-color-rgb),var(--bs-link-opacity,1));
-                    text-decoration: underline;
-                  "
-                  class="link nav-link"
-                  >Read more</a
-                >
-              {% endif %}
-            </p>
+            {{ product.description }}
         {% endcase %}
       {% endfor %}
     </div>
   </div>
-
-  <!-- Product Tabs -->
-  {% include 'product-tabs' %}
 </div>
 
 {% schema %}

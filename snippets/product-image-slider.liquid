@@ -1,44 +1,19 @@
-<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    {% for image in product.images %}
-      <div class="carousel-item {% if forloop.first %}active{% endif %}">
-        <img
-          loading="lazy"
-          class="d-block w-100"
-          alt="..."
-          src="{{ image.src | img_url: '1080x' }}"
-        >
+<div>
+  {% render 'media', media: product.featured_media %}
+</div>
+<div
+  style="
+    {% if product.media.size > 2 %}
+      column-count: 2;
+    {% endif %}
+  "
+  class="gap-2 mt-2"
+>
+  {% for media in product.media %}
+    {% unless media.id == product.featured_media.id %}
+      <div class="item mb-2">
+        {% render 'media', media: media %}
       </div>
-    {% endfor %}
-  
-    {% for image in product.images %}
-      <div class="carousel-item">
-        <img
-          loading="lazy"
-          src="{{ image.src | img_url: '1080x' }}"
-          class="d-block w-100"
-          alt="Second Slider"
-        >
-      </div>
-    {% endfor %}
-  
-    {% comment %} <div class="carousel-item">
-      <img
-        loading="lazy"
-        src="{{ image.src | img_url: '1080x'  }}"
-        class="d-block w-100"
-        alt="..."
-      >
-    </div> {% endcomment %}
-  </div>
-  
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
+    {% endunless %}
+  {% endfor %}
 </div>
