@@ -1,23 +1,22 @@
-<div class="card border-1">
-  <!-- Image -->
-  <a href="{{ product.url }}" style="height: 250px;" class="position-relative d-block">
-    <img
-      src="{{ product.featured_image.src | img_url: '720x' }}"
-      class="w-100"
-      style="object-fit: contain; max-height: 100%;"
-      alt="{{ product.title }}"
-    >
-    {% if product.compare_at_price_max > product.price %}
-      <span class="badge bg-primary position-absolute top-0 start-0 m-2">Sale</span>
-    {% endif %}
-  </a>
-  <!-- Image -->
-
-  <div class="card-body">
+<div class="card border-0">
+  {% if product.featured_media %}
+    <a href="{{ product.url }}">
+      {{
+        product.featured_media.preview_image
+        | image_url:
+          width: product.featured_media.preview_image.width,
+          height: product.featured_media.preview_image.height
+        | image_tag:
+          class: 'card-img-top object-fit-contain',
+          style: 'height: 250px;',
+          alt: product.featured_media.preview_image.alt
+      }}
+    </a>
+  {% endif %}
+  <div class="card-body border rounded">
     <a href="{{ product.url }}" class="text-decoration-none">
       <h5 class="card-title">{{ product.title }}</h5>
     </a>
-
     <div class="d-flex justify-content-between align-items-start">
       <div>
         <span class="card-text fw-bold">{{ product.price | money }}</span>
@@ -33,8 +32,9 @@
         <input type="hidden" name="quantity" value="1">
 
         <button type="submit" class="btn btn-primary">
-        {% render 'icon-cart-plus' %}
-          Add</button>
+          {% render 'icon-cart-plus' %}
+          Add
+        </button>
       {% endform %}
     </div>
   </div>

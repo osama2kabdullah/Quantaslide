@@ -8,12 +8,10 @@ class VariantSelects extends HTMLElement {
     this.updateOptions();
     this.updateMasterId();
     this.toggleAddButton(true, "", false);
-    // this.updatePickupAvailability();
     if (!this.currentVariant) {
       this.toggleAddButton(true, "", true);
       this.setUnavailable();
     } else {
-      this.updateMedia();
       this.updateURL();
       this.updateQuantityInput();
       this.renderProductInfo();
@@ -26,6 +24,7 @@ class VariantSelects extends HTMLElement {
       ?.querySelector('[name="add"]');
     if (!addButton) return;
     addButton.innerHTML = window.variantStrings.unavailable;
+    document.getElementById(`price-${this.dataset.section}`)?.classList.add('d-none');
   }
 
   renderProductInfo() {
@@ -35,11 +34,21 @@ class VariantSelects extends HTMLElement {
       .then((response) => response.text())
       .then((responseText) => {
         const id = `price-${this.dataset.section}`;
+        const mediaId = `media-section-${this.dataset.section}`;
         const html = new DOMParser().parseFromString(responseText, "text/html");
         const destination = document.getElementById(id);
         const source = html.getElementById(id);
 
         if (source && destination) destination.innerHTML = source.innerHTML;
+        document.getElementById(`price-${this.dataset.section}`)?.classList.remove('d-none');
+
+        // update media
+        const mediaDestination = document.getElementById(mediaId);
+        const mediaSorce = html.getElementById(mediaId);
+        if (mediaSorce && mediaDestination) {
+          mediaDestination.innerHTML = mediaSorce.innerHTML;
+        }
+
         this.toggleAddButton(
           !this.currentVariant.available,
           window.variantStrings.soldOut
@@ -75,14 +84,6 @@ class VariantSelects extends HTMLElement {
     urlObject.searchParams.set("variant", variantId);
     const newUrl = `${urlObject.origin}${urlObject.pathname}${urlObject.search}${urlObject.hash}`;
     window.history.replaceState({}, "", newUrl);
-  }
-
-  updateMedia() {
-    // work here with bootstrap slider
-  }
-
-  updatePickupAvailability() {
-    // follow down theme
   }
 
   toggleAddButton(disable = true, text, modifyClass = true) {

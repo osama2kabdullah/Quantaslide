@@ -1,6 +1,6 @@
 <varinat-picker data-section="{{ section.id }}" data-url="{{ product.url }}">
   {% for product_option in product.options_with_values %}
-    <fieldset class="my-2 btn-group-toggle" data-toggle="buttons">
+    <fieldset class="my-2 btn-group-toggle {% if product.has_only_default_variant %}d-none{% endif %}" data-toggle="buttons">
       <span class="me-3">{{ product_option.name }}:</span>
       {% for value in product_option.values %}
         <label class="me-2 btn border">

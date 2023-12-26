@@ -1,0 +1,38 @@
+{% case media.media_type %}
+  {% when 'image' %}
+    <div
+      class="w-100"
+      data-media-id="{{ media.id }}"
+    >
+      {{ media | image_url: width: 1024, height: 1024 | image_tag: class: 'img-fluid border rounded' }}
+    </div>
+  {% when 'external_video' %}
+    <div
+      class="ratio ratio-16x9"
+      data-media-id="{{ media.id }}"
+    >
+      {{ media | external_video_tag: class: 'w-100 border rounded' }}
+    </div>
+  {% when 'video' %}
+    {% assign poster = media.preview_image.src | image_url: width: media.preview_image.width %}
+    <div class="w-100" data-media-id="{{ media.id }}">
+      {{ media | video_tag: poster: poster, controls: true, class: 'object-fit-contain w-100 border rounded' }}
+    </div>
+  {% when 'model' %}
+    {% liquid
+      if media.preview_image.height > 220
+        assign height_num = 220
+      else
+        assign height_num = media.preview_image.height
+      endif
+      assign height = 'height:' | append: height_num | append: 'px'
+      assign style = height
+    %}
+    <div class="w-100" data-media-id="{{ media.id }}">
+      {{ media | model_viewer_tag: image_size: '1024x', alt: media.alt, class: 'border rounded w-100', style: style }}
+    </div>
+  {% else %}
+    <div class="w-100" data-media-id="{{ media.id }}">
+      {{ media | media_tag: class: 'border rounded w-100' }}
+    </div>
+{% endcase %}

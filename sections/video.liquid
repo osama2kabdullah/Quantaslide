@@ -13,7 +13,7 @@
     </div>
   {% else %}
     {% if section.settings.hosted_video != blank %}
-      {% assign poster = section.settings.cover_image | image_url: width: 1080 %}
+      {% assign poster = section.settings.cover_image | image_url: width: 1024 %}
       {{
         section.settings.hosted_video
         | video_tag:
@@ -22,7 +22,7 @@
           muted: false,
           controls: true,
           class: 'object-fit-contain w-100',
-          image_size: '1080x',
+          image_size: '1024x',
           poster: poster
       }}
     {% else %}
