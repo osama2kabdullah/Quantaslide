@@ -44,7 +44,7 @@
             {% when 'social_media' %}
               <div class="col-{{ block.settings.width_mobile }} col-md-{{ block.settings.width_desktop }} mb-3">
                 <h5>{{ block.settings.footer_section_title }}</h5>
-                <div class="d-flex gap-3">
+                <div class="d-flex flex-wrap gap-3">
                   {% render 'social-media' %}
                 </div>
               </div>
@@ -57,9 +57,8 @@
     >
       <p>&copy; 2023 Company, Inc. All rights reserved.</p>
       {%- unless shop.enabled_payment_types == empty -%}
-        <ul class="list-unstyled d-flex">
+        <ul class="list-unstyled d-flex flex-wrap">
           <span class="visually-hidden">Supported payment methods</span>
-
           {%- for type in shop.enabled_payment_types -%}
             <li class="ms-3">
               {{ type | payment_type_svg_tag: width: 24 }}

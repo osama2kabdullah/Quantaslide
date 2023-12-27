@@ -5,7 +5,7 @@
         {% case block.type %}
           {% when 'title' %}
             <h1 class="mt-4 text-center font-weight-bolder">{{ article.title }}</h1>
-            <div style="width: fit-content;" class="d-flex m-auto gap-2">
+            <div style="width: fit-content;" class="d-flex flex-wrap m-auto gap-2">
               {% if block.settings.show_date %}
                 <p class="text-muted text-center">{{ article.published_at | date: '%B %d, %Y' }}</p>
               {% endif %}
@@ -20,7 +20,7 @@
                 {{
                   article.image
                   | image_url: width: 1024
-                  | image_tag: class: 'img-fluid border-curve', alt: article.title
+                  | image_tag: class: 'img-fluid border-curve', alt: article.image.alt
                 }}
               </div>
             {% endif %}
@@ -94,7 +94,7 @@
             <div class="card mb-3">
               <div class="card-body">
                 <p class="card-text">{{ comment.content }}</p>
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex flex-wrap justify-content-between align-items-center">
                   <div>
                     <small class="text-muted">
                       Posted by <strong>{{ comment.author }}</strong>

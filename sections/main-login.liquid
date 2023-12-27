@@ -25,13 +25,13 @@
           <p>Forgot your password? <a class="link" href="#recover" onclick="toggleForms()">Recover</a></p>
           <p>Don't have an account? <a class="link" href="{{ routes.account_register_url }}">Create an account</a></p>
           {% if shop.checkout.guest_login %}
+            {% form 'guest_login' %}
+              {{ form.errors | default_errors }}
+              <div class="form-group bg-body-secondary p-3 rounded">
+                <span class="pe-2">Or login as a guest</span> <input type="submit" class="btn btn-secondary" value="Guest Login">
+              </div>
+            {% endform %}
           {% endif %}
-          {% form 'guest_login' %}
-            {{ form.errors | default_errors }}
-            <div class="form-group bg-body-secondary p-3 rounded">
-              <span class="pe-2">Or login as a guest</span> <input type="submit" class="btn btn-secondary" value="Guest Login">
-            </div>
-          {% endform %}
           </div>
       </div>
 

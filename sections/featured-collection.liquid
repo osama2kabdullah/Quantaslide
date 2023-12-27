@@ -33,7 +33,7 @@
               {{
                 product.featured_image
                 | image_url: width: 400, height: 200, crop: 'center'
-                | image_tag: class: 'card-img-top img-fluid', loading: 'lazy'
+                | image_tag: class: 'card-img-top img-fluid', alt: product.featured_image.alt
               }}
             </a>
             <div class="card-body d-flex justify-content-between">

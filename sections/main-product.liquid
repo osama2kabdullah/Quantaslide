@@ -32,7 +32,7 @@
           {% when 'price' %}
             {% assign variant = product.selected_or_first_available_variant %}
 
-            <h4 class="d-flex gap-2 fex-wrap" id="price-{{ section.id }}">
+            <h4 class="d-flex gap-2 flex-wrap" id="price-{{ section.id }}">
               {% if variant.compare_at_price > variant.price %}
                 <span class="text-decoration-line-through me-2 compare-at-product-price">
                   {{ variant.compare_at_price | money }}
@@ -49,11 +49,11 @@
           {% when 'variant_picker' %}
             {% include 'variant-picker' %}
           {% when 'quantity_input' %}
-            <div class="d-flex my-2 gap-2 align-items-center w-25">
+            <div class="d-flex flex-wrap my-2 gap-2 align-items-center">
               <label for="quantity-input-{{ product_form_id }}">Quantity:</label>
               <input
                 type="number"
-                class="form-control"
+                class="form-control w-25"
                 form="{{ product_form_id }}"
                 name="quantity"
                 id="quantity-input-{{ section.id }}"

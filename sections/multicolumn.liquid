@@ -11,7 +11,7 @@
             {{
               block.settings.column_image
               | image_url: width: 400, height: 200, crop: 'center'
-              | image_tag: class: 'card-img-top img-fluid', loading: 'lazy'
+              | image_tag: class: 'card-img-top img-fluid', alt: block.settings.column_image.alt
             }}
           {% endif %}
           <div class="card-body">
