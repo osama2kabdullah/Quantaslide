@@ -47,13 +47,14 @@
         --font-heading-style: {{ settings.type_header_font.style }};
         --font-heading-weight: {{ settings.type_header_font.weight }};
       }
-
     {% endstyle %}
     <script src="{{ 'script.js' | asset_url }}" defer="defer"></script>
     {{ 'style.css' | asset_url | stylesheet_tag }}
   </head>
-  <body>
-    {% sections 'header-group' %}
+  <body data-bs-theme="{% if settings.enable_dark_theme %}dark{% else %}light{% endif %}">
+    <div class="sticky-top">
+      {% sections 'header-group' %}
+    </div>
     <main role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>
@@ -65,9 +66,9 @@
         cart_update_url: '{{ routes.cart_update_url }}',
       };
       window.variantStrings = {
-        addToCart: "Add To Cart",
-        soldOut: "Sold Out",
-        unavailable: "Unavailable",
+        addToCart: 'Add To Cart',
+        soldOut: 'Sold Out',
+        unavailable: 'Unavailable',
       };
       window.Shopify.money_format = '{{ shop.money_format | json }}';
     </script>

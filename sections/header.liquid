@@ -1,104 +1,120 @@
-<div class="main-navbar bg-light shadow-sm sticky-top">
-  <div class="top-navbar">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3 my-auto d-none d-sm-none d-md-block d-lg-block">
-          <a class="text-decoration-none text-black" href="{{ routes.root_url }}">
-            {% if settings.logo != blank %}
-              {{ settings.logo | image_url: width: 250 | image_tag }}
-              {% else %}
-              <h5 style="margin-top: 0.5em;" class="brand-name">{{ shop.name }}</h5>
-            {% endif %}
-          </a>
-        </div>
-        <div class="col-md-5 my-auto">
-          <form action="{{ routes.search_url }}" style="margin-top: 1em;" role="search" class="input-group">
-            <input
-              class="form-control"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-              name="q"
-              required
-              value="{{ search.terms | escape }}"
-            >
-            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">
-              {% render 'icon-search' %}
-            </button>
-          </form>
-        </div>
-        <div class="col-md-4 my-auto">
-          <ul class="nav justify-content-end">
-            <li class="nav-item">
-              <a class="nav-link" href="{{ routes.cart_url }}">
-                {% render 'icon-cart' %}
-                {% unless cart.empty? %}
-                  ({{ cart.item_count }})
-                {% endunless %}
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container">
+    <a class="navbar-brand" href="{{ routes.root_url }}">
+      {% if settings.logo != blank %}
+        {{ settings.logo | image_url: width: 30, height: 24 | image_tag: alt: settings.logo.alt }}
+      {% else %}
+        {{ shop.name }}
+      {% endif %}
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav col-6 flex-wrap me-auto mb-2 mb-lg-0">
+        {% for link in linklists['main-menu'].links -%}
+          {% if link.links.size > 0 -%}
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle {% if link.active %}active{% endif %}"
+                href="{{ link.url }}"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                {{ link.title }}
               </a>
+              <ul class="dropdown-menu">
+                {% for children in link.links %}
+                  <li>
+                    <a class="dropdown-item {% if children.active %}active{% endif %}" href="{{ children.url }}">
+                      {{- children.title -}}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
             </li>
 
-            {% if customer %}
-              <li class="nav-item">
-                <a class="nav-link" href="{{ routes.account_url }}">
-                {% render 'icon-user' %}
-                </i> Account</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ routes.account_logout_url }}"> Log out </a>
-              </li>
-            {% else %}
-              <li class="nav-item">
-                <a class="nav-link" href="{{ routes.account_login_url }}"> 
-                {% render 'icon-user' %}
-                Login</a>
-              </li>
+          {%- else -%}
+            <li class="nav-item">
+              <a href="{{ link.url }}" class="nav-link {% if link.active %}active{% endif %}">
+                {{ link.title }}
+              </a>
+            </li>
+          {%- endif %}
+        {%- endfor %}
+      </ul>
 
-              {% if shop.customer_accounts_optional %}
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ routes.account_register_url }}">
-                    {% render 'icon-user' %}
-                    </i> Registration</a
-                  >
+      <div class="d-flex align-items-center gap-2 flex-wrap">
+        <form class="d-flex" role="search" action="{{ routes.search_url }}">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            name="q"
+            value="{{ search.terms | escape }}"
+          >
+          <input type="submit" class="btn btn-outline-success" value="Search">
+        </form>
+
+        <div class="btn-group">
+          <button
+            type="button"
+            class="btn border-secondary dropdown-toggle"
+            data-bs-toggle="dropdown"
+            data-bs-display="static"
+            aria-expanded="false"
+          >
+            {% render 'icon-user' %}
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-end">
+            {% if customer %}
+              <a class="text-decoration-none" href="{{ routes.account_url }}">
+                <li>
+                  <button class="dropdown-item" type="button">Account</button>
                 </li>
+              </a>
+              <a class="text-decoration-none" href="{{ routes.account_logout_url }}">
+                <li>
+                  <button class="dropdown-item text-danger" type="button">Logout</button>
+                </li>
+              </a>
+            {% else %}
+              <a class="text-decoration-none" href="{{ routes.account_login_url }}">
+                <li><button class="dropdown-item" type="button">Login</button></li>
+              </a>
+              {% if shop.customer_accounts_optional %}
+                <a class="text-decoration-none" href="{{ routes.account_register_url }}">
+                  <li><button class="dropdown-item" type="button">Registration</button></li>
+                </a>
               {% endif %}
             {% endif %}
           </ul>
         </div>
+
+        <a href="{{ routes.cart_url }}">
+          <button type="button" class="btn border-secondary position-relative">
+            {% render 'icon-cart' %}
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
+              {{ cart.item_count }}
+              <span class="visually-hidden">Cart</span>
+            </span>
+          </button>
+        </a>
+        <!-- offcanvas -->
       </div>
     </div>
   </div>
-  <nav class="navbar bg-light navbar-expand-lg">
-    <div class="container">
-      <a class="navbar-brand d-block d-sm-block d-md-none d-lg-none" href="#"> Funda Ecom </a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          {% for link in linklists['main-menu'].links %}
-            <li
-              class="nav-item"
-              {% if link.active %}
-                style="font-weight: bolder;"
-              {% endif %}
-            >
-              <a class="nav-link" href="{{ link.url }}">{{ link.title }}</a>
-            </li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-  </nav>
-</div>
+</nav>
 
 {% schema %}
 {
