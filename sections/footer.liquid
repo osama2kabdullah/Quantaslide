@@ -1,106 +1,72 @@
 <footer class="bg-body-tertiary pt-5">
   <div class="container">
-    <div class="row">
-      <div class="col-12 col-md-4 mb-3">
-        <h5>Section</h5>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti temporibus dolor consequatur debitis ex
-          dolorum quisquam, dolore eligendi libero! Corporis minima quasi nostrum eum voluptates fugit soluta
-          repellendus nobis adipisci.
-        </p>
-        <div class="d-flex gap-3">
-          {% render 'social-media' %}
-        </div>
-      </div>
+    {% if section.blocks.size > 0 %}
+      <div class="row">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'info' %}
+              <div class="col-{{ block.settings.width_mobile }} col-md-{{ block.settings.width_desktop }} mb-3">
+                <h5>{{ block.settings.footer_section_title }}</h5>
+                <div>{{ block.settings.paragraph }}</div>
+              </div>
+            {% when 'link' %}
+              <div class="col-{{ block.settings.width_mobile }} col-md-{{ block.settings.width_desktop }} mb-3">
+                <h5>{{ block.settings.footer_section_title }}</h5>
+                <ul class="nav flex-column">
+                  {% assign menu_handle = block.settings.menu.handle %}
+                  {% for link in linklists[menu_handle].links %}
+                    <li class="nav-item mb-2">
+                      <a href="{{ link.url }}" class="nav-link p-0 text-body-secondary">{{ link.title }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
 
-      <div class="col-6 col-md-2 mb-3">
-        <h5>Section</h5>
-        <ul class="nav flex-column">
-          <li class="nav-item mb-2">
-            <a href="#" class="nav-link p-0 text-body-secondary">Home</a>
-          </li>
-          <li class="nav-item mb-2">
-            <a href="#" class="nav-link p-0 text-body-secondary">Features</a>
-          </li>
-          <li class="nav-item mb-2">
-            <a href="#" class="nav-link p-0 text-body-secondary">Pricing</a>
-          </li>
-          <li class="nav-item mb-2">
-            <a href="#" class="nav-link p-0 text-body-secondary">FAQs</a>
-          </li>
-          <li class="nav-item mb-2">
-            <a href="#" class="nav-link p-0 text-body-secondary">About</a>
-          </li>
-        </ul>
-      </div>
+            {% when 'newsletter' %}
+              <div class="col-{{ block.settings.width_mobile }} col-md-{{ block.settings.width_desktop }} mb-3">
+                {% form 'customer' %}
+                  <h5>{{ block.settings.footer_section_title }}</h5>
+                  <p>{{ block.settings.paragraph }}</p>
+                  <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+                    <label for="newsletter1" class="visually-hidden">Email address</label>
+                    <input
+                      id="newsletter1"
+                      type="email"
+                      name="contact[email]"
+                      class="form-control"
+                      placeholder="Email address"
+                    >
+                    <input class="btn btn-primary" type="submit" value="Subscribe">
+                  </div>
+                {% endform %}
+              </div>
 
-      <div class="col-6 col-md-1 mb-3">
-        <h5>Section</h5>
-        <ul class="nav flex-column">
-          <li class="nav-item mb-2">
-            <a href="#" class="nav-link p-0 text-body-secondary">Home</a>
-          </li>
-          <li class="nav-item mb-2">
-            <a href="#" class="nav-link p-0 text-body-secondary">Features</a>
-          </li>
-          <li class="nav-item mb-2">
-            <a href="#" class="nav-link p-0 text-body-secondary">Pricing</a>
-          </li>
-          <li class="nav-item mb-2">
-            <a href="#" class="nav-link p-0 text-body-secondary">FAQs</a>
-          </li>
-          <li class="nav-item mb-2">
-            <a href="#" class="nav-link p-0 text-body-secondary">About</a>
-          </li>
-        </ul>
+            {% when 'social_media' %}
+              <div class="col-{{ block.settings.width_mobile }} col-md-{{ block.settings.width_desktop }} mb-3">
+                <h5>{{ block.settings.footer_section_title }}</h5>
+                <div class="d-flex gap-3">
+                  {% render 'social-media' %}
+                </div>
+              </div>
+          {% endcase %}
+        {% endfor %}
       </div>
-
-      <div class="col-md-4 offset-md-1 mb-3">
-        {% form 'customer' %}
-          <h5>Subscribe to our newsletter</h5>
-          <p>Monthly digest of what's new and exciting from us.</p>
-          <div class="d-flex flex-column flex-sm-row w-100 gap-2">
-            <label for="newsletter1" class="visually-hidden">Email address</label>
-            <input
-              id="newsletter1"
-              type="email"
-              name="contact[email]"
-              class="form-control"
-              placeholder="Email address"
-            >
-            <input class="btn btn-primary" type="submit" value="Subscribe">
-          </div>
-        {% endform %}
-      </div>
-    </div>
-
+    {% endif %}
     <div
       class="d-flex flex-column flex-sm-row justify-content-between py-4 border-top"
     >
       <p>&copy; 2023 Company, Inc. All rights reserved.</p>
-      <ul class="list-unstyled d-flex">
-        <li class="ms-3">
-          <a class="link-body-emphasis" href="#">
-            <svg class="bi" width="24" height="24">
-              <use xlink:href="#twitter" />
-            </svg>
-          </a>
-        </li>
-        <li class="ms-3">
-          <a class="link-body-emphasis" href="#">
-            <svg class="bi" width="24" height="24">
-              <use xlink:href="#instagram" />
-            </svg>
-          </a>
-        </li>
-        <li class="ms-3">
-          <a class="link-body-emphasis" href="#">
-            <svg class="bi" width="24" height="24">
-              <use xlink:href="#facebook" />
-            </svg>
-          </a>
-        </li>
-      </ul>
+      {%- unless shop.enabled_payment_types == empty -%}
+        <ul class="list-unstyled d-flex">
+          <span class="visually-hidden">Supported payment methods</span>
+
+          {%- for type in shop.enabled_payment_types -%}
+            <li class="ms-3">
+              {{ type | payment_type_svg_tag: width: 24 }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endunless %}
     </div>
   </div>
 </footer>
@@ -109,6 +75,168 @@
 {
   "name": "Footer",
   "settings": [],
-  "blocks": []
+  "blocks": [
+    {
+      "type": "info",
+      "name": "Info",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "footer_section_title",
+          "label": "Heading",
+          "default": "Headig"
+        },
+        {
+          "type": "richtext",
+          "id": "paragraph",
+          "label": "Paragraph",
+          "default": "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, illo. Natus harum accusamus alias hic repudiandae, modi, perspiciatis eligendi debitis minus fugiat consequuntur, nisi deleniti quisquam dolor. Similique, modi impedit!</p>"
+        },
+        {
+          "type": "header",
+          "content": "Width"
+        },
+        {
+          "type": "range",
+          "id": "width_desktop",
+          "min": 2,
+          "max": 12,
+          "step": 1,
+          "label": "Width Desktop",
+          "default": 6
+        },
+        {
+          "type": "range",
+          "id": "width_mobile",
+          "min": 2,
+          "max": 12,
+          "step": 1,
+          "label": "Width Mobile",
+          "default": 12
+        }
+      ]
+    },
+    {
+      "type": "link",
+      "name": "Links",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "footer_section_title",
+          "label": "Heading",
+          "default": "Quick links"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        },
+        {
+          "type": "header",
+          "content": "Width"
+        },
+        {
+          "type": "range",
+          "id": "width_desktop",
+          "min": 2,
+          "max": 12,
+          "step": 1,
+          "label": "Width Desktop",
+          "default": 6
+        },
+        {
+          "type": "range",
+          "id": "width_mobile",
+          "min": 2,
+          "max": 12,
+          "step": 1,
+          "label": "Width Mobile",
+          "default": 12
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "footer_section_title",
+          "label": "Heading",
+          "default": "Headig"
+        },
+        {
+          "type": "richtext",
+          "id": "paragraph",
+          "label": "Paragraph",
+          "default": "<p>Monthly digest of what's new and exciting from us.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Width"
+        },
+        {
+          "type": "range",
+          "id": "width_desktop",
+          "min": 2,
+          "max": 12,
+          "step": 1,
+          "label": "Width Desktop",
+          "default": 6
+        },
+        {
+          "type": "range",
+          "id": "width_mobile",
+          "min": 2,
+          "max": 12,
+          "step": 1,
+          "label": "Width Mobile",
+          "default": 12
+        }
+      ]
+    },
+    {
+      "type": "social_media",
+      "name": "Social Media",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Add social media link from main settings."
+        },
+        {
+          "type": "text",
+          "id": "footer_section_title",
+          "label": "Heading",
+          "default": "Quick links"
+        },
+        {
+          "type": "header",
+          "content": "Width"
+        },
+        {
+          "type": "range",
+          "id": "width_desktop",
+          "min": 2,
+          "max": 12,
+          "step": 1,
+          "label": "Width Desktop",
+          "default": 6
+        },
+        {
+          "type": "range",
+          "id": "width_mobile",
+          "min": 2,
+          "max": 12,
+          "step": 1,
+          "label": "Width Mobile",
+          "default": 12
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}
