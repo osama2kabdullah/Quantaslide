@@ -54,6 +54,7 @@
               <input
                 type="number"
                 class="form-control"
+                form="{{ product_form_id }}"
                 name="quantity"
                 id="quantity-input-{{ section.id }}"
                 value="{{ variant.quantity_rule.min }}"
@@ -68,6 +69,7 @@
             </div>
           {% when 'buy_button' %}
             {% form 'product', product, id: product_form_id %}
+              <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
               {% if variant.available %}
                 <button name="add" type="submit" class="btn my-2 btn-primary product-add-to-cart-button">
                   Add To Cart
@@ -79,9 +81,7 @@
               {% endif %}
             {% endform %}
           {% when 'description' %}
-            {% assign productDescriptionWithClass = product.description
-              | replace: '<img ', '<img class="img-fluid" '
-            %}
+            {% assign productDescriptionWithClass = product.description | replace: '<img ', '<img class="img-fluid" ' %}
             {{ productDescriptionWithClass }}
         {% endcase %}
       {% endfor %}

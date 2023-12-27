@@ -8,7 +8,7 @@
 
       <!-- Article Text -->
       <div class="mb-4">
-        {{ page.content }}
+        {{ page.content | replace: '<img ', '<img class="img-fluid" ' }}
       </div>
     </div>
   </div>

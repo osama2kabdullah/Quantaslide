@@ -14,8 +14,17 @@ class VariantSelects extends HTMLElement {
     } else {
       this.updateURL();
       this.updateQuantityInput();
+      this.upadateVariantId();
       this.renderProductInfo();
     }
+  }
+
+  upadateVariantId(){
+    const variantInput = document
+    .getElementById(`product-form-${this.dataset.section}`)
+    ?.querySelector('[name="id"]');
+    if (!variantInput) return;
+    variantInput.value = this.currentVariant.id;
   }
 
   setUnavailable() {
