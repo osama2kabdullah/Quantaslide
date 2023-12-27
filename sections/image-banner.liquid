@@ -1,41 +1,64 @@
-<div id="carouselExampleCaptions" class="carousel my-5 container slide">
+<div id="carousel-{{ section.id }}" class="carousel my-5 container slide">
   <div class="carousel-indicators">
-    {% for block in section.blocks %}
-      <button
-        type="button"
-        data-bs-target="#carouselExampleCaptions"
-        data-bs-slide-to="{{ forloop.index | minus: 1 }}"
-        class="{% if forloop.first %}active{% endif %}"
-        aria-current="{% if forloop.first %}true{% endif %}"
-        aria-label="{{ block.settings.block.settings.slide_image.alt }}"
-      ></button>
-    {% endfor %}
+    {% if section.blocks.size > 0 %}
+      {% for block in section.blocks %}
+        <button
+          type="button"
+          data-bs-target="#carousel-{{ section.id }}"
+          data-bs-slide-to="{{ forloop.index | minus: 1 }}"
+          class="{% if forloop.first %}active{% endif %}"
+          aria-current="{% if forloop.first %}true{% endif %}"
+          aria-label="{{ block.settings.block.settings.slide_image.alt }}"
+        ></button>
+      {% endfor %}
+    {% else %}
+      {% for i in (1..2) %}
+        <button
+          type="button"
+          data-bs-target="#carousel-{{ section.id }}"
+          data-bs-slide-to="{{ forloop.index | minus: 1 }}"
+          class="{% if forloop.first %}active{% endif %}"
+          aria-current="{% if forloop.first %}true{% endif %}"
+          aria-label="slide {{ forloop.index }}"
+        ></button>
+      {% endfor %}
+    {% endif %}
   </div>
   <div class="carousel-inner rounded">
-    {% for block in section.blocks %}
-      <div class="carousel-item {% if forloop.index == 1 %}active{% endif %}">
-        {% if block.settings.slide_image != blank %}
-          {{
-            block.settings.slide_image
-            | image_url: width: 1024
-            | image_tag: class: 'd-block w-100 h-75 object-fit-cover', alt: block.settings.slide_image.alt
-          }}
-        {% else %}
-          {% assign name = 'hero-apparel-' | append: forloop.index %}
-          {{ name | placeholder_svg_tag: 'd-block w-100 h-75 object-fit-cover' }}
-        {% endif %}
-        <div class="carousel-caption">
-          <h5>{{ block.settings.heading }}</h5>
-          <p>{{ block.settings.paragraph }}</p>
+    {% if section.blocks.size > 0 %}
+      {% for block in section.blocks %}
+        <div class="carousel-item {% if forloop.index == 1 %}active{% endif %}">
+          {% if block.settings.slide_image != blank %}
+            {{
+              block.settings.slide_image
+              | image_url: width: 1024
+              | image_tag: class: 'd-block w-100 h-75 object-fit-cover', alt: block.settings.slide_image.alt
+            }}
+          {% endif %}
+          <div class="carousel-caption">
+            <h5>{{ block.settings.heading }}</h5>
+            <p>{{ block.settings.paragraph }}</p>
+          </div>
         </div>
-      </div>
-    {% endfor %}
+      {% endfor %}
+    {% else %}
+      {% for i in (1..2) %}
+        {% assign name = 'lifestyle-' | append: forloop.index %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+          {{ name | placeholder_svg_tag: 'd-block w-100 h-75 object-fit-cover bg-light bg-opacity-75' }}
+          <div class="carousel-caption text-dark">
+            <h5>Heading - {{ forloop.index }}</h5>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
   </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+  <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ section.id }}" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>
   </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+  <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ section.id }}" data-bs-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button>
@@ -83,18 +106,7 @@
   ],
   "presets": [
     {
-      "name": "Image banner",
-      "blocks": [
-        {
-          "type": "slide"
-        },
-        {
-          "type": "slide"
-        },
-        {
-          "type": "slide"
-        }
-      ]
+      "name": "Image banner"
     }
   ]
 }

@@ -47,12 +47,12 @@
       {% endfor %}
     </div>
   {% else %}
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-      {% for i in (1..3) %}
-        {% assign name = 'blog-apparel-' | append: forloop.index %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      {% for i in (1..2) %}
+        {% assign name = 'lifestyle-' | append: forloop.index %}
         <div class="col">
           <div class="card ">
-            {{ name | placeholder_svg_tag: 'img-fluid' }}
+            {{ name | placeholder_svg_tag: 'bg-light bg-opacity-75 img-fluid' }}
             <div class="card-body">
               <h5 class="card-title">Article {{ forloop.index }}</h5>
               {% if section.settings.show_author %}

@@ -51,41 +51,6 @@
         "enable_view_all": false
       }
     },
-    "16b9c8df-6e5e-43ce-a33f-c1be4b8def79": {
-      "type": "image-banner",
-      "blocks": {
-        "template--17149039902968__16b9c8df-6e5e-43ce-a33f-c1be4b8def79-slide-1": {
-          "type": "slide",
-          "settings": {
-            "sub_heading": "Sub Heading",
-            "heading": "Heading",
-            "paragraph": "<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.<\/p>"
-          }
-        },
-        "template--17149039902968__16b9c8df-6e5e-43ce-a33f-c1be4b8def79-slide-2": {
-          "type": "slide",
-          "settings": {
-            "sub_heading": "Sub Heading",
-            "heading": "Heading",
-            "paragraph": "<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.<\/p>"
-          }
-        },
-        "template--17149039902968__16b9c8df-6e5e-43ce-a33f-c1be4b8def79-slide-3": {
-          "type": "slide",
-          "settings": {
-            "sub_heading": "Sub Heading",
-            "heading": "Heading",
-            "paragraph": "<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.<\/p>"
-          }
-        }
-      },
-      "block_order": [
-        "template--17149039902968__16b9c8df-6e5e-43ce-a33f-c1be4b8def79-slide-1",
-        "template--17149039902968__16b9c8df-6e5e-43ce-a33f-c1be4b8def79-slide-2",
-        "template--17149039902968__16b9c8df-6e5e-43ce-a33f-c1be4b8def79-slide-3"
-      ],
-      "settings": {}
-    },
     "da39cd0c-0c7c-4818-813f-40327e651662": {
       "type": "blog-posts",
       "settings": {
@@ -97,13 +62,56 @@
         "show_author": false,
         "show_date": false
       }
+    },
+    "bb41d534-f427-40df-86db-1f45ab9390a9": {
+      "type": "image-banner",
+      "settings": {}
+    },
+    "7a437744-ebb0-4b58-bc19-9fd5a4432f92": {
+      "type": "page",
+      "settings": {
+        "page": ""
+      }
+    },
+    "2ba6862a-1ade-41fa-b36d-551da36edc09": {
+      "type": "collage",
+      "blocks": {
+        "template--17149039902968__2ba6862a-1ade-41fa-b36d-551da36edc09-image-1": {
+          "type": "image",
+          "settings": {}
+        },
+        "template--17149039902968__2ba6862a-1ade-41fa-b36d-551da36edc09-product-1": {
+          "type": "product",
+          "settings": {
+            "product": ""
+          }
+        },
+        "template--17149039902968__2ba6862a-1ade-41fa-b36d-551da36edc09-collection-1": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "template--17149039902968__2ba6862a-1ade-41fa-b36d-551da36edc09-image-1",
+        "template--17149039902968__2ba6862a-1ade-41fa-b36d-551da36edc09-product-1",
+        "template--17149039902968__2ba6862a-1ade-41fa-b36d-551da36edc09-collection-1"
+      ],
+      "settings": {
+        "heading": "Heading",
+        "heading_alignment": "center",
+        "desktop_layout": "left"
+      }
     }
   },
   "order": [
     "677d3f90-5959-4ebc-bbb6-c8a7025dbca6",
     "ced97c5b-694b-484c-9425-038b021c9210",
     "3d7ec46c-d7a3-4792-961b-12fee4445441",
-    "16b9c8df-6e5e-43ce-a33f-c1be4b8def79",
-    "da39cd0c-0c7c-4818-813f-40327e651662"
+    "da39cd0c-0c7c-4818-813f-40327e651662",
+    "bb41d534-f427-40df-86db-1f45ab9390a9",
+    "7a437744-ebb0-4b58-bc19-9fd5a4432f92",
+    "2ba6862a-1ade-41fa-b36d-551da36edc09"
   ]
 }
