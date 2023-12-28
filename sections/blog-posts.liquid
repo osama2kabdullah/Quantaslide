@@ -1,6 +1,6 @@
 <div class="container my-5">
   <div class="mb-3 text-{{ section.settings.heading_alignment }}">
-    <h5>{{ section.settings.section_title }}</h5>
+    <h1 class="h5">{{ section.settings.section_title }}</h1>
   </div>
 
   {% if section.settings.blog.id %}
@@ -15,7 +15,7 @@
             {% endif %}
             <div class="card-body">
               <a class="text-decoration-none text-black" href="{{ article.url }}">
-                <h5 class="card-title">{{ article.title }}</h5>
+                <p class="h5 card-title">{{ article.title }}</p>
               </a>
               {% if section.settings.show_author %}
                 <p class="card-text">
@@ -54,7 +54,7 @@
           <div class="card ">
             {{ name | placeholder_svg_tag: 'bg-light bg-opacity-75 img-fluid' }}
             <div class="card-body">
-              <h5 class="card-title">Article {{ forloop.index }}</h5>
+              <p class="h5 card-title">Article {{ forloop.index }}</p>
               {% if section.settings.show_author %}
                 <p class="card-text">
                   <small class="text-body-secondary">Author Name</small>

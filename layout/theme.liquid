@@ -22,9 +22,6 @@
     {% render 'meta-tags' %}
 
     {{ content_for_header }}
-    <!-- bootstrap -->
-    {{ 'bootstrap5.3.1.min.css' | asset_url | stylesheet_tag }}
-    <script src="{{ 'bootstrap5.3.1.bundle.min.js' | asset_url }}" defer="defer"></script>
 
     <!-- custom -->
     {%- liquid
@@ -48,6 +45,11 @@
         --font-heading-weight: {{ settings.type_header_font.weight }};
       }
     {% endstyle %}
+
+    <!-- bootstrap -->
+    {{ 'bootstrap5.3.1.min.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'bootstrap5.3.1.bundle.min.js' | asset_url }}" defer="defer"></script>
+
     <script src="{{ 'script.js' | asset_url }}" defer="defer"></script>
     {{ 'style.css' | asset_url | stylesheet_tag }}
   </head>

@@ -2,18 +2,6 @@
   {% render 'media', media: product.selected_or_first_available_variant.featured_media %}
 </div>
 
-<style>
-  .media-column {
-    column-count: 2;
-  }
-  /* Landscape phones and portrait tablets */
-  @media (max-width: 767px) {
-    .media-column {
-      column-count: 1;
-    }
-  }
-</style>
-
 {% if product.media.size > 1 %}
   <div
     class="gap-2 mt-2 media-column show collapse"
