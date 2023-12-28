@@ -1,3 +1,19 @@
+{% if settings.social_facebook_link == blank
+  and settings.social_instagram_link == blank
+  and settings.social_youtube_link == blank
+  and settings.social_tiktok_link == blank
+  and settings.social_twitter_link == blank
+  and settings.social_snapchat_link == blank
+  and settings.social_pinterest_link == blank
+  and settings.social_vimeo_link == blank
+%}
+  <span class="btn border-secondary">{% render 'icon-facebook' %}</span>
+  <span class="btn border-secondary">{% render 'icon-instagram' %}</span>
+  <span class="btn border-secondary">{% render 'icon-youtube' %}</span>
+  <span class="btn border-secondary">{% render 'icon-tiktok' %}</span>
+  <span class="btn border-secondary">{% render 'icon-twitter' %}</span>
+{% endif %}
+
 {% if settings.social_facebook_link != blank %}
   <a class="btn border-secondary" href="{{ settings.social_facebook_link }}">{% render 'icon-facebook' %}</a>
 {% endif %}
