@@ -1,12 +1,12 @@
 <div class="card border-0 container mb-3">
   <div class="row g-0 align-items-center">
-    {% if section.settings.show_collection_image %}
-      <div class="col-md-6">
-        <img
-          src="{{ collection.featured_image | img_url: '720x' }}"
-          class="img-fluid rounded-start"
-          alt="{{ collection.title }}"
-        >
+    {% if section.settings.show_collection_image and collection.featured_image %}
+      <div class="col-md-6 d-none d-md-block">
+        {{
+          collection.featured_image
+          | image_url: width: 720
+          | image_tag: class: 'img-fluid rounded border', alt: collection.featured_image.alt
+        }}
       </div>
     {% endif %}
     <div class="{% if section.settings.show_collection_image %}col-md-6{% else %}col-md-12{% endif %}">

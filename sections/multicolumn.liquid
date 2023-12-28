@@ -11,7 +11,7 @@
             {{
               block.settings.column_image
               | image_url: width: 400, height: 200, crop: 'center'
-              | image_tag: class: 'card-img-top img-fluid', loading: 'lazy'
+              | image_tag: class: 'card-img-top img-fluid', alt: block.settings.column_image.alt
             }}
           {% endif %}
           <div class="card-body">
@@ -41,7 +41,7 @@
     {
       "type": "inline_richtext",
       "id": "heading",
-      "default": "Heading",
+      "default": "Multicolumn",
       "label": "Heading"
     },
     {
@@ -83,7 +83,7 @@
           "label": "Left"
         }
       ],
-      "default": "center"
+      "default": "start"
     },
     {
       "type": "text",
@@ -101,6 +101,7 @@
     {
       "type": "column",
       "name": "Column",
+      "limit": 8,
       "settings": [
         {
           "type": "image_picker",
@@ -110,7 +111,7 @@
         {
           "type": "inline_richtext",
           "id": "heading",
-          "default": "Heading",
+          "default": "Column",
           "label": "Heading"
         },
         {

@@ -19,10 +19,10 @@ class VariantSelects extends HTMLElement {
     }
   }
 
-  upadateVariantId(){
+  upadateVariantId() {
     const variantInput = document
-    .getElementById(`product-form-${this.dataset.section}`)
-    ?.querySelector('[name="id"]');
+      .getElementById(`product-form-${this.dataset.section}`)
+      ?.querySelector('[name="id"]');
     if (!variantInput) return;
     variantInput.value = this.currentVariant.id;
   }
@@ -33,7 +33,9 @@ class VariantSelects extends HTMLElement {
       ?.querySelector('[name="add"]');
     if (!addButton) return;
     addButton.innerHTML = window.variantStrings.unavailable;
-    document.getElementById(`price-${this.dataset.section}`)?.classList.add('d-none');
+    document
+      .getElementById(`price-${this.dataset.section}`)
+      ?.classList.add("d-none");
   }
 
   renderProductInfo() {
@@ -49,7 +51,9 @@ class VariantSelects extends HTMLElement {
         const source = html.getElementById(id);
 
         if (source && destination) destination.innerHTML = source.innerHTML;
-        document.getElementById(`price-${this.dataset.section}`)?.classList.remove('d-none');
+        document
+          .getElementById(`price-${this.dataset.section}`)
+          ?.classList.remove("d-none");
 
         // update media
         const mediaDestination = document.getElementById(mediaId);
@@ -100,14 +104,20 @@ class VariantSelects extends HTMLElement {
       .getElementById(`product-form-${this.dataset.section}`)
       ?.querySelector('[name="add"]');
 
+    const buyNowButton = document
+      .getElementById(`product-form-${this.dataset.section}`)
+      ?.querySelector(".buy-it-now-btn");
+
     if (!addButton) return;
 
     if (disable) {
       addButton.setAttribute("disabled", true);
       if (text) addButton.innerHTML = text;
+      buyNowButton.classList.add("disabled");
     } else {
       addButton.removeAttribute("disabled");
       addButton.innerHTML = window.variantStrings.addToCart;
+      buyNowButton.classList.remove("disabled");
     }
 
     if (!modifyClass) return;
@@ -137,7 +147,6 @@ class VariantSelects extends HTMLElement {
     return this.variantData;
   }
 }
-
 class VarinatPicker extends VariantSelects {
   constructor() {
     super();
@@ -153,5 +162,25 @@ class VarinatPicker extends VariantSelects {
     });
   }
 }
-
 customElements.define("varinat-picker", VarinatPicker);
+// ------ynamic check out btn-----
+class ProductForm extends HTMLElement {
+  constructor() {
+    super();
+  }
+  connectedCallback() {
+    this.buyNowButton = this.querySelector(".buy-it-now-btn");
+    this.shopifyBuyNowBtn = this.querySelector(
+      ".shopify-payment-button__button"
+    );
+    if (this.buyNowButton) {
+      this.buyNowButton.addEventListener("click", () => {
+        this.buyNow();
+      });
+    }
+  }
+  buyNow() {
+    this.shopifyBuyNowBtn.click();
+  }
+}
+customElements.define("product-form", ProductForm);

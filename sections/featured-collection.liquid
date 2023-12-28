@@ -1,6 +1,11 @@
 <div class="container my-5">
   <div class="mb-3 text-{{ section.settings.heading_alignment }}">
     <h5>{{ section.settings.section_title }}</h5>
+    {% if section.settings.show_description %}
+      <p>{{ collection.description }}</p>
+    {% else %}
+      <p>{{ section.settings.paragraph }}</p>
+    {% endif %}
   </div>
 
   {% liquid
@@ -26,14 +31,21 @@
           assign percentage = Part | divided_by: total
         endif
       %}
-      <div style="width: {{ percentage }}%" class="card-group mb-4">
+      {% style %}
+        @media only screen and (min-width: 768px) {
+          .cards-group-{{ index }} {
+            width: {{ percentage }}%;
+          }
+        }
+      {% endstyle %}
+      <div class="card-group {% if percentage %}cards-group-{{ index }}{% endif %} mb-4">
         {% for product in collection.products offset: offset limit: limit %}
           <div class="card">
             <a href="{{ product.url }}">
               {{
                 product.featured_image
                 | image_url: width: 400, height: 200, crop: 'center'
-                | image_tag: class: 'card-img-top img-fluid', loading: 'lazy'
+                | image_tag: class: 'card-img-top img-fluid', alt: product.featured_image.alt
               }}
             </a>
             <div class="card-body d-flex justify-content-between">
@@ -95,7 +107,7 @@
       "type": "text",
       "id": "section_title",
       "label": "Heading",
-      "default": "Heading"
+      "default": "Featured collection"
     },
     {
       "type": "select",
@@ -116,8 +128,7 @@
     {
       "type": "richtext",
       "id": "paragraph",
-      "label": "Paragraph",
-      "default": "<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>"
+      "label": "Paragraph"
     },
     {
       "type": "checkbox",

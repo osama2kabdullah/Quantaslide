@@ -6,12 +6,12 @@
           {% case block.type %}
             {% when 'info' %}
               <div class="col-{{ block.settings.width_mobile }} col-md-{{ block.settings.width_desktop }} mb-3">
-                <h5>{{ block.settings.footer_section_title }}</h5>
+                <h1 class="h5">{{ block.settings.footer_section_title }}</h1>
                 <div>{{ block.settings.paragraph }}</div>
               </div>
             {% when 'link' %}
               <div class="col-{{ block.settings.width_mobile }} col-md-{{ block.settings.width_desktop }} mb-3">
-                <h5>{{ block.settings.footer_section_title }}</h5>
+                <h1 class="h5">{{ block.settings.footer_section_title }}</h1>
                 <ul class="nav flex-column">
                   {% assign menu_handle = block.settings.menu.handle %}
                   {% for link in linklists[menu_handle].links %}
@@ -25,7 +25,7 @@
             {% when 'newsletter' %}
               <div class="col-{{ block.settings.width_mobile }} col-md-{{ block.settings.width_desktop }} mb-3">
                 {% form 'customer' %}
-                  <h5>{{ block.settings.footer_section_title }}</h5>
+                  <h1 class="h5">{{ block.settings.footer_section_title }}</h1>
                   <p>{{ block.settings.paragraph }}</p>
                   <div class="d-flex flex-column flex-sm-row w-100 gap-2">
                     <label for="newsletter1" class="visually-hidden">Email address</label>
@@ -43,8 +43,8 @@
 
             {% when 'social_media' %}
               <div class="col-{{ block.settings.width_mobile }} col-md-{{ block.settings.width_desktop }} mb-3">
-                <h5>{{ block.settings.footer_section_title }}</h5>
-                <div class="d-flex gap-3">
+                <h1 class="h5">{{ block.settings.footer_section_title }}</h1>
+                <div class="d-flex flex-wrap gap-3">
                   {% render 'social-media' %}
                 </div>
               </div>
@@ -57,15 +57,13 @@
     >
       <p>&copy; 2023 Company, Inc. All rights reserved.</p>
       {%- unless shop.enabled_payment_types == empty -%}
-        <ul class="list-unstyled d-flex">
-          <span class="visually-hidden">Supported payment methods</span>
-
+        <div class="list-unstyled d-flex flex-wrap">
           {%- for type in shop.enabled_payment_types -%}
-            <li class="ms-3">
+            <span class="ms-3">
               {{ type | payment_type_svg_tag: width: 24 }}
-            </li>
+            </span>
           {% endfor %}
-        </ul>
+        </div>
       {% endunless %}
     </div>
   </div>
@@ -74,7 +72,12 @@
 {% schema %}
 {
   "name": "Footer",
-  "settings": [],
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "No customization available. Contact us for personalized options!"
+    }
+  ],
   "blocks": [
     {
       "type": "info",
@@ -91,7 +94,7 @@
           "type": "richtext",
           "id": "paragraph",
           "label": "Paragraph",
-          "default": "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, illo. Natus harum accusamus alias hic repudiandae, modi, perspiciatis eligendi debitis minus fugiat consequuntur, nisi deleniti quisquam dolor. Similique, modi impedit!</p>"
+          "default": "<p>Share contact information, store details, and brand content with your customers.</p>"
         },
         {
           "type": "header",
@@ -166,7 +169,7 @@
           "type": "text",
           "id": "footer_section_title",
           "label": "Heading",
-          "default": "Headig"
+          "default": "Subscribe to our emails"
         },
         {
           "type": "richtext",
@@ -211,7 +214,7 @@
           "type": "text",
           "id": "footer_section_title",
           "label": "Heading",
-          "default": "Quick links"
+          "default": "Social Media"
         },
         {
           "type": "header",

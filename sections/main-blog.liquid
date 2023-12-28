@@ -9,11 +9,11 @@
             {% if section.settings.show_featured_image %}
               <a href="{{ article.url }}" class="text-decoration-none">
                 {% if article.image != blank %}
-                  <img
-                    src="{{ article.image | image_url: width: 720, height: 350 }}"
-                    class="card-img-top"
-                    alt="{{ article.title }}"
-                  >
+                  {{
+                    article.image
+                    | image_url: width: 720, height: 350
+                    | image_tag: class: 'card-img-top', alt: article.image.alt
+                  }}
                 {% endif %}
               </a>
             {% endif %}

@@ -4,7 +4,7 @@
       class="w-100"
       data-media-id="{{ media.id }}"
     >
-      {{ media | image_url: width: 1024, height: 1024 | image_tag: class: 'img-fluid border rounded' }}
+      {{ media | image_url: width: 1024, height: 1024 | image_tag: class: 'img-fluid border rounded', alt: media.alt }}
     </div>
   {% when 'external_video' %}
     <div

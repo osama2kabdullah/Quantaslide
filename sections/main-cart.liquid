@@ -10,7 +10,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-6 col-md-2">
-                  <img src="{{ item.image.src | img_url: '150x' }}" alt="Product Image" class="img-fluid">
+                  {{ item.image | image_url: width: 150 | image_tag: class: 'img-fluid', alt: item.image.alt }}
                 </div>
                 <div class="col-6 col-md-4">
                   <a href="{{ item.url }}" class="text-decoration-none">
@@ -101,6 +101,11 @@
 {
   "name": "Cart Items",
   "class": "section",
-  "settings": []
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "No customization available. Contact us for personalized options!"
+    }
+  ]
 }
 {% endschema %}

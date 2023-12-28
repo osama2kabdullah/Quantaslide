@@ -1,5 +1,5 @@
 <div class="card container my-5 border-0">
-  <div class="row align-items-center g-0">
+  <div class="row align-items-center {% if section.settings.image_alignment == 'last' %}flex-row-reverse{% endif %} g-0">
     <div class="col-md-6">
       {% if section.settings.image_with_text_image != blank %}
         {{
@@ -32,7 +32,7 @@
 
 {% schema %}
 {
-  "name": "Image with Text",
+  "name": "Image with text",
   "tag": "section",
   "class": "section",
   "disabled_on": {
@@ -43,6 +43,22 @@
       "type": "image_picker",
       "id": "image_with_text_image",
       "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "image_alignment",
+      "label": "Image alignment",
+      "options": [
+        {
+          "value": "first",
+          "label": "Image First"
+        },
+        {
+          "value": "last",
+          "label": "Image Last"
+        }
+      ],
+      "default": "first"
     }
   ],
   "blocks": [
@@ -67,7 +83,7 @@
         {
           "type": "inline_richtext",
           "id": "heading",
-          "default": "Heading",
+          "default": "Image with text",
           "label": "Heading"
         }
       ]
@@ -88,7 +104,7 @@
   ],
   "presets": [
     {
-      "name": "Image with Text",
+      "name": "Image with text",
       "blocks": [
         {
           "type": "caption"

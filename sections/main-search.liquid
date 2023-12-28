@@ -9,7 +9,7 @@
           <div class="card">
             {% if item.image != blank %}
               <a href="{{ item.url }}">
-                <img src="{{ item.image | img_url: '350x' }}" class="card-img-top" alt="Blog Image">
+                {{ item.image | image_url: width: 350 | image_tag: class: 'card-img-top', alt: item.image.alt }}
               </a>
             {% endif %}
             <div class="card-body">
@@ -26,7 +26,7 @@
           <div class="card">
             {% if item.image != blank %}
               <a href="{{ item.url }}">
-                <img src="{{ item.image | img_url: '350x' }}" class="card-img-top" alt="Blog Image">
+                {{ item.image | image_url: width: 350 | image_tag: class: 'card-img-top', alt: item.image.alt }}
               </a>
             {% endif %}
             <div class="card-body">
@@ -55,8 +55,8 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "No customization avaible now. will add in future."
-    }    
+      "content": "No customization available. Contact us for personalized options!"
+    }
   ]
 }
 {% endschema %}

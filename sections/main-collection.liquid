@@ -1,36 +1,45 @@
 <div class="container mt-5 mb-5">
-  {% paginate collection.products by 12 %}
-    <div class="row mb-4 justify-content-end">
-      <div class="col-md-3">
-        <select class="form-select" id="sort-by">
-          {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+  {% if collection.all_products_count > 0 %}
+    {% paginate collection.products by 12 %}
+      <div class="row mb-4 justify-content-end">
+        <div class="col-md-3">
+          <select class="form-select" id="sort-by">
+            {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
 
-          {% for option in collection.sort_options %}
-            <option
-              value="{{ option.value }}"
-              {% if option.value == sort_by %}
-                selected="selected"
-              {% endif %}
-            >
-              {{ option.name }}
-            </option>
-          {% endfor %}
-        </select>
+            {% for option in collection.sort_options %}
+              <option
+                value="{{ option.value }}"
+                {% if option.value == sort_by %}
+                  selected="selected"
+                {% endif %}
+              >
+                {{ option.name }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="row align-items-center">
+        {% for product in collection.products %}
+          <div class="{{ section.settings.mobile_column }} {{ section.settings.desktop_column }} mb-4">
+            <!-- card -->
+            {% include 'product-card' %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Pagination -->
+      {% include 'custom-pagination' %}
+    {% endpaginate %}
+  {% else %}
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
+        <h5>No products Found</h5>
+        <a href="{{ routes.root_url }}" class="btn btn-primary">Go to Home Page</a>
       </div>
     </div>
-
-    <div class="row align-items-center">
-      {% for product in collection.products %}
-        <div class="col-md-4 mb-4">
-          <!-- card -->
-          {% include 'product-card' %}
-        </div>
-      {% endfor %}
-    </div>
-
-    <!-- Pagination -->
-    {% include 'custom-pagination' %}
-  {% endpaginate %}
+  {% endif %}
 </div>
 
 <script>
@@ -63,7 +72,42 @@
   "name": "Collection",
   "class": "section",
   "settings": [
-    
+    {
+      "type": "header",
+      "content": "Column"
+    },
+    {
+      "type": "select",
+      "id": "desktop_column",
+      "label": "Desktop Column",
+      "options": [
+        {
+          "value": "col-md-4",
+          "label": "Three Column"
+        },
+        {
+          "value": "col-md-3",
+          "label": "Four Column"
+        }
+      ],
+      "default": "col-md-4"
+    },
+    {
+      "type": "select",
+      "id": "mobile_column",
+      "label": "Mobile Column",
+      "options": [
+        {
+          "value": "col-12",
+          "label": "One Column"
+        },
+        {
+          "value": "col-6",
+          "label": "Two Column"
+        }
+      ],
+      "default": "col-6"
+    }
   ]
 }
 {% endschema %}

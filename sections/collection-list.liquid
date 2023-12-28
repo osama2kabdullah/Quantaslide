@@ -8,9 +8,15 @@
       <div class="col">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">{{ collection.title }}</h5>
-            <p class="card-text">{{ collection.all_products_count }} Products</p>
-            <a href="{{ collection.url }}" class="btn btn-primary">View Products</a>
+            {% if collection.id %}
+              <h5 class="card-title">{{ collection.title }}</h5>
+              <p class="card-text">{{ collection.all_products_count }} Products</p>
+              {% if collection.all_products_count > 0 %}
+                <a href="{{ collection.url }}" class="btn btn-primary">View Products</a>
+              {% endif %}
+            {% else %}
+              <h5 class="card-title">Collection Name</h5>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -36,7 +42,7 @@
       "type": "text",
       "id": "section_title",
       "label": "Heading",
-      "default": "Heading"
+      "default": "Collections"
     },
     {
       "type": "select",
@@ -74,6 +80,7 @@
     {
       "type": "collection",
       "name": "Collection",
+      "limit": 10,
       "settings": [
         {
           "type": "collection",

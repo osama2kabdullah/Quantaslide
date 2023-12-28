@@ -53,65 +53,63 @@
         {%- endfor %}
       </ul>
 
-      <div class="d-flex align-items-center gap-2 flex-wrap">
-        <form class="d-flex" role="search" action="{{ routes.search_url }}">
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-            name="q"
-            value="{{ search.terms | escape }}"
-          >
-          <input type="submit" class="btn btn-outline-success" value="Search">
-        </form>
+      <form class="d-flex" role="search" action="{{ routes.search_url }}">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          name="q"
+          value="{{ search.terms | escape }}"
+        >
+        <input type="submit" class="btn btn-outline-success" value="Search">
+      </form>
 
-        <div class="btn-group">
-          <button
-            type="button"
-            class="btn border-secondary dropdown-toggle"
-            data-bs-toggle="dropdown"
-            data-bs-display="static"
-            aria-expanded="false"
-          >
-            {% render 'icon-user' %}
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-end">
-            {% if customer %}
-              <a class="text-decoration-none" href="{{ routes.account_url }}">
-                <li>
-                  <button class="dropdown-item" type="button">Account</button>
-                </li>
+      <div class="btn-group header-right-buttons">
+        <button
+          type="button"
+          aria-label="Account Dropdown"
+          class="btn border-secondary dropdown-toggle"
+          data-bs-toggle="dropdown"
+          data-bs-display="static"
+          aria-expanded="false"
+        >
+          {% render 'icon-user' %}
+        </button>
+        <ul class="dropdown-menu dropdown-menu-start dropdown-menu-lg-end">
+          {% if customer %}
+            <a class="text-decoration-none" href="{{ routes.account_url }}">
+              <li>
+                <button class="dropdown-item" type="button">Account</button>
+              </li>
+            </a>
+            <a class="text-decoration-none" href="{{ routes.account_logout_url }}">
+              <li>
+                <button class="dropdown-item text-danger" type="button">Logout</button>
+              </li>
+            </a>
+          {% else %}
+            <a class="text-decoration-none" href="{{ routes.account_login_url }}">
+              <li><button class="dropdown-item" type="button">Login</button></li>
+            </a>
+            {% if shop.customer_accounts_optional %}
+              <a class="text-decoration-none" href="{{ routes.account_register_url }}">
+                <li><button class="dropdown-item" type="button">Registration</button></li>
               </a>
-              <a class="text-decoration-none" href="{{ routes.account_logout_url }}">
-                <li>
-                  <button class="dropdown-item text-danger" type="button">Logout</button>
-                </li>
-              </a>
-            {% else %}
-              <a class="text-decoration-none" href="{{ routes.account_login_url }}">
-                <li><button class="dropdown-item" type="button">Login</button></li>
-              </a>
-              {% if shop.customer_accounts_optional %}
-                <a class="text-decoration-none" href="{{ routes.account_register_url }}">
-                  <li><button class="dropdown-item" type="button">Registration</button></li>
-                </a>
-              {% endif %}
             {% endif %}
-          </ul>
-        </div>
-
-        <a href="{{ routes.cart_url }}">
-          <button type="button" class="btn border-secondary position-relative">
-            {% render 'icon-cart' %}
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
-              {{ cart.item_count }}
-              <span class="visually-hidden">Cart</span>
-            </span>
-          </button>
-        </a>
-        <!-- offcanvas -->
+          {% endif %}
+        </ul>
       </div>
+
+      <a class="" href="{{ routes.cart_url }}">
+        <button type="button" class="btn header-right-buttons border-secondary position-relative">
+          {% render 'icon-cart' %}
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
+            {{ cart.item_count }}
+            <span class="visually-hidden">Cart</span>
+          </span>
+        </button>
+      </a>
     </div>
   </div>
 </nav>

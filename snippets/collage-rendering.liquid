@@ -7,7 +7,7 @@
             {{
               block.settings.image
               | image_url: width: width, height: height, crop: 'center'
-              | image_tag: loading: 'lazy', class: 'h-100 w-100 object-fit-cover card-img-top rounded-bottom'
+              | image_tag: alt: block.settings.image.alt, class: 'h-100 w-100 object-fit-cover card-img-top rounded-bottom'
             }}
           </div>
         {% else %}
@@ -22,7 +22,7 @@
               {{
                 block.settings.product.featured_image
                 | image_url: width: width, height: height, crop: 'center'
-                | image_tag: loading: 'lazy', class: 'h-100 w-100 object-fit-cover card-img-top'
+                | image_tag: alt: block.settings.product.featured_image.alt, class: 'h-100 w-100 object-fit-cover card-img-top'
               }}
             </a>
             <div class="card-body">
@@ -50,7 +50,7 @@
               {{
                 block.settings.collection.featured_image
                 | image_url: width: width, height: height, crop: 'center'
-                | image_tag: loading: 'lazy', class: 'h-100 w-100 object-fit-cover card-img-top'
+                | image_tag: class: 'h-100 w-100 object-fit-cover card-img-top', alt: block.settings.collection.featured_image
               }}
             </a>
             <div class="card-body">

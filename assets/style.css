@@ -1,1 +1,22 @@
+.header-right-buttons {
+  margin-left: 0.5rem;
+}
+.media-column {
+  column-count: 2;
+}
 
+@media only screen and (max-width: 768px) {
+  .media-column {
+    column-count: 1;
+  }
+  .header-right-buttons {
+    margin-left: 0rem;
+    margin-top: 0.5rem;
+  }
+  .header-right-buttons:first-child {
+    margin-left: 0.5rem;
+  }
+  form[role="search"] {
+    width: 100%;
+  }
+}

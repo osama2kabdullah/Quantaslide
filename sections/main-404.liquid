@@ -3,7 +3,7 @@
     <div class="col-md-6 text-center">
       <h1 class="display-4">404</h1>
       <p class="lead">Page not found</p>
-      <a href="/" class="btn btn-primary">Go to Home Page</a>
+      <a href="{{ routes.root_url }}" class="btn btn-primary">Go to Home Page</a>
     </div>
   </div>
 </div>
@@ -13,6 +13,11 @@
 {
   "name": "Not Found Page",
   "class": "section",
-  "settings": []
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "No customization available. Contact us for personalized options!"
+    }
+  ]
 }
 {% endschema %}

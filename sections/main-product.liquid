@@ -32,7 +32,7 @@
           {% when 'price' %}
             {% assign variant = product.selected_or_first_available_variant %}
 
-            <h4 class="d-flex gap-2 fex-wrap" id="price-{{ section.id }}">
+            <h4 class="d-flex gap-2 flex-wrap" id="price-{{ section.id }}">
               {% if variant.compare_at_price > variant.price %}
                 <span class="text-decoration-line-through me-2 compare-at-product-price">
                   {{ variant.compare_at_price | money }}
@@ -49,11 +49,11 @@
           {% when 'variant_picker' %}
             {% include 'variant-picker' %}
           {% when 'quantity_input' %}
-            <div class="d-flex my-2 gap-2 align-items-center w-25">
+            <div class="d-flex flex-wrap my-2 gap-2 align-items-center">
               <label for="quantity-input-{{ product_form_id }}">Quantity:</label>
               <input
                 type="number"
-                class="form-control"
+                class="form-control w-25"
                 form="{{ product_form_id }}"
                 name="quantity"
                 id="quantity-input-{{ section.id }}"
@@ -68,18 +68,26 @@
               >
             </div>
           {% when 'buy_button' %}
-            {% form 'product', product, id: product_form_id %}
-              <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-              {% if variant.available %}
-                <button name="add" type="submit" class="btn my-2 btn-primary product-add-to-cart-button">
-                  Add To Cart
-                </button>
-              {% else %}
-                <button name="add" disabled type="submit" class="btn my-2 btn-primary product-add-to-cart-button">
-                  Sold Out
-                </button>
-              {% endif %}
-            {% endform %}
+            <product-form data-section="{{ section.id }}">
+              {% form 'product', product, id: product_form_id %}
+                <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                {% if variant.available %}
+                  <button name="add" type="submit" class="btn my-2 btn-primary product-add-to-cart-button">
+                    Add To Cart
+                  </button>
+                  <div class="visually-hidden">
+                    {{ form | payment_button }}
+                  </div>
+                  <span class="btn border-secondary ms-3 buy-it-now-btn">Buy it now</span>
+                  
+                  {% else %}
+                  <button name="add" disabled type="submit" class="btn my-2 btn-primary product-add-to-cart-button">
+                    Sold Out
+                  </button>
+                  <span class="btn border-secondary ms-3 disabled buy-it-now-btn">Buy it now</span>
+                {% endif %}
+              {% endform %}
+            </product-form>
           {% when 'description' %}
             {% assign productDescriptionWithClass = product.description | replace: '<img ', '<img class="img-fluid" ' %}
             {{ productDescriptionWithClass }}
@@ -123,42 +131,8 @@
     },
     {
       "type": "select",
-      "id": "media_fit",
-      "label": "Media fit",
-      "options": [
-        {
-          "value": "original",
-          "label": "Original"
-        },
-        {
-          "value": "fill",
-          "label": "Fill"
-        }
-      ],
-      "default": "original"
-    },
-    {
-      "type": "select",
-      "id": "media_layout",
-      "label": "Media layout",
-      "info": "This layout for product slider. If the product contain more than one media.",
-      "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "bottom",
-          "label": "Bottom"
-        }
-      ],
-      "default": "bottom"
-    },
-    {
-      "type": "select",
       "id": "media_position",
       "label": "Media position",
-      "info": "This layout for product page to where the image slider appear, right or left.",
       "options": [
         {
           "value": "left",
@@ -170,12 +144,6 @@
         }
       ],
       "default": "left"
-    },
-    {
-      "type": "checkbox",
-      "id": "image_zoom",
-      "label": "Image zoom",
-      "default": true
     }
   ],
   "blocks": [
