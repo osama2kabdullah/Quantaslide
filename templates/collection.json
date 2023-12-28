@@ -2,7 +2,6 @@
   "sections": {
     "collection-banner": {
       "type": "collection-banner",
-      "disabled": true,
       "settings": {
         "show_collection_description": true,
         "show_collection_image": true
@@ -10,7 +9,10 @@
     },
     "main-collection": {
       "type": "main-collection",
-      "settings": {}
+      "settings": {
+        "desktop_column": "col-md-3",
+        "mobile_column": "col-6"
+      }
     }
   },
   "order": [

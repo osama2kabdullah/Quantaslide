@@ -4,8 +4,53 @@
   "sections": {
     "footer": {
       "type": "footer",
+      "blocks": {
+        "42856d7f-9938-490f-803d-46891983d0ad": {
+          "type": "info",
+          "settings": {
+            "footer_section_title": "Headig",
+            "paragraph": "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, illo. Natus harum accusamus alias hic repudiandae, modi, perspiciatis eligendi debitis minus fugiat consequuntur, nisi deleniti quisquam dolor. Similique, modi impedit!<\/p>",
+            "width_desktop": 6,
+            "width_mobile": 12
+          }
+        },
+        "a47c84b2-bab5-4272-abc2-2bad06ad6f57": {
+          "type": "link",
+          "settings": {
+            "footer_section_title": "Quick links",
+            "menu": "footer",
+            "width_desktop": 2,
+            "width_mobile": 6
+          }
+        },
+        "40125cc0-8c4f-457f-8780-d0802ee0b4fd": {
+          "type": "social_media",
+          "settings": {
+            "footer_section_title": "Quick links",
+            "width_desktop": 4,
+            "width_mobile": 12
+          }
+        },
+        "be5539a0-ccec-4b6f-927b-7cdb97d11c24": {
+          "type": "newsletter",
+          "settings": {
+            "footer_section_title": "Subscribe to our emails",
+            "paragraph": "<p>Monthly digest of what's new and exciting from us.<\/p>",
+            "width_desktop": 6,
+            "width_mobile": 12
+          }
+        }
+      },
+      "block_order": [
+        "42856d7f-9938-490f-803d-46891983d0ad",
+        "a47c84b2-bab5-4272-abc2-2bad06ad6f57",
+        "40125cc0-8c4f-457f-8780-d0802ee0b4fd",
+        "be5539a0-ccec-4b6f-927b-7cdb97d11c24"
+      ],
       "settings": {}
     }
   },
-  "order": ["footer"]
+  "order": [
+    "footer"
+  ]
 }
