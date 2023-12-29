@@ -57,8 +57,16 @@ class VariantSelects extends HTMLElement {
 
         // update media
         const mediaDestination = document.getElementById(mediaId);
+
         const mediaSorce = html.getElementById(mediaId);
         if (mediaSorce && mediaDestination) {
+          if (window.innerWidth <= 767) {
+            // Remove the class on mobile
+            html.getElementById('collapseMedia').classList.remove('show');
+          } else {
+            // Add the class on desktop
+            html.getElementById('collapseMedia').classList.add('show');
+          }
           mediaDestination.innerHTML = mediaSorce.innerHTML;
         }
 

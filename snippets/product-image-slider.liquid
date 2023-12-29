@@ -34,21 +34,12 @@
 {% endif %}
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    var myDiv = document.getElementById('collapseMedia');
-    function updateClassBasedOnScreenSize() {
-      // Check if the screen size is less than or equal to small (sm)
-      if (window.innerWidth <= 767) {
-        // Remove the class on mobile
-        myDiv.classList.remove('show');
-      } else {
-        // Add the class on desktop
-        myDiv.classList.add('show');
-      }
-    }
-    // Initial check on page load
-    updateClassBasedOnScreenSize();
-    // Listen for window resize events
-    window.addEventListener('resize', updateClassBasedOnScreenSize);
-  });
+  var myDiv = document.getElementById('collapseMedia');
+  if (window.innerWidth <= 767) {
+    // Remove the class on mobile
+    myDiv.classList.remove('show');
+  } else {
+    // Add the class on desktop
+    myDiv.classList.add('show');
+  }
 </script>
