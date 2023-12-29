@@ -53,18 +53,38 @@
       </div>
     {% endif %}
     <div
-      class="d-flex flex-column flex-sm-row justify-content-between py-4 border-top"
+      class="d-flex {% unless section.settings.show_footer_bottom %}d-none{% endunless %} flex-column flex-sm-row justify-content-between py-4 border-top"
     >
-      <p>&copy; 2023 Company, Inc. All rights reserved.</p>
-      {%- unless shop.enabled_payment_types == empty -%}
-        <div class="list-unstyled d-flex flex-wrap">
-          {%- for type in shop.enabled_payment_types -%}
-            <span class="ms-3">
-              {{ type | payment_type_svg_tag: width: 24 }}
-            </span>
-          {% endfor %}
-        </div>
-      {% endunless %}
+      <div>
+        {% if section.settings.paragraph != blank %}
+          {{ section.settings.paragraph }}
+        {% else %}
+          &copy;
+          <a
+            class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+            href="{{ shop.url }}"
+          >
+            {{ shop.name }}
+          </a>
+          Powered by
+          <a
+            class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+            href="https://osama2kabdullah.github.io/personal_web_page/authors/osama-abdullah/"
+            >Osama Abdullah </a
+          >.
+        {% endif %}
+      </div>
+      {% if section.settings.show_payment_icon %}
+        {%- unless shop.enabled_payment_types == empty -%}
+          <div class="list-unstyled d-flex flex-wrap">
+            {%- for type in shop.enabled_payment_types -%}
+              <span class="ms-3">
+                {{ type | payment_type_svg_tag: width: 24 }}
+              </span>
+            {% endfor %}
+          </div>
+        {% endunless %}
+      {% endif %}
     </div>
   </div>
 </footer>
@@ -74,8 +94,21 @@
   "name": "Footer",
   "settings": [
     {
-      "type": "paragraph",
-      "content": "No customization available. Contact us for personalized options!"
+      "type": "checkbox",
+      "id": "show_footer_bottom",
+      "label": "Show footer bottom",
+      "default": true
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph",
+      "label": "Paragraph"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icon",
+      "label": "Show payment icon",
+      "default": true
     }
   ],
   "blocks": [
