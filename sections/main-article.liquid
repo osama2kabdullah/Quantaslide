@@ -1,3 +1,5 @@
+
+
 <div class="container mt-5 mb-5">
   <div class="row">
     <div class="col-md-8 offset-md-2">
@@ -5,7 +7,7 @@
         {% case block.type %}
           {% when 'title' %}
             <h1 class="mt-4 text-center font-weight-bolder">{{ article.title }}</h1>
-            <div style="width: fit-content;" class="d-flex flex-wrap m-auto gap-2">
+            <div style="width: fit-content;" class="d-flex m-auto gap-2">
               {% if block.settings.show_date %}
                 <p class="text-muted text-center">{{ article.published_at | date: '%B %d, %Y' }}</p>
               {% endif %}
@@ -20,7 +22,7 @@
                 {{
                   article.image
                   | image_url: width: 1024
-                  | image_tag: class: 'img-fluid border-curve', alt: article.image.alt
+                  | image_tag: class: 'img-fluid border-curve', alt: article.title
                 }}
               </div>
             {% endif %}
@@ -31,25 +33,21 @@
               {{ article.content | raw }}
             </div>
 
-          {% when 'share' %}
-            <!-- Share Button -->
-            <div class="mb-4">
-              <p class="mb-2">Share this article:</p>
-              <a
-                href="https://www.facebook.com/sharer/sharer.php?u={{ article.url }}"
-                class="btn btn-primary me-2"
-                target="_blank"
-              >
-                {% render 'icon-facebook' %} Facebook
-              </a>
-              <a
-                href="https://twitter.com/intent/tweet?url={{ article.url }}"
-                class="btn btn-primary me-2"
-                target="_blank"
-              >
-                {% render 'icon-twitter' %} Twitter
-              </a>
-            </div>
+            {% when 'share' %}
+              <p class="mb-2 me-3">Share this article:</p>
+              <div class="mb-4 d-flex align-items-center">
+                
+                
+                {% include 'share-button' %}
+                
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{ article.url }}" class="btn btn-primary me-2" target="_blank">
+                  {% render 'icon-facebook' %} Facebook
+                </a>
+                <a href="https://twitter.com/intent/tweet?url={{ article.url }}" class="btn btn-primary" target="_blank">
+                  {% render 'icon-twitter' %} Twitter
+                </a>
+              </div>
+              
         {% endcase %}
       {% endfor %}
 
@@ -94,7 +92,7 @@
             <div class="card mb-3">
               <div class="card-body">
                 <p class="card-text">{{ comment.content }}</p>
-                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-center">
                   <div>
                     <small class="text-muted">
                       Posted by <strong>{{ comment.author }}</strong>
@@ -131,7 +129,6 @@
     {
       "type": "title",
       "name": "Title",
-      "limit": 1,
       "settings": [
         {
           "type": "checkbox",
@@ -150,8 +147,7 @@
     },
     {
       "type": "share",
-      "name": "Share",
-      "limit": 1
+      "name": "Share"
     },
     {
       "type": "content",
@@ -159,11 +155,42 @@
       "limit": 1
     }
   ],
-  "settings": [
-    {
-      "type": "paragraph",
-      "content": "No customization available. Contact us for personalized options!"
-    }
-  ]
+  "settings": []
 }
 {% endschema %}
+
+<!-- Your main Liquid file, e.g., article.liquid -->
+
+<script>
+  function copyLink() {
+
+
+    // Get the article URL from the data attribute
+    var articleUrl = document.getElementById('copyLinkButton').getAttribute('data-article-url');
+
+    // Create a temporary input element
+    var tempInput = document.createElement('input');
+    tempInput.value = articleUrl;
+    document.body.appendChild(tempInput);
+
+    // Select the input field and copy its value to the clipboard
+    tempInput.select();
+    document.execCommand('copy');
+
+    // Remove the temporary input element
+    document.body.removeChild(tempInput);
+
+    // Show a toast message indicating successful copy
+    showToast('Link copied to clipboard');
+  }
+
+  function showLiveToast() {
+    // Show a live toast message
+    showToast('This is a live toast message');
+  }
+
+  function showToast(message) {
+    // Replace this with your logic to display a toast message
+    alert(message);
+  }
+</script>
