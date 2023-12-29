@@ -1,0 +1,98 @@
+<div
+  class="product-recommendations container my-5"
+  data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=4&intent=related"
+>
+  {%- if recommendations.performed? and recommendations.products_count > 0 -%}
+    <div class="mb-3 text-{{ section.settings.heading_alignment }}">
+      {% if recommendations.intent == 'related' %}
+        <h5>You may also like</h5>
+      {% elsif recommendations.intent == 'complementary' %}
+        <h5>Pair it with</h5>
+      {% endif %}
+    </div>
+
+    {% assign mainWidth = recommendations.products.size | times: 25 %}
+    <div style="width: {{mainWidth}}%" class="card-group">
+      {%- for product in recommendations.products -%}
+        <div class="card">
+          <a href="{{ product.url }}">
+            {{
+              product.featured_image
+              | image_url: width: 400, height: 200, crop: 'center'
+              | image_tag: class: 'card-img-top img-fluid', alt: product.featured_image.alt
+            }}
+          </a>
+          <div class="card-body d-flex justify-content-between">
+            <h5 class="card-title">
+              <a class="text-decoration-none text-black" href="{{ product.url }}">{{ product.title }}</a>
+            </h5>
+            <p class="card-text">{{ product.price | money }}</p>
+          </div>
+          <div class="card-body">
+            {% form 'product', product %}
+              <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+              <input type="hidden" id="quantity" name="quantity" value="1">
+              <input class="btn btn-primary" type="submit" value="Add to cart" class="btn">
+            {% endform %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {%- endif -%}
+</div>
+
+{% javascript %}
+  const handleIntersection = (entries, observer) => {
+    if (!entries[0].isIntersecting) return;
+
+    observer.unobserve(productRecommendationsSection);
+
+    const url = productRecommendationsSection.dataset.url;
+
+    fetch(url)
+      .then((response) => response.text())
+      .then((text) => {
+        const html = document.createElement('div');
+        html.innerHTML = text;
+        const recommendations = html.querySelector('.product-recommendations');
+
+        if (recommendations && recommendations.innerHTML.trim().length) {
+          productRecommendationsSection.innerHTML = recommendations.innerHTML;
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
+  const productRecommendationsSection = document.querySelector('.product-recommendations');
+  const observer = new IntersectionObserver(handleIntersection, { rootMargin: '0px 0px 200px 0px' });
+
+  observer.observe(productRecommendationsSection);
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Related Products",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "start",
+          "label": "Left"
+        }
+      ],
+      "default": "center"
+    }
+  ]
+}
+{% endschema %}

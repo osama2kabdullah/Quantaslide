@@ -2,7 +2,10 @@
   "sections": {
     "list-collections": {
       "type": "main-list-collections",
-      "settings": {}
+      "settings": {
+        "heading": "Collections",
+        "show_collection_image": true
+      }
     }
   },
   "order": [

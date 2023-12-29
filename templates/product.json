@@ -52,9 +52,13 @@
         "media_position": "left",
         "image_zoom": false
       }
+    },
+    "related-products": {
+      "type": "related-products"
     }
   },
   "order": [
-    "product"
+    "product",
+    "related-products"
   ]
 }
