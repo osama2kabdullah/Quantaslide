@@ -2,9 +2,9 @@
   <div class="mb-3 text-{{ section.settings.heading_alignment }}">
     <h5>{{ section.settings.section_title }}</h5>
     {% if section.settings.show_description %}
-      <p>{{ collection.description }}</p>
+      <p>{{ section.settings.collection.description }}</p>
     {% else %}
-      <p>{{ section.settings.paragraph }}</p>
+      <div>{{ section.settings.paragraph }}</div>
     {% endif %}
   </div>
 

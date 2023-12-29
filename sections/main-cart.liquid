@@ -6,50 +6,50 @@
 
         <!-- Cart items list -->
         {% for item in cart.items %}
-          <div class="card">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-6 col-md-2">
-                  {{ item.image | image_url: width: 150 | image_tag: class: 'img-fluid', alt: item.image.alt }}
-                </div>
-                <div class="col-6 col-md-4">
-                  <a href="{{ item.url }}" class="text-decoration-none">
-                    <h5 class="card-title">{{ item.title }}</h5>
+          <div class="card mb-2">
+            <div class="row g-0">
+              <div class="col-md-2 col-3 p-1 align-self-center">
+                {% if item.image %}
+                  <a href="{{ item.url }}">
+                    {{
+                      item.image
+                      | image_url: width: 150
+                      | image_tag: class: 'img-fluid rounded', alt: item.image.alt
+                    }}
                   </a>
-                  <p class="card-text d-none d-md-block">{{ item.original_price | money }}</p>
-                  <p class="card-text d-block d-md-none">{{ item.final_line_price | money }}</p>
-                  <div class="form-group d-block d-md-none mb-3">
-                    <label for="quantity{{ item.id | plus: 1 }}">Quantity:</label>
-                    <input
-                      type="number"
-                      id="quantity{{ item.id | plus: 1 }}"
-                      min="1"
-                      class="form-control"
-                      name="updates[]"
-                      value="{{ item.quantity }}"
-                    >
+                  {% else %}
+                  {{ 'image' | placeholder_svg_tag: 'bg-light bg-opacity-75 img-fluid rounded border' }}
+                {% endif %}
+                <span class="d-block d-md-none mt-2 text-center">{{ item.original_price | money }}</span>
+              </div>
+              <div class="col-md-10 col-9">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <a href="{{ item.url }}" class="text-decoration-none">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                      </a>
+                      <span class="d-none d-md-block">{{ item.original_price | money }}</span>
+                    </div>
+                    <span class="col-md-2 d-block mb-2 d-md-none">{{ item.final_line_price | money }}</span>
+                    <span class="col-md-2 col-4">
+                      <label for="quantity{{ item.id }}">Quantity:</label>
+                      <input
+                        type="number"
+                        id="quantity{{ item.id }}"
+                        min="1"
+                        class="form-control mb-2"
+                        name="updates[]"
+                        value="{{ item.quantity }}"
+                      >
+                    </span>
+                    <span class="col-md-2 d-none d-md-block">{{ item.final_line_price | money }}</span>
+                    <span class="col-md-2">
+                      <a href="{{ item.url_to_remove }}" class="btn btn-danger">
+                        {% render 'icon-trash' %}
+                      </a>
+                    </span>
                   </div>
-                </div>
-                <div class="col-md-2 col-6">
-                  <div class="form-group d-none d-md-block">
-                    <label for="quantity{{ item.id }}">Quantity:</label>
-                    <input
-                      type="number"
-                      id="quantity{{ item.id }}"
-                      min="1"
-                      class="form-control"
-                      name="updates[]"
-                      value="{{ item.quantity }}"
-                    >
-                  </div>
-                </div>
-                <div class="col-md-2 d-none d-md-block">
-                  {{ item.final_line_price | money }}
-                </div>
-                <div class="col-md-2 col-6 text-md-right">
-                  <a href="{{ item.url_to_remove }}" class="btn btn-danger">
-                    {% render 'icon-trash' %}
-                  </a>
                 </div>
               </div>
             </div>
