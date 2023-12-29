@@ -1,9 +1,8 @@
 <div class="share-button">
-    <a href="{{ share_link }}" class="btn btn-primary" target="_blank">Share</a>
     
+<button id="copyLinkButton" class="btn btn-primary me-2" onclick="copyLink()" data-article-url="{{ request.origin | append: article.url }}"> {% render 'icon-copy' %} Copy Link</button>
 
-    <button id="copyLinkButton" class="btn btn-primary me-2" onclick="copyLink()" data-article-url="{{ request.origin | append: article.url }}">Copy Link</button>
-<input type="text" id="shareLinkInput" value="{{ article.url }}" style="position: absolute; left: -9999px;">
+
 
   </div>
   

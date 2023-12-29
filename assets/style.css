@@ -1,3 +1,16 @@
+.btn-copied {
+  background-color: #28a745; /* Change to the desired color when copied */
+  color: #fff; /* Change to the desired text color when copied */
+}
+
+.copy-message {
+  color: #28a745; /* Change to the desired text color for the message */
+  font-size: 14px; /* Adjust the font size as needed */
+  margin-left: 5px; /* Add some spacing to the left of the button */
+}
+
+
+
 .header-right-buttons {
   margin-left: 0.5rem;
 }
