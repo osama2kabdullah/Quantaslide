@@ -1,14 +1,20 @@
+{% assign media_id = product.featured_media.id %}
 <div>
-  {% render 'media', media: product.selected_or_first_available_variant.featured_media %}
+  {% if product.selected_or_first_available_variant.featured_media.id %}
+    {% render 'media', media: product.selected_or_first_available_variant.featured_media %}
+    {% assign media_id = product.selected_or_first_available_variant.featured_media.id %}  
+  {% else %}
+    {% render 'media', media: product.featured_media %}
+  {% endif %}
 </div>
 
 {% if product.media.size > 1 %}
   <div
-    class="gap-2 mt-2 media-column show collapse"
+    class="gap-2 mt-2 {% if product.media.size != 2 %}media-column{% endif %} show collapse"
     id="collapseMedia"
   >
     {% for media in product.media %}
-      {% unless media.id == product.selected_or_first_available_variant.featured_media.id %}
+      {% unless media.id == media_id %}
         <div class="item mb-2">
           {% render 'media', media: media %}
         </div>

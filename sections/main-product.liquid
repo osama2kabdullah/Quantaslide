@@ -14,14 +14,27 @@
       endcase
     %}
 
-    {% if product.media.size > 1 %}
-      <div id="media-section-{{ section.id }}" class="{{col_first}}">
-        <!-- Product Image -->
-        {% include 'product-image-slider' %}
-      </div>
+    {% if product.media.size != 0 %}
+      {% if product.media.size > 1 %}
+        <div id="media-section-{{ section.id }}" class="{{col_first}}">
+          <!-- Product Image -->
+          {% include 'product-image-slider' %}
+        </div>
+      {% else %}
+        <div id="media-section-{{ section.id }}" class="{{col_first}}">
+          <!-- Product Image -->
+          <div>
+            {% if product.selected_or_first_available_variant.featured_media.id %}
+              {% render 'media', media: product.selected_or_first_available_variant.featured_media %}
+            {% else %}
+              {% render 'media', media: product.featured_media %}
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
     {% endif %}
 
-    <div class="{{col_second}} {% unless product.media.size > 1 %}col-lg-8{% endunless %}">
+    <div class="{{col_second}}">
       {%- assign product_form_id = 'product-form-' | append: section.id -%}
       {% for block in section.blocks %}
         {% case block.type %}
@@ -79,8 +92,8 @@
                     {{ form | payment_button }}
                   </div>
                   <span class="btn border-secondary ms-3 buy-it-now-btn">Buy it now</span>
-                  
-                  {% else %}
+
+                {% else %}
                   <button name="add" disabled type="submit" class="btn my-2 btn-primary product-add-to-cart-button">
                     Sold Out
                   </button>
