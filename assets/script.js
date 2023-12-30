@@ -1,38 +1,32 @@
 // Copy link function
-
-function copyLink() {
-    // Get the article URL from the data attribute
-    var articleUrl = document.getElementById('copyLinkButton').getAttribute('data-article-url');
-
-    // Create a temporary input element
-    var tempInput = document.createElement('input');
-    tempInput.value = articleUrl;
-    document.body.appendChild(tempInput);
-
-    // Select the input field and copy its value to the clipboard
-    tempInput.select();
-    document.execCommand('copy');
-
-    // Remove the temporary input element
-    document.body.removeChild(tempInput);
-
-    // Get the copy link button element
-    var copyLinkButton = document.getElementById('copyLinkButton');
-
-    // Change the button color
-    copyLinkButton.classList.add('btn-copied');
-
-    // Show the "Link Copied" message on the page
-    var messageElement = document.createElement('div');
-    messageElement.innerHTML = 'Link copied!';
-    messageElement.classList.add('copy-message');
-    copyLinkButton.parentNode.insertBefore(messageElement, copyLinkButton.nextSibling);
-
-    // Revert changes after a few seconds
-    setTimeout(function () {
-      // Remove the added class and revert the button color
-      copyLinkButton.classList.remove('btn-copied');
-      // Remove the message element
-      messageElement.parentNode.removeChild(messageElement);
-    }, 2000); // Adjust the time (in milliseconds) as needed
+class CopyButton extends HTMLElement {
+  constructor() {
+    super();
+    this.addEventListener("click", this.onButtonClick);
   }
+  toggleButtonVisibility(showBtn, hideBtn) {
+    showBtn.classList.remove("d-none", "pointer-events-none");
+    showBtn.classList.add("d-block");
+    hideBtn.classList.remove("d-block");
+    hideBtn.classList.add("d-none", "pointer-events-none");
+  }
+  copyToClipboard(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+  }
+  onButtonClick() {
+    const copyBtn = this.querySelector("#copyBtn");
+    const checkBtn = this.querySelector("#checkBtn");
+    const URL = this.dataset.url;
+    this.copyToClipboard(URL);
+    this.toggleButtonVisibility(checkBtn, copyBtn);
+    setTimeout(() => {
+      this.toggleButtonVisibility(copyBtn, checkBtn);
+    }, 2000);
+  }
+}
+customElements.define('copy-button', CopyButton);
