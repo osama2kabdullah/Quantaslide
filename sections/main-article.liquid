@@ -32,21 +32,22 @@
             </div>
 
           {% when 'share' %}
-            <!-- Share Button -->
-            <div class="mb-4">
-              <p class="mb-2">Share this article:</p>
+            <p class="mb-2 me-3">Share this article:</p>
+            <div class="mb-4 d-flex gap-2 flex-wrap align-items-center">
+
+              <copy-button data-url="{{ request.origin | append: article.url }}">
+                <button class="btn btn-primary d-block" id="copyBtn">{% render 'icon-copy' %}</button>
+                <button class="btn btn-success pe-none d-none" id="checkBtn">{% render 'icon-check' %}</button>
+              </copy-button>
+
               <a
                 href="https://www.facebook.com/sharer/sharer.php?u={{ article.url }}"
-                class="btn btn-primary me-2"
+                class="btn btn-primary"
                 target="_blank"
               >
                 {% render 'icon-facebook' %} Facebook
               </a>
-              <a
-                href="https://twitter.com/intent/tweet?url={{ article.url }}"
-                class="btn btn-primary me-2"
-                target="_blank"
-              >
+              <a href="https://twitter.com/intent/tweet?url={{ article.url }}" class="btn btn-primary" target="_blank">
                 {% render 'icon-twitter' %} Twitter
               </a>
             </div>
@@ -131,7 +132,6 @@
     {
       "type": "title",
       "name": "Title",
-      "limit": 1,
       "settings": [
         {
           "type": "checkbox",
@@ -150,8 +150,7 @@
     },
     {
       "type": "share",
-      "name": "Share",
-      "limit": 1
+      "name": "Share"
     },
     {
       "type": "content",
@@ -159,11 +158,6 @@
       "limit": 1
     }
   ],
-  "settings": [
-    {
-      "type": "paragraph",
-      "content": "No customization available. Contact us for personalized options!"
-    }
-  ]
+  "settings": []
 }
 {% endschema %}

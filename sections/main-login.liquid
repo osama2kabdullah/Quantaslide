@@ -22,7 +22,7 @@
         {% endform %}
 
         <div class="mt-3 text-center">
-          <p>Forgot your password? <a class="link" href="#recover" onclick="toggleForms()">Recover</a></p>
+          <p>Forgot your password? <a class="link" href="#recover" onclick="toggleForms('recoverAccount', 'recoverForm')">Recover</a></p>
           <p>Don't have an account? <a class="link" href="{{ routes.account_register_url }}">Create an account</a></p>
           {% if shop.checkout.guest_login %}
             {% form 'guest_login' %}
@@ -50,33 +50,12 @@
         {% endform %}
         <br>
         <div class="text-center">
-          <p>Remembered your password? <a class="link" href="#login" onclick="toggleForms()">Login</a></p>
+          <p>Remembered your password? <a class="link" href="#login" onclick="toggleForms('recoverAccount', 'recoverForm')">Login</a></p>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<script>
-  // Function to toggle between login and recover forms
-  function toggleForms() {
-    var recoverForm = document.getElementById('recoverAccount');
-    var loginForm = document.getElementById('recoverForm');
-
-    if (recoverForm.style.display === 'none') {
-      recoverForm.style.display = 'block';
-      loginForm.style.display = 'none';
-    } else {
-      recoverForm.style.display = 'none';
-      loginForm.style.display = 'block';
-    }
-  }
-
-  // Check URL hash and show recover form if needed
-  if (window.location.hash === '#recover') {
-    toggleForms();
-  }
-</script>
 
 {% schema %}
 {
