@@ -41,7 +41,9 @@
                         <p>Quantity Of Products: {{ order.item_count }}</p>
                         <p>Total: {{ order.line_items_subtotal_price | money }}</p>
                         {% if is_cancelled %}
-                          <p class="badge bg-danger text-white">Reason for Cancellation: {{ order.cancel_reason_label }}</p>
+                          <p class="badge bg-danger text-white">
+                            Reason for Cancellation: {{ order.cancel_reason_label }}
+                          </p>
                         {% endif %}
                       </div>
                     </div>
@@ -56,17 +58,23 @@
           <!-- Customer Information Section -->
           <div class="col-md-4">
             <h4 class="mb-3"><strong>Account Information</strong></h4>
-            <p><strong>Name:</strong> {{ customer.default_address.name }}</p>
+            {% if customer.name != blank %}
+              <p><strong>Name:</strong> {{ customer.name }}</p>
+            {% endif %}
             <p><strong>Email:</strong> {{ customer.email }}</p>
             <p>
               <strong>Address:</strong>
-              {{
-                customer.default_address.address1
-                | append: ','
-                | append: customer.default_address.city
-                | append: ','
-                | append: customer.default_address.country
-              }}
+              {% liquid
+                if customer.default_address.address1 != blank
+                  echo customer.default_address.address1 | append: ', '
+                endif
+                if customer.default_address.city != blank
+                  echo customer.default_address.city | append: ', '
+                endif
+                if customer.default_address.country != blank
+                  echo customer.default_address.country | append: '.'
+                endif
+              %}
             </p>
 
             {% assign last_order = customer.orders | last %}
