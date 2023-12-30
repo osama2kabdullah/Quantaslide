@@ -192,3 +192,33 @@ class ProductForm extends HTMLElement {
   }
 }
 customElements.define("product-form", ProductForm);
+
+//----collaps media for product page
+
+class ResponsiveCollapse {
+  constructor(elementId, breakpoint) {
+    this.element = document.getElementById(elementId);
+    this.breakpoint = breakpoint;
+
+    window.addEventListener('resize', this.handleResize.bind(this));
+    this.handleResize(); // Call it initially to set the initial state
+  }
+
+  handleResize() {
+    if (window.innerWidth <= this.breakpoint) {
+      this.hideElement();
+    } else {
+      this.showElement();
+    }
+  }
+
+  showElement() {
+    this.element.classList.add('show');
+  }
+
+  hideElement() {
+    this.element.classList.remove('show');
+  }
+}
+// Usage
+const collapseMedia = new ResponsiveCollapse('collapseMedia', 767);
