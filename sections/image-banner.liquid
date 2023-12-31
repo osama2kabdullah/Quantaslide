@@ -34,11 +34,9 @@
               | image_url: width: 1024
               | image_tag: class: 'd-block w-100 h-75 object-fit-cover', alt: block.settings.slide_image.alt
             }}
+          {% else %}
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'd-block w-100 h-75 object-fit-cover bg-light bg-opacity-75' }}
           {% endif %}
-          <div class="carousel-caption">
-            <h5>{{ block.settings.heading }}</h5>
-            <p>{{ block.settings.paragraph }}</p>
-          </div>
         </div>
       {% endfor %}
     {% else %}
@@ -46,10 +44,6 @@
         {% assign name = 'lifestyle-' | append: forloop.index %}
         <div class="carousel-item {% if forloop.first %}active{% endif %}">
           {{ name | placeholder_svg_tag: 'd-block w-100 h-75 object-fit-cover bg-light bg-opacity-75' }}
-          <div class="carousel-caption text-dark">
-            <h5>Heading - {{ forloop.index }}</h5>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          </div>
         </div>
       {% endfor %}
     {% endif %}
@@ -88,24 +82,6 @@
           "type": "image_picker",
           "id": "slide_image",
           "label": "Image"
-        },
-        {
-          "type": "text",
-          "id": "sub_heading",
-          "label": "Sub Heading",
-          "default": "Sub Heading"
-        },
-        {
-          "type": "inline_richtext",
-          "id": "heading",
-          "default": "Heading",
-          "label": "Heading"
-        },
-        {
-          "type": "richtext",
-          "id": "paragraph",
-          "label": "Paragraph",
-          "default": "<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>"
         }
       ]
     }
