@@ -42,7 +42,8 @@ If you encounter any issues or bugs, please [open an issue](https://github.com/o
 
 1. Download all code by CLI or github download system.
 2. Upload this in your development store and make sure it is a `zip` file.
-3. Done.
+3. You can follow our documentation. [Link](https://osama2kabdullah.github.io/docs-quantaslide/)
+4. Done.
 
 ## 4. Distribution Policy
 
